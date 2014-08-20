@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>9636DEED-AC72-4111-8100-2D342E70888B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TheTimes</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>93C2CBB7-9865-4972-83A3-B8E6C4E94BCA</key>
+		<string>https://github.com/KrisJulioDev/TheTimes</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TheTimes/TheTimes.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>93C2CBB7-9865-4972-83A3-B8E6C4E94BCA</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/KrisJulioDev/TheTimes</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>93C2CBB7-9865-4972-83A3-B8E6C4E94BCA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>93C2CBB7-9865-4972-83A3-B8E6C4E94BCA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TheTimes</string>
+		</dict>
+	</array>
+</dict>
+</plist>
