@@ -36,10 +36,11 @@ extern uint g_rect_color;
     m_doc = doc;
     
     m_view = [[PDFVThmb alloc] init:0:false];
+    
     struct PDFVThreadBack tback;
     tback.OnPageRendered = @selector(OnPageRendered:);
     //tback.OnFound = @selector(OnFound:);
-    self.backgroundColor = [UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+    self.backgroundColor = [UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:0.5f];
     [m_view vOpen:doc :4 : self: &tback];
     [m_view vResize:m_w :m_h];
     

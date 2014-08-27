@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8416B7E919AD817C00981621 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416B7E819AD817C00981621 /* HeaderView.m */; };
+		8416B7EB19AD818900981621 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8416B7EA19AD818900981621 /* HeaderView.xib */; };
 		8460827519A4487900D618FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827419A4487900D618FE /* Foundation.framework */; };
 		8460827719A4487900D618FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827619A4487900D618FE /* CoreGraphics.framework */; };
 		8460827919A4487900D618FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827819A4487900D618FE /* UIKit.framework */; };
@@ -59,6 +61,8 @@
 		84CDEB0219A484F0006DFAAB /* pdf_4.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 84CDEB0019A484F0006DFAAB /* pdf_4.pdf */; };
 		84CDEB0319A484F0006DFAAB /* pdf_3.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 84CDEB0119A484F0006DFAAB /* pdf_3.pdf */; };
 		84CDEB0B19A499FE006DFAAB /* pdf_1.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 84CDEB0A19A499FE006DFAAB /* pdf_1.pdf */; };
+		84F7A18019A6F2EF009D49E9 /* cmaps in Resources */ = {isa = PBXBuildFile; fileRef = 84F7A17E19A6F2EF009D49E9 /* cmaps */; };
+		84F7A18119A6F2EF009D49E9 /* fdat in Resources */ = {isa = PBXBuildFile; fileRef = 84F7A17F19A6F2EF009D49E9 /* fdat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +76,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8416B7E719AD817C00981621 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
+		8416B7E819AD817C00981621 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
+		8416B7EA19AD818900981621 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		8460827119A4487900D618FE /* TheTimes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheTimes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8460827419A4487900D618FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8460827619A4487900D618FE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -155,6 +162,8 @@
 		84CDEB0019A484F0006DFAAB /* pdf_4.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdf_4.pdf; sourceTree = "<group>"; };
 		84CDEB0119A484F0006DFAAB /* pdf_3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdf_3.pdf; sourceTree = "<group>"; };
 		84CDEB0A19A499FE006DFAAB /* pdf_1.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pdf_1.pdf; sourceTree = "<group>"; };
+		84F7A17E19A6F2EF009D49E9 /* cmaps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cmaps; path = ../LibrarieTP/cmaps; sourceTree = "<group>"; };
+		84F7A17F19A6F2EF009D49E9 /* fdat */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fdat; path = ../LibrarieTP/fdat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +202,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8416B7E119AD80A500981621 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8416B7E719AD817C00981621 /* HeaderView.h */,
+				8416B7E819AD817C00981621 /* HeaderView.m */,
+				8416B7EA19AD818900981621 /* HeaderView.xib */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		8460826819A4487900D618FE = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +261,7 @@
 		8460827A19A4487900D618FE /* TheTimes */ = {
 			isa = PBXGroup;
 			children = (
+				8416B7E119AD80A500981621 /* Views */,
 				8460833819A46D9000D618FE /* NSObject */,
 				8460832E19A46D2400D618FE /* PDFLib */,
 				8460831519A46D0300D618FE /* PDFView */,
@@ -292,6 +312,8 @@
 		846082AC19A448D900D618FE /* ThirdParties */ = {
 			isa = PBXGroup;
 			children = (
+				84F7A17E19A6F2EF009D49E9 /* cmaps */,
+				84F7A17F19A6F2EF009D49E9 /* fdat */,
 			);
 			name = ThirdParties;
 			sourceTree = "<group>";
@@ -457,12 +479,15 @@
 			files = (
 				84CDEB0B19A499FE006DFAAB /* pdf_1.pdf in Resources */,
 				84CDEAFD19A47C6C006DFAAB /* RDPDFViewController.xib in Resources */,
+				84F7A18119A6F2EF009D49E9 /* fdat in Resources */,
+				8416B7EB19AD818900981621 /* HeaderView.xib in Resources */,
 				8460829019A4487900D618FE /* Images.xcassets in Resources */,
 				8460827F19A4487900D618FE /* InfoPlist.strings in Resources */,
 				8460828819A4487900D618FE /* Main.storyboard in Resources */,
 				84CDEB0319A484F0006DFAAB /* pdf_3.pdf in Resources */,
 				84CDEAFF19A484CD006DFAAB /* pdf_2.pdf in Resources */,
 				84CDEB0219A484F0006DFAAB /* pdf_4.pdf in Resources */,
+				84F7A18019A6F2EF009D49E9 /* cmaps in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8460830219A452DF00D618FE /* ASIAuthenticationDialog.m in Sources */,
+				8416B7E919AD817C00981621 /* HeaderView.m in Sources */,
 				8460832A19A46D0300D618FE /* PDFView.m in Sources */,
 				8460830419A452DF00D618FE /* ASIDataDecompressor.m in Sources */,
 				8460830A19A452DF00D618FE /* Reachability.m in Sources */,

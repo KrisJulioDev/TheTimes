@@ -7,12 +7,13 @@
 //
 
 #import "TheTimesAppDelegate.h"
+#import "PDFVGlobal.h"
 
 @implementation TheTimesAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    //APP_Init();
+    APP_Init();
     
     return YES;
 }

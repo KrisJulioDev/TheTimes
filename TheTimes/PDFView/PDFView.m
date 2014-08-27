@@ -51,8 +51,10 @@ extern NSMutableString *pdfPath;
     [self vClose];
     //END
     m_doc = doc;
-    //g_PDF_ViewMode =2;
-    //defView =2;
+    g_PDF_ViewMode =2;
+    
+    defView = 3;
+    
     bool *verts = (bool *)calloc( sizeof(bool), [doc pageCount] );
     switch(defView)
     {
@@ -83,7 +85,7 @@ extern NSMutableString *pdfPath;
     struct PDFVThreadBack tback;
     tback.OnPageRendered = @selector(OnPageRendered:);
     tback.OnFound = @selector(OnFound:);
-    self.backgroundColor = [UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+    self.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
     [m_view vOpen:doc :4 :self: &tback];
     [m_view vResize:m_w :m_h];
     

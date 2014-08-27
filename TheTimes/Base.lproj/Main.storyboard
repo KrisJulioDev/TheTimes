@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="top" id="Ht1-L8-PxM"/>
                         <viewControllerLayoutGuide type="bottom" id="lsO-V8-3f6"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oYk-qW-FpP" customClass="UIControl">
+                    <view key="view" contentMode="scaleToFill" id="oYk-qW-FpP">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -69,6 +69,9 @@
                         <color key="backgroundColor" red="0.028195117259999999" green="0.55210172680000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="cfg-as-0zH"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgZ-DI-yTZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

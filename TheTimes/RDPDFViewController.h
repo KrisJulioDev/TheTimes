@@ -22,12 +22,16 @@
     PDFView *m_view;
     PDFDoc *m_doc;
     PDFVThumb *m_Thumbview;
+    
+    UIView *thumbNavigation;
 }
 
 
 @property (strong,nonatomic)IBOutlet UILabel *pageNumLabel;
 @property (assign, nonatomic)int pagenow;
 @property (assign, nonatomic)int pagecount;
+@property (weak, nonatomic) IBOutlet UITextField *m_searchField;
+@property (weak, nonatomic) IBOutlet UIButton *m_searchBtn;
 
 - (int)PDFOpen:(NSString *)path withPassword:(NSString *)pwd;
 - (void)PDFThumbNailinit:(int)pageno;

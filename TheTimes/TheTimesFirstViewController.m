@@ -36,6 +36,8 @@ NSUserDefaults *userDefaults;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationController.navigationBarHidden = YES;
 	// Do any additional setup after loading the view, typically from a nib.
 }
  
