@@ -9,6 +9,19 @@
 /* Begin PBXBuildFile section */
 		8416B7E919AD817C00981621 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416B7E819AD817C00981621 /* HeaderView.m */; };
 		8416B7EB19AD818900981621 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8416B7EA19AD818900981621 /* HeaderView.xib */; };
+		8454FA2A19B41DF9000200CA /* TTLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA2919B41DF9000200CA /* TTLoginViewController.m */; };
+		8454FA2F19B4200D000200CA /* TTLoginSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA2E19B4200D000200CA /* TTLoginSelectionViewController.m */; };
+		8454FA3119B420B7000200CA /* TTLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8454FA3019B420B7000200CA /* TTLoginViewController.xib */; };
+		8454FA3419B43C57000200CA /* TheTimesBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA3319B43C57000200CA /* TheTimesBaseViewController.m */; };
+		8454FA3D19B445C0000200CA /* BookShelfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA3B19B445C0000200CA /* BookShelfViewController.m */; };
+		8454FA4319B450C2000200CA /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA4219B450C2000200CA /* Feed.m */; };
+		8454FA4719B4511D000200CA /* AutoCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA4619B4511D000200CA /* AutoCoding.m */; };
+		8454FA4A19B4515B000200CA /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA4919B4515B000200CA /* Config.m */; };
+		8454FA4D19B451B5000200CA /* UserInterfaceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA4C19B451B5000200CA /* UserInterfaceUtils.m */; };
+		8454FA5019B4552A000200CA /* TTWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA4F19B4552A000200CA /* TTWebService.m */; };
+		8454FA5219B4575F000200CA /* config-staging.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8454FA5119B4575F000200CA /* config-staging.plist */; };
+		8454FA5519B457CD000200CA /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA5419B457CD000200CA /* XMLParser.m */; };
+		8454FA5819B458A3000200CA /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 8454FA5719B458A3000200CA /* AppConfig.m */; };
 		8460827519A4487900D618FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827419A4487900D618FE /* Foundation.framework */; };
 		8460827719A4487900D618FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827619A4487900D618FE /* CoreGraphics.framework */; };
 		8460827919A4487900D618FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460827819A4487900D618FE /* UIKit.framework */; };
@@ -16,7 +29,6 @@
 		8460828119A4487900D618FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460828019A4487900D618FE /* main.m */; };
 		8460828519A4487900D618FE /* TheTimesAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460828419A4487900D618FE /* TheTimesAppDelegate.m */; };
 		8460828819A4487900D618FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8460828619A4487900D618FE /* Main.storyboard */; };
-		8460828B19A4487900D618FE /* TheTimesFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460828A19A4487900D618FE /* TheTimesFirstViewController.m */; };
 		8460828E19A4487900D618FE /* TheTimesSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460828D19A4487900D618FE /* TheTimesSecondViewController.m */; };
 		8460829019A4487900D618FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8460828F19A4487900D618FE /* Images.xcassets */; };
 		8460829719A4487900D618FE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8460829619A4487900D618FE /* XCTest.framework */; };
@@ -79,6 +91,31 @@
 		8416B7E719AD817C00981621 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
 		8416B7E819AD817C00981621 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
 		8416B7EA19AD818900981621 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
+		8454FA2819B41DF9000200CA /* TTLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginViewController.h; sourceTree = "<group>"; };
+		8454FA2919B41DF9000200CA /* TTLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLoginViewController.m; sourceTree = "<group>"; };
+		8454FA2D19B4200D000200CA /* TTLoginSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLoginSelectionViewController.h; sourceTree = "<group>"; };
+		8454FA2E19B4200D000200CA /* TTLoginSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTLoginSelectionViewController.m; sourceTree = "<group>"; };
+		8454FA3019B420B7000200CA /* TTLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTLoginViewController.xib; sourceTree = "<group>"; };
+		8454FA3219B43C57000200CA /* TheTimesBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TheTimesBaseViewController.h; sourceTree = "<group>"; };
+		8454FA3319B43C57000200CA /* TheTimesBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TheTimesBaseViewController.m; sourceTree = "<group>"; };
+		8454FA3A19B445C0000200CA /* BookShelfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfViewController.h; sourceTree = "<group>"; };
+		8454FA3B19B445C0000200CA /* BookShelfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfViewController.m; sourceTree = "<group>"; };
+		8454FA4019B44B70000200CA /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		8454FA4119B450C2000200CA /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		8454FA4219B450C2000200CA /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		8454FA4519B4511D000200CA /* AutoCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoCoding.h; sourceTree = "<group>"; };
+		8454FA4619B4511D000200CA /* AutoCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoCoding.m; sourceTree = "<group>"; };
+		8454FA4819B4515B000200CA /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		8454FA4919B4515B000200CA /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
+		8454FA4B19B451B5000200CA /* UserInterfaceUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInterfaceUtils.h; sourceTree = "<group>"; };
+		8454FA4C19B451B5000200CA /* UserInterfaceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInterfaceUtils.m; sourceTree = "<group>"; };
+		8454FA4E19B4552A000200CA /* TTWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTWebService.h; sourceTree = "<group>"; };
+		8454FA4F19B4552A000200CA /* TTWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTWebService.m; sourceTree = "<group>"; };
+		8454FA5119B4575F000200CA /* config-staging.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "config-staging.plist"; sourceTree = "<group>"; };
+		8454FA5319B457CD000200CA /* XMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParser.h; sourceTree = "<group>"; };
+		8454FA5419B457CD000200CA /* XMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParser.m; sourceTree = "<group>"; };
+		8454FA5619B458A3000200CA /* AppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConfig.h; sourceTree = "<group>"; };
+		8454FA5719B458A3000200CA /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConfig.m; sourceTree = "<group>"; };
 		8460827119A4487900D618FE /* TheTimes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheTimes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8460827419A4487900D618FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8460827619A4487900D618FE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -90,8 +127,6 @@
 		8460828319A4487900D618FE /* TheTimesAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TheTimesAppDelegate.h; sourceTree = "<group>"; };
 		8460828419A4487900D618FE /* TheTimesAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TheTimesAppDelegate.m; sourceTree = "<group>"; };
 		8460828719A4487900D618FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8460828919A4487900D618FE /* TheTimesFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TheTimesFirstViewController.h; sourceTree = "<group>"; };
-		8460828A19A4487900D618FE /* TheTimesFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TheTimesFirstViewController.m; sourceTree = "<group>"; };
 		8460828C19A4487900D618FE /* TheTimesSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TheTimesSecondViewController.h; sourceTree = "<group>"; };
 		8460828D19A4487900D618FE /* TheTimesSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TheTimesSecondViewController.m; sourceTree = "<group>"; };
 		8460828F19A4487900D618FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -212,9 +247,47 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		8454FA2C19B41EEB000200CA /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				8460828619A4487900D618FE /* Main.storyboard */,
+			);
+			name = StoryBoard;
+			sourceTree = "<group>";
+		};
+		8454FA3F19B44B5F000200CA /* UtilsClasses */ = {
+			isa = PBXGroup;
+			children = (
+				8454FA4B19B451B5000200CA /* UserInterfaceUtils.h */,
+				8454FA4C19B451B5000200CA /* UserInterfaceUtils.m */,
+				8454FA4019B44B70000200CA /* Constants.h */,
+			);
+			name = UtilsClasses;
+			sourceTree = "<group>";
+		};
+		8454FA4419B450C9000200CA /* EditionRelated */ = {
+			isa = PBXGroup;
+			children = (
+				8454FA5619B458A3000200CA /* AppConfig.h */,
+				8454FA5719B458A3000200CA /* AppConfig.m */,
+				8454FA5319B457CD000200CA /* XMLParser.h */,
+				8454FA5419B457CD000200CA /* XMLParser.m */,
+				8454FA4519B4511D000200CA /* AutoCoding.h */,
+				8454FA4619B4511D000200CA /* AutoCoding.m */,
+				8454FA4819B4515B000200CA /* Config.h */,
+				8454FA4919B4515B000200CA /* Config.m */,
+				8454FA4119B450C2000200CA /* Feed.h */,
+				8454FA4219B450C2000200CA /* Feed.m */,
+				8454FA4E19B4552A000200CA /* TTWebService.h */,
+				8454FA4F19B4552A000200CA /* TTWebService.m */,
+			);
+			name = EditionRelated;
+			sourceTree = "<group>";
+		};
 		8460826819A4487900D618FE = {
 			isa = PBXGroup;
 			children = (
+				8454FA2C19B41EEB000200CA /* StoryBoard */,
 				84CDEB0A19A499FE006DFAAB /* pdf_1.pdf */,
 				84CDEB0019A484F0006DFAAB /* pdf_4.pdf */,
 				84CDEB0119A484F0006DFAAB /* pdf_3.pdf */,
@@ -261,6 +334,8 @@
 		8460827A19A4487900D618FE /* TheTimes */ = {
 			isa = PBXGroup;
 			children = (
+				8454FA4419B450C9000200CA /* EditionRelated */,
+				8454FA3F19B44B5F000200CA /* UtilsClasses */,
 				8416B7E119AD80A500981621 /* Views */,
 				8460833819A46D9000D618FE /* NSObject */,
 				8460832E19A46D2400D618FE /* PDFLib */,
@@ -269,9 +344,6 @@
 				846082AC19A448D900D618FE /* ThirdParties */,
 				8460828319A4487900D618FE /* TheTimesAppDelegate.h */,
 				8460828419A4487900D618FE /* TheTimesAppDelegate.m */,
-				8460828619A4487900D618FE /* Main.storyboard */,
-				8460828919A4487900D618FE /* TheTimesFirstViewController.h */,
-				8460828A19A4487900D618FE /* TheTimesFirstViewController.m */,
 				8460828C19A4487900D618FE /* TheTimesSecondViewController.h */,
 				8460828D19A4487900D618FE /* TheTimesSecondViewController.m */,
 				8460828F19A4487900D618FE /* Images.xcassets */,
@@ -284,6 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				8460827C19A4487900D618FE /* TheTimes-Info.plist */,
+				8454FA5119B4575F000200CA /* config-staging.plist */,
 				8460827D19A4487900D618FE /* InfoPlist.strings */,
 				8460828019A4487900D618FE /* main.m */,
 				8460828219A4487900D618FE /* TheTimes-Prefix.pch */,
@@ -324,6 +397,15 @@
 				8460833519A46D5500D618FE /* RDPDFViewController.h */,
 				8460833619A46D5500D618FE /* RDPDFViewController.m */,
 				84CDEAFC19A47C6C006DFAAB /* RDPDFViewController.xib */,
+				8454FA2819B41DF9000200CA /* TTLoginViewController.h */,
+				8454FA2919B41DF9000200CA /* TTLoginViewController.m */,
+				8454FA3019B420B7000200CA /* TTLoginViewController.xib */,
+				8454FA2D19B4200D000200CA /* TTLoginSelectionViewController.h */,
+				8454FA2E19B4200D000200CA /* TTLoginSelectionViewController.m */,
+				8454FA3219B43C57000200CA /* TheTimesBaseViewController.h */,
+				8454FA3319B43C57000200CA /* TheTimesBaseViewController.m */,
+				8454FA3A19B445C0000200CA /* BookShelfViewController.h */,
+				8454FA3B19B445C0000200CA /* BookShelfViewController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -478,9 +560,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				84CDEB0B19A499FE006DFAAB /* pdf_1.pdf in Resources */,
+				8454FA3119B420B7000200CA /* TTLoginViewController.xib in Resources */,
 				84CDEAFD19A47C6C006DFAAB /* RDPDFViewController.xib in Resources */,
 				84F7A18119A6F2EF009D49E9 /* fdat in Resources */,
 				8416B7EB19AD818900981621 /* HeaderView.xib in Resources */,
+				8454FA5219B4575F000200CA /* config-staging.plist in Resources */,
 				8460829019A4487900D618FE /* Images.xcassets in Resources */,
 				8460827F19A4487900D618FE /* InfoPlist.strings in Resources */,
 				8460828819A4487900D618FE /* Main.storyboard in Resources */,
@@ -508,11 +592,14 @@
 			files = (
 				8460830219A452DF00D618FE /* ASIAuthenticationDialog.m in Sources */,
 				8416B7E919AD817C00981621 /* HeaderView.m in Sources */,
+				8454FA5519B457CD000200CA /* XMLParser.m in Sources */,
 				8460832A19A46D0300D618FE /* PDFView.m in Sources */,
 				8460830419A452DF00D618FE /* ASIDataDecompressor.m in Sources */,
 				8460830A19A452DF00D618FE /* Reachability.m in Sources */,
 				8460830919A452DF00D618FE /* ASINetworkQueue.m in Sources */,
-				8460828B19A4487900D618FE /* TheTimesFirstViewController.m in Sources */,
+				8454FA2F19B4200D000200CA /* TTLoginSelectionViewController.m in Sources */,
+				8454FA5819B458A3000200CA /* AppConfig.m in Sources */,
+				8454FA4319B450C2000200CA /* Feed.m in Sources */,
 				8460830719A452DF00D618FE /* ASIHTTPRequest.m in Sources */,
 				8460828119A4487900D618FE /* main.m in Sources */,
 				8460833419A46D2400D618FE /* PDFObjc.m in Sources */,
@@ -521,13 +608,20 @@
 				8460830519A452DF00D618FE /* ASIDownloadCache.m in Sources */,
 				8460830319A452DF00D618FE /* ASIDataCompressor.m in Sources */,
 				8460832719A46D0300D618FE /* PDFVCanvas.m in Sources */,
+				8454FA4D19B451B5000200CA /* UserInterfaceUtils.m in Sources */,
 				8460832919A46D0300D618FE /* PDFVGlobal.m in Sources */,
 				8460830619A452DF00D618FE /* ASIFormDataRequest.m in Sources */,
+				8454FA4A19B4515B000200CA /* Config.m in Sources */,
+				8454FA3D19B445C0000200CA /* BookShelfViewController.m in Sources */,
 				8460830819A452DF00D618FE /* ASIInputStream.m in Sources */,
+				8454FA4719B4511D000200CA /* AutoCoding.m in Sources */,
+				8454FA5019B4552A000200CA /* TTWebService.m in Sources */,
 				8460832B19A46D0300D618FE /* PDFVPage.m in Sources */,
 				8460832C19A46D0300D618FE /* PDFVThread.m in Sources */,
+				8454FA2A19B41DF9000200CA /* TTLoginViewController.m in Sources */,
 				8460833B19A46D9000D618FE /* NSObject+PerformBlock.m in Sources */,
 				8460828519A4487900D618FE /* TheTimesAppDelegate.m in Sources */,
+				8454FA3419B43C57000200CA /* TheTimesBaseViewController.m in Sources */,
 				8460828E19A4487900D618FE /* TheTimesSecondViewController.m in Sources */,
 				8460832619A46D0300D618FE /* PDFV.m in Sources */,
 				8460832819A46D0300D618FE /* PDFVFinder.m in Sources */,
@@ -567,6 +661,7 @@
 				8460828719A4487900D618FE /* Base */,
 			);
 			name = Main.storyboard;
+			path = TheTimes;
 			sourceTree = "<group>";
 		};
 		8460829F19A4487900D618FE /* InfoPlist.strings */ = {

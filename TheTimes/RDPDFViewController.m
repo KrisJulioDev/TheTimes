@@ -93,7 +93,6 @@
         m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-20-44)];
     }
 
-    
     float hi = self.navigationController.navigationBar.bounds.size.height;
     m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-20-hi)];
     [m_view vOpen:m_doc: self];
@@ -121,7 +120,6 @@
     float hi = self.navigationController.navigationBar.bounds.size.height;
     CGRect rect;
     rect = [[UIApplication sharedApplication] statusBarFrame];
-    
     
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     if([[iosversion substringToIndex:1] isEqualToString:@"7"])

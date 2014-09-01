@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BASE_URL</key>
+	<string>http://config.thesun.co.uk/NGN/sunlite/IOS/prod/2.2/config.xml</string>
+	<key>VERIFY_URL</key>
+	<string>https://sandbox.itunes.apple.com/verifyReceipt</string>
+	<key>PAYMENT_ALLOW_ALL_FREE</key>
+	<false/>
+	<key>PAYMENT_IS_ALWAYS_SUBSCRIBED</key>
+	<false/>
+	<key>PAYMENT_IS_TEST_ACCOUNT</key>
+	<false/>
+	<key>ALLOW_URL_CHANGER</key>
+	<true/>
+	<key>SUBSCRIPTION_PRODUCT_ID</key>
+	<string>SP12</string>
+	<key>TESTING_TRACKING</key>
+	<false/>
+	<key>TRACKING_USE_OMNITURE_V4</key>
+	<false/>
+	<key>TRACKING_USE_TEALIUM</key>
+	<true/>
+	<key>TRACKING_USE_LOCALYTICS</key>
+	<false/>
+	<key>LOCALYTICS_APP_KEY</key>
+	<string>79b4bd437c70389f1f40968-f6063120-c637-11e3-1d88-004a77f8b47f</string>
+	<key>TEALIUM_ACCOUNT_NAME</key>
+	<string>newsinternational</string>
+	<key>TEALIUM_PROFILE_NAME</key>
+	<string>thesun.ios.classicapp</string>
+	<key>TEALIUM_TARGET</key>
+	<string>prod</string>
+	<key>OOYALA_PCODE</key>
+	<string>R2d3I6s06RyB712DN0_2GsQS-R-Y</string>
+	<key>CRASHLYTICS_KEY</key>
+	<string>f274dd3aa2fd1ef189f517c06db4a6ba6ab7bf33</string>
+	<key>AIRSHIP_DEV_KEY</key>
+	<string>oH_7wb8AT2yse5KERFf2gQ</string>
+	<key>AIRSHIP_DEV_SECRET</key>
+	<string>sXrLPLpRQdizuBDTIfUvqA</string>
+	<key>AIRSHIP_PRODUCTION_KEY</key>
+	<string>B7jl6CXTTueDISr6AMhwHA</string>
+	<key>AIRSHIP_PRODUCTION_SECRET</key>
+	<string>Y4RsM9vNRz229UCCPPGqEA</string>
+	<key>AIRSHIP_IN_PRODUCTION</key>
+	<true/>
+</dict>
+</plist>
