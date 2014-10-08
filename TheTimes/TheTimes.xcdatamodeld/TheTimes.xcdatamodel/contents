@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13F34" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="SPArticleClipping" representedClassName="SPArticleClipping" syncable="YES">
+        <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isDoublePage" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="pdfURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbImage" optional="YES" attributeType="Binary" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userComments" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SPEditionPaper" representedClassName="SPEditionPaper" syncable="YES">
+        <attribute name="folderPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paperDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="paperURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shouldResumeDownload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="SPEditionPaper" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="SPArticleClipping" positionX="-54" positionY="-9" width="128" height="135"/>
+    </elements>
+</model>

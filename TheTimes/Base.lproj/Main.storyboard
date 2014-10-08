@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="I4Y-uk-rlk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="I4Y-uk-rlk">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -31,10 +31,86 @@
                     <view key="view" contentMode="scaleToFill" id="r1K-le-a3F">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.69587053570000001" green="0.11690536980000001" blue="0.097640206460000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LHM-q6-mKi">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAC-qQ-fy7">
+                                        <rect key="frame" x="0.0" y="42" width="768" height="982"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <subviews>
+                                            <view autoresizesSubviews="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wyb-xz-9p4">
+                                                <rect key="frame" x="0.0" y="-42" width="768" height="1067"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="C4EF34FF-957A-4249-8606-50B1DDD950A7" translatesAutoresizingMaskIntoConstraints="NO" id="KmC-jF-no2">
+                                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    </imageView>
+                                                    <view autoresizesSubviews="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aA2-TS-LhX">
+                                                        <rect key="frame" x="0.0" y="0.0" width="1024" height="42"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f5W-eN-uhR">
+                                                                <rect key="frame" x="886" y="6" width="118" height="30"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <state key="normal" image="05488FC7-DB7C-4F74-9DB1-3D33B52355B7">
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected" image="12C9F169-D8F7-4345-9EC9-55A51DB1F161"/>
+                                                            </button>
+                                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rxf-7h-eQX">
+                                                                <rect key="frame" x="20" y="7" width="118" height="30"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <state key="normal" image="222B21B6-3FBF-4615-916F-7B002793741C">
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="selected" image="6DA142F3-3954-429C-B332-2D53405089FD"/>
+                                                            </button>
+                                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLt-b6-97f">
+                                                                <rect key="frame" x="146" y="6" width="118" height="30"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <state key="normal" title="Done">
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <state key="highlighted" image="5405D843-4D3D-4337-AFA8-4B337480B155"/>
+                                                            </button>
+                                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="346CC443-22AE-4003-885D-91660936DC0C" translatesAutoresizingMaskIntoConstraints="NO" id="Uqm-Ex-aNW">
+                                                                <rect key="frame" x="409" y="0.0" width="206" height="44"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            </imageView>
+                                                        </subviews>
+                                                        <color key="backgroundColor" red="0.74117647060000003" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </view>
+                                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pq5-KC-EnO">
+                                                        <rect key="frame" x="0.0" y="56" width="1024" height="687"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="uY6-yR-kUi" id="rvk-0l-p3R"/>
+                                                        </connections>
+                                                    </scrollView>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.69587053570000001" green="0.11690536980000001" blue="0.097640206460000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            </view>
+                                        </subviews>
+                                        <connections>
+                                            <outlet property="delegate" destination="uY6-yR-kUi" id="fsK-OS-gcb"/>
+                                        </connections>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Gbm-QF-0Fa"/>
+                    <size key="freeformSize" width="1024" height="768"/>
                     <connections>
+                        <outlet property="m_landscapeView" destination="wyb-xz-9p4" id="Ge6-LP-Fgi"/>
+                        <outlet property="m_portraitView" destination="LHM-q6-mKi" id="4QJ-1M-qdT"/>
+                        <outlet property="sv_landscapeScrollView" destination="pq5-KC-EnO" id="tEx-uE-U8b"/>
+                        <outlet property="sv_portraitScrollView" destination="TAC-qQ-fy7" id="av1-vN-MRd"/>
                         <segue destination="yny-yd-nlH" kind="modal" identifier="LoginScreen" id="C0k-tW-QJQ"/>
                     </connections>
                 </viewController>
@@ -42,93 +118,148 @@
             </objects>
             <point key="canvasLocation" x="1416" y="138"/>
         </scene>
-        <!--Login Selection View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="h4n-Bw-Ny5">
             <objects>
-                <viewController id="PxQ-2c-vPR" customClass="TTLoginSelectionViewController" sceneMemberID="viewController">
+                <viewController id="PxQ-2c-vPR" customClass="TTLoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EkX-yK-2dY"/>
                         <viewControllerLayoutGuide type="bottom" id="eqp-DF-ZV5"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="HkS-dp-cMy" userLabel="LoginBarrierView">
+                    <view key="view" opaque="NO" alpha="0.80000001192092896" contentMode="scaleToFill" id="oUQ-Da-e9R" userLabel="Parentview">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WELCOME TO THE THETIMES CLASSIC APP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCl-0w-wXt">
-                                <rect key="frame" x="119" y="418" width="567" height="51"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="Default-Portrait" translatesAutoresizingMaskIntoConstraints="NO" id="NYJ-CL-4ti">
+                                <rect key="frame" x="0.0" y="10" width="768" height="1004"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="37"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Free for THETIMES members:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Apv-6g-UW6">
-                                <rect key="frame" x="112" y="495" width="543" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y50-Sr-xrg">
-                                <rect key="frame" x="326" y="543" width="118" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="Sign-in-button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="loginByMember:" destination="PxQ-2c-vPR" eventType="touchUpInside" id="3vd-8N-WtB"/>
-                                </connections>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="line" translatesAutoresizingMaskIntoConstraints="NO" id="Nc4-9r-sUt">
-                                <rect key="frame" x="154" y="618" width="460" height="1"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not a THETIMES member?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgF-6R-G18">
-                                <rect key="frame" x="112" y="631" width="543" height="45"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="40010" contentMode="left" fixedFrame="YES" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="421" translatesAutoresizingMaskIntoConstraints="NO" id="PrG-ed-8z9">
+                                <rect key="frame" x="173" y="473" width="421" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-DemiBold" family="Avenir Next Condensed" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="30"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Purchase 30 days access from the App Store:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAB-9B-re4">
-                                <rect key="frame" x="119" y="661" width="543" height="45"/>
+                            <activityIndicatorView contentMode="center" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="BQG-Jt-Pd8">
+                                <rect key="frame" x="365" y="494" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="La3-Qz-wco">
-                                <rect key="frame" x="347" y="710" width="76" height="56"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </activityIndicatorView>
+                            <view opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttr-16-qok" userLabel="Screenbarrier">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" image="Buy-button">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="If you have already purchased this app from the App Store:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zYc-fJ-Guz">
-                                <rect key="frame" x="119" y="793" width="543" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hh-YS-4AS">
-                                <rect key="frame" x="260" y="833" width="261" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <state key="normal" image="Apple_user_signin_button">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-b8-3OF">
+                                        <rect key="frame" x="-190" y="-246" width="763" height="1004"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <view opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ake-qa-BAT">
+                                        <rect key="frame" x="105" y="228" width="562" height="614"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="subscription_background" translatesAutoresizingMaskIntoConstraints="NO" id="0NJ-bN-z67">
+                                                <rect key="frame" x="0.0" y="0.0" width="561" height="463"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </imageView>
+                                            <imageView opaque="NO" userInteractionEnabled="NO" tag="40000" contentMode="scaleAspectFit" fixedFrame="YES" image="MasterLogo" translatesAutoresizingMaskIntoConstraints="NO" id="0wY-65-6UP">
+                                                <rect key="frame" x="56" y="28" width="448" height="86"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </imageView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="40010" contentMode="left" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="421" translatesAutoresizingMaskIntoConstraints="NO" id="j8g-vt-GMZ">
+                                                <rect key="frame" x="70" y="122" width="421" height="78"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <string key="text">If you are a Times+
+member, please login</string>
+                                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="30"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dyY-s6-hF0">
+                                                <rect key="frame" x="0.0" y="0.0" width="562" height="463"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                                <state key="normal">
+                                                    <color key="titleColor" red="0.1960784314" green="0.30980392159999998" blue="0.52156862749999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                            </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JDE-q1-wVF">
+                                                <rect key="frame" x="70" y="217" width="421" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <accessibility key="accessibilityConfiguration" hint="Enter your email" label="Email"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" returnKeyType="go" enablesReturnKeyAutomatically="YES"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PsM-RN-Xtg">
+                                                <rect key="frame" x="70" y="267" width="421" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <accessibility key="accessibilityConfiguration" hint="Enter your password" label="Password"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sm3-Rf-cvc">
+                                                <rect key="frame" x="182" y="319" width="229" height="60"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                                <state key="normal" title="LOGIN" backgroundImage="Greenbutton_large_ontap">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="loginButtonPressed:" destination="PxQ-2c-vPR" eventType="touchUpInside" id="zOV-Qp-4fj"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" label="Subscription">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.69587053570000001" green="0.11690536980000001" blue="0.097640206460000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Q1B-HP-dvv"/>
+                    <connections>
+                        <outlet property="mScreenBarrier" destination="ttr-16-qok" id="Jjg-oo-kvc"/>
+                        <outlet property="mScreenBarrierView" destination="Ake-qa-BAT" id="27C-dh-04s"/>
+                        <outlet property="passwordEntry" destination="PsM-RN-Xtg" id="0h3-eh-tsH"/>
+                        <outlet property="spinner" destination="BQG-Jt-Pd8" id="Eaq-qB-UjB"/>
+                        <outlet property="userNameEntry" destination="JDE-q1-wVF" id="ALG-gf-w6R"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZqY-jj-mUh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="Default-Portrait.png" id="kjK-bs-1AR">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1004"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="40010" contentMode="left" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="421" id="3U5-g5-3az">
+                    <rect key="frame" x="0.0" y="0.0" width="421" height="78"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="30"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <activityIndicatorView contentMode="center" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="KT7-OZ-YB5">
+                    <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
             </objects>
-            <point key="canvasLocation" x="1393" y="1704"/>
+            <point key="canvasLocation" x="1405" y="1700"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VI2-98-29D">
@@ -147,10 +278,130 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Apple_user_signin_button" width="261" height="56"/>
-        <image name="Buy-button" width="76" height="56"/>
-        <image name="Sign-in-button" width="118" height="56"/>
-        <image name="line" width="460" height="1"/>
+        <image name="05488FC7-DB7C-4F74-9DB1-3D33B52355B7" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="12C9F169-D8F7-4345-9EC9-55A51DB1F161" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="222B21B6-3FBF-4615-916F-7B002793741C" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="346CC443-22AE-4003-885D-91660936DC0C" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="5405D843-4D3D-4337-AFA8-4B337480B155" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="6DA142F3-3954-429C-B332-2D53405089FD" width="118" height="56">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxMTgsIDU2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="C4EF34FF-957A-4249-8606-50B1DDD950A7" width="416" height="86">
+            <mutableData key="keyedArchiveRepresentation">
+YnBsaXN0MDDUAQIDBAUGPD1YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
+GR4fJSYtMDY5VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXs0MTYsIDg2fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxDXZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL0RldmVsb3Blci9QbGF0Zm9ybXMvaVBob25lU2ltdWxhdG9y
+LnBsYXRmb3JtL0RldmVsb3Blci9MaWJyYXJ5L1hjb2RlL1ByaXZhdGVQbHVnSW5zL0lERUludGVyZmFj
+ZUJ1aWxkZXJDb2NvYVRvdWNoSW50ZWdyYXRpb24uaWRlcGx1Z2luL0NvbnRlbnRzL1Jlc291cmNlcy9J
+QlVJTWlzc2luZ0ltYWdlLnRpZmbSJygpKlokY2xhc3NuYW1lWCRjbGFzc2VzVU5TVVJMoissVU5TVVJM
+WE5TT2JqZWN00icoLi9XTlNBcnJheaIuLNMxMgozNDVXTlNXaGl0ZVxOU0NvbG9yU3BhY2VEMCAwABAD
+gAvSJyg3OFdOU0NvbG9yojcs0icoOjtXTlNJbWFnZaI6LF8QD05TS2V5ZWRBcmNoaXZlctE+P1Ryb290
+gAEACAARABoAIwAtADIANwBFAEsAVgBdAGQAcQB4AIAAggCEAIkAiwCNAJcAnACnAKkAqwCtALIAtQC3
+ALkAuwC9AMQAzADYANoA3ADeAbgBvQHIAdEB1wHaAeAB6QHuAfYB+QIAAggCFQIaAhwCHgIjAisCLgIz
+AjsCPgJQAlMCWAAAAAAAAAIBAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAJaA
+</mutableData>
+        </image>
+        <image name="Default-Portrait" width="768" height="1024"/>
+        <image name="Default-Portrait.png" width="124" height="10"/>
+        <image name="Greenbutton_large_ontap" width="229" height="60"/>
+        <image name="MasterLogo" width="416" height="86"/>
+        <image name="subscription_background" width="540" height="51"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

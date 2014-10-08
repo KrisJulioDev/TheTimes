@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface UserInterfaceUtils : NSObject
-
+/*
 extern NSString * const OVERRIDDEN_REGION_KEY;
 extern NSString * const PAPER_REGION_KEY;
 extern NSString * const PAPER_REGION_ENGLAND;
+*/
 
 + (UIImageView *)getLoadingImage;
 + (UIView *) addLoadingCover:(UIView *)loadingView parent:(UIView *)parent;
@@ -30,6 +31,7 @@ extern NSString * const PAPER_REGION_ENGLAND;
 + (void) removeAllSubviews:(UIView *)parentView;
 
 + (void) setX:(int)x forView:(UIView *)view;
+
 + (void) setY:(int)y forView:(UIView *)view;
 + (void) setHeight:(int)height forView:(UIView *)view;
 

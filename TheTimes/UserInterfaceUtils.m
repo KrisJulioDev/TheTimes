@@ -11,13 +11,10 @@
 
 @implementation UserInterfaceUtils
 
-NSString * const OVERRIDDEN_REGION_KEY = @"overriddenRegion";
-NSString * const PAPER_REGION_KEY = @"region";
-
 + (NSString *) getPaperRegion
 {
     NSString * region = [[NSUserDefaults standardUserDefaults] objectForKey:PAPER_REGION_KEY];
-    //if (region == nil || [REGION_ENGLAND isEqual:region]) { region = @"National"; }
+    if (region == nil || [REGION_ENGLAND isEqual:region]) { region = @"National"; }
     if (region == nil) { region = REGION_ENGLAND; }
 
     return region;
@@ -214,16 +211,40 @@ NSString * const PAPER_REGION_KEY = @"region";
     }
 }
 
+/** @brief Adjust x position of a given view
+ Example usage:
+ @code
+ int    frontPageHeight;
+ UIView *labelView;
+ [UserInterfaceUtils setY:frontPageHeight forView:labelView];
+ @endcode
+ */
 + (void) setX:(int)x forView:(UIView *)view
 {
     view.frame = CGRectMake(x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
 }
 
+/** @brief Adjust y position of a given view
+    Example usage:
+    @code
+    int    frontPageY;
+    UIView *labelView;
+    [UserInterfaceUtils setY:frontPageY forView:labelView];
+    @endcode
+ */
 + (void) setY:(int)y forView:(UIView *)view
 {
     view.frame = CGRectMake(view.frame.origin.x, y, view.frame.size.width, view.frame.size.height);
 }
 
+/** @brief Adjust height of a given view
+ Example usage:
+ @code
+ int    frontPageHeight;
+ UIView *labelView;
+ [UserInterfaceUtils setHeight:frontPageHeight forView:labelView];
+ @endcode
+ */
 + (void) setHeight:(int)height forView:(UIView *)view
 {
     view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, height);

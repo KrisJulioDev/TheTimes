@@ -14,7 +14,13 @@
 #define REGION_IRELAND  @"ireland"
 #define REGION_SCOTLAND @"scotland" 
 
-#define OVERRIDDEN_URL_KEY  @"overriddenUrl"
+#define OVERRIDDEN_URL_KEY      @"overriddenUrl"
+#define OVERRIDDEN_REGION_KEY   @"overriddenRegion"
+#define PAPER_REGION_KEY        @"region"
+#define CONFIG_KEY              @"config"
+#define USER_KEY                @"user"
+
+#define FEED_URL                @"http://feeds.thetimes.co.uk/timeslite/global.json"
 
 @protocol Constants <NSObject>
 

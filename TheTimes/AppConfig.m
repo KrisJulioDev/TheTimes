@@ -148,27 +148,27 @@ static AppConfig *sharedInstance;
 
 - (NSString *) getAirshipDevKey
 {
-    return [self getString:@"AIRSHIP_DEV_KEY" defaultValue:@"oH_7wb8AT2yse5KERFf2gQ"];
+    return [self getString:@"AIRSHIP_DEV_KEY" defaultValue:@"Le7Np6ouRAOCz1Kw_U_LmA"];
 }
 
 - (NSString *) getAirshipDevSecret
 {
-    return [self getString:@"AIRSHIP_DEV_SECRET" defaultValue:@"sXrLPLpRQdizuBDTIfUvqA"];
+    return [self getString:@"AIRSHIP_DEV_SECRET" defaultValue:@"jX4q0jVdSpK4-J3OAZBr-Q"];
 }
 
 - (NSString *) getAirshipProductionKey
 {
-    return [self getString:@"AIRSHIP_PRODUCTION_KEY" defaultValue:@"B7jl6CXTTueDISr6AMhwHA"];
+    return [self getString:@"AIRSHIP_PRODUCTION_KEY" defaultValue:@"8qtNk2SjTVaD8D8VM9-I6g"];
 }
 
 - (NSString *) getAirshipProductionSecret
 {
-    return [self getString:@"AIRSHIP_PRODUCTION_SECRET" defaultValue:@"Y4RsM9vNRz229UCCPPGqEA"];
+    return [self getString:@"AIRSHIP_PRODUCTION_SECRET" defaultValue:@"2-hSWXB1QOmmGBP-ILpa6Q"];
 }
 
 - (BOOL) isAirshipInProduction
 {
-    return [self getBoolean:@"AIRSHIP_IN_PRODUCTION" defaultValue:YES];
+    return [self getBoolean:@"AIRSHIP_IN_PRODUCTION" defaultValue:NO];
 }
 
 @end

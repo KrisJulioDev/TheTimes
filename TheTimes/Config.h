@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Feed.h"
+#import "ConfigLive.h"
 
 @interface Config : NSObject <NSCoding>
 

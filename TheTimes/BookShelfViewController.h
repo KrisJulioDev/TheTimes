@@ -8,7 +8,29 @@
 
 #import <UIKit/UIKit.h>
 #import "TheTimesBaseViewController.h"
+#import "SPDownloader.h"
 
-@interface BookShelfViewController : TheTimesBaseViewController
+@interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate>
+{ 
+    NSMutableString *m_pdfName;
+    NSMutableString *m_pdfPath;
+    NSString        *m_pdfFullPath;
+    
+	NSMutableData *receivedData;
+    
+    BOOL showingInfo;
+    NSString *lastRegionSelected;
+}
+
+@property (nonatomic, retain) NSMutableArray        *portraitEditionViews;
+@property (nonatomic, retain) NSMutableArray        *landscapeEditionViews;
+@property (weak, nonatomic) IBOutlet UIScrollView   *sv_portraitScrollView;
+@property (weak, nonatomic) IBOutlet UIScrollView   *sv_landscapeScrollView;
+
+@property (weak, nonatomic) IBOutlet UIView *m_landscapeView;
+@property (weak, nonatomic) IBOutlet UIView *m_portraitView;
+
+- (void) displayBooks;
+- (void) refreshEditionViews;
 
 @end

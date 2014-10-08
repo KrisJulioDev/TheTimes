@@ -7,10 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Config.h"
 
 @interface TTWebService : NSObject
 
+@property (nonatomic, retain) NSArray *paper_editions;
++ (instancetype) sharedInstance;
 
-+ (TTWebService*) sharedInstance;
+- (NSMutableArray*) getEditions;
+
+- (Config *) getConfig; 
 + (NSString *) getUrl;
+
 @end

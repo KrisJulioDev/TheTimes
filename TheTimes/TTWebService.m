@@ -11,28 +11,39 @@
 #import "Config.h"
 #import "XMLParser.h"
 #import "AppConfig.h"
-
-static TTWebService *sharedInstance = nil;
+#import "TheTimesAppDelegate.h"
+#import "JSONKit.h"
+#import "Feed.h"
+#import "Constants.h"
+#import "Edition.h"
 
 @implementation TTWebService
 
+TheTimesAppDelegate *appDelegate;
+
 static NSDateFormatter *dateFormatter;
 
-// Singleton style method to retrieve shared instance.
-+ (TTWebService*)sharedInstance
++ (instancetype) sharedInstance
 {
-    @synchronized(self)
-    {
-        if (sharedInstance == nil)
-            sharedInstance = [[TTWebService alloc] init];
+    static dispatch_once_t once;
+    static id sharedInstance;
+    dispatch_once(&once, ^{
+        
+        sharedInstance = [[self alloc] init];
         
         if (dateFormatter == nil)
         {
             dateFormatter = [[NSDateFormatter alloc] init];
             [dateFormatter setDateFormat:@"yyyyMMdd"];
         }
-    }
+    });
     return sharedInstance;
+}
+- (id) init
+{
+    appDelegate = (TheTimesAppDelegate*)[[UIApplication sharedApplication] delegate];
+    
+    return [super init];
 }
 
 // Retrieve the Config object from the XML file at the base URL.
@@ -63,6 +74,50 @@ static NSDateFormatter *dateFormatter;
     }
     
     return nil;
+}
+
+- (NSMutableArray*) getEditions
+{
+    NSMutableArray *editions = nil;
+ 
+        if (_paper_editions != nil)
+        {
+            editions = [[NSMutableArray alloc] init];
+            
+            for (NSDictionary *editionDict in _paper_editions)
+            {
+                Edition *edition = [[Edition alloc] init];
+                edition.paperUrl = [editionDict objectForKey:@"paperUrl"];
+                edition.paperThumb = [editionDict objectForKey:@"paperThumb"];
+                
+                edition.dateString = [editionDict objectForKey:@"paperDate"];
+                edition.type = [editionDict objectForKey:@"type"];
+                edition.region = [[NSUserDefaults standardUserDefaults] objectForKey:PAPER_REGION_KEY];
+                
+                edition.date = [dateFormatter dateFromString:[editionDict objectForKey:@"paperDate"]];
+                [editions insertObject:edition atIndex:0];
+            }
+        }
+    
+    return editions;
+}
+
+- (id) getJSONResult:(NSString *)urlString
+{
+    NSError    *error = nil;
+    NSString *results = [NSString stringWithContentsOfURL:[NSURL URLWithString:urlString] encoding:NSUTF8StringEncoding error:&error];
+    
+    id resultsObject = nil;
+    if (error != nil || results == nil)
+    {
+        return nil;
+    }
+    else
+    {
+        resultsObject = [[results dataUsingEncoding:NSUTF8StringEncoding] objectFromJSONData];
+    }
+    
+    return resultsObject;
 }
 
 // Get the URL to use, based on the app config, but potentially overridden by the user.

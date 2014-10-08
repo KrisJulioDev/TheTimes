@@ -7,14 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAITrackedViewController.h"
 
-@interface TTLoginViewController : UIViewController
+@interface TTLoginViewController : GAITrackedViewController <UIWebViewDelegate>
+{
+    IBOutlet UITextField *passwordEntry, *userNameEntry;
+    IBOutlet UIActivityIndicatorView *spinner;
+    
+    IBOutlet UIView *mScreenBarrier;
+    IBOutlet UIView *mScreenBarrierView;
+    BOOL loginInProcess;
+    
+}
 
-#pragma mark XIB properties
-
-@property (weak, nonatomic) IBOutlet UITextField *tf_emailAddress;
-@property (weak, nonatomic) IBOutlet UITextField *tf_password;
-@property (weak, nonatomic) IBOutlet UIButton *btn_forgotPass;
-@property (weak, nonatomic) IBOutlet UIButton *btn_signIn;
+extern NSString *const SIGNIN_SCHEME;
+@property (nonatomic, retain) UIWebView *webView;
 
 @end

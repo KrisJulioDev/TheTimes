@@ -37,14 +37,14 @@
 	<key>CRASHLYTICS_KEY</key>
 	<string>f274dd3aa2fd1ef189f517c06db4a6ba6ab7bf33</string>
 	<key>AIRSHIP_DEV_KEY</key>
-	<string>oH_7wb8AT2yse5KERFf2gQ</string>
+	<string>Le7Np6ouRAOCz1Kw_U_LmA</string>
 	<key>AIRSHIP_DEV_SECRET</key>
-	<string>sXrLPLpRQdizuBDTIfUvqA</string>
+	<string>jX4q0jVdSpK4-J3OAZBr-Q</string>
 	<key>AIRSHIP_PRODUCTION_KEY</key>
-	<string>B7jl6CXTTueDISr6AMhwHA</string>
+	<string>8qtNk2SjTVaD8D8VM9-I6g</string>
 	<key>AIRSHIP_PRODUCTION_SECRET</key>
-	<string>Y4RsM9vNRz229UCCPPGqEA</string>
+	<string>2-hSWXB1QOmmGBP-ILpa6Q</string>
 	<key>AIRSHIP_IN_PRODUCTION</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
