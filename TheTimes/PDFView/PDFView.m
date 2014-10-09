@@ -66,12 +66,14 @@ extern NSMutableString *pdfPath;
             break;
         case 3:
             //for dual view
-            m_view = [[PDFVDual alloc] init:false :NULL :0 :NULL :0];
+            
+            //m_view = [[PDFVDual alloc] init:false :NULL :0 :NULL :0];
             //for single view
-            //m_view = [[PDFVDual alloc] init:false :NULL :0 :verts :Document_getPageCount(doc)];
+            m_view = [[PDFVDual alloc] init:false :NULL :0 :verts :1 ];
             break;
         case 4:
             //for dual view
+            
             m_view = [[PDFVDual alloc] init:true :NULL :0 :NULL :0];
             //for single view
             //m_view = [[PDFVDual alloc] init:true :NULL :0 :verts :Document_getPageCount(doc)];
@@ -80,6 +82,7 @@ extern NSMutableString *pdfPath;
             m_view = [[PDFVVert alloc] init];
             break;
     }
+    
     free( verts );
     m_type = defView;
     struct PDFVThreadBack tback;

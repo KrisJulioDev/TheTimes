@@ -34,6 +34,7 @@
 @property (nonatomic, retain) NSString *region;
 @property (nonatomic, retain) NSString *paperUrl;
 @property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *fullPDFPath;
 @property (nonatomic, strong) NSMutableArray *pages;
 @property (nonatomic, strong) NSMutableArray *sections;
 

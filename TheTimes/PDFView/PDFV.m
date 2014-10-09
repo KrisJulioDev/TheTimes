@@ -522,6 +522,7 @@
     }
     return self;
 }
+
 -(void)vClose
 {
     [super vClose];

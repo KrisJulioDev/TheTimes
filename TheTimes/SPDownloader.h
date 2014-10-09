@@ -26,7 +26,7 @@
 	NSString *myURL;
     BOOL willResign;
     NSDate *startDate;
-	double totalDataReceived;
+	long long totalDataReceived;
 	double bytesAlreadyDownloaded;
 	double fileSizeExpected;
 	BOOL shouldResumeDonload;
@@ -37,6 +37,8 @@
 	NSTimer *checkIfDataReceived;
 	double dataReceivedForThisConnection;
 	BOOL hasSpeedError;
+    
+    long long totalBytesRead;
 }
 
 @property (nonatomic) BOOL willResign;
@@ -54,7 +56,7 @@
 +(SPDownloader *) mySPDownloader;
 
 -(id) init;
--(void) startDownload:(Edition *)edition;
+- (void) startDownload:(Edition *)theEdition isAutomated:(BOOL)isAutomated;
 -(void) pauseDownload;
 -(void) resumeDownload:(double)fromBytes;
 

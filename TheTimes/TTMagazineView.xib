@@ -33,6 +33,9 @@
                     <state key="normal">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="viewEdition" destination="iN0-l3-epB" eventType="touchUpInside" id="x6i-96-qRh"/>
+                    </connections>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wlp-h9-07M">
                     <rect key="frame" x="37" y="137" width="146" height="46"/>
@@ -128,6 +131,7 @@
                 <outlet property="progressTop" destination="Noz-Od-q6A" id="Mud-SI-0Ap"/>
                 <outlet property="textLabel" destination="WTJ-rz-XDS" id="Vk7-lX-aio"/>
                 <outlet property="textLabel2" destination="Iod-gk-Hzq" id="K6k-fr-XSC"/>
+                <outlet property="viewButton" destination="hZo-W9-BVU" id="BdN-cW-0QK"/>
             </connections>
         </view>
     </objects>

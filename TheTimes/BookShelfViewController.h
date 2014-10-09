@@ -12,8 +12,8 @@
 
 @interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate>
 { 
-    NSMutableString *m_pdfName;
-    NSMutableString *m_pdfPath;
+    NSString *m_pdfName;
+    NSString *m_pdfPath;
     NSString        *m_pdfFullPath;
     
 	NSMutableData *receivedData;
@@ -24,13 +24,19 @@
 
 @property (nonatomic, retain) NSMutableArray        *portraitEditionViews;
 @property (nonatomic, retain) NSMutableArray        *landscapeEditionViews;
+
+@property (nonatomic, retain) NSMutableArray        *portraitMagazineViews;
+@property (nonatomic, retain) NSMutableArray        *landscapeMagazineViews;
+
 @property (weak, nonatomic) IBOutlet UIScrollView   *sv_portraitScrollView;
 @property (weak, nonatomic) IBOutlet UIScrollView   *sv_landscapeScrollView;
 
 @property (weak, nonatomic) IBOutlet UIView *m_landscapeView;
 @property (weak, nonatomic) IBOutlet UIView *m_portraitView;
 
+- (void) downloadLatest;
 - (void) displayBooks;
 - (void) refreshEditionViews;
+- (void) openPDF:(Edition*)edition;
 
 @end

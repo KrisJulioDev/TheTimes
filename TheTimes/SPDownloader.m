@@ -9,6 +9,7 @@
 #import "SPDownloader.h"
 #import "Config.h"
 #import "UserInterfaceUtils.h"
+#import "configOptions.h"
 
 #define kBytes_already_downloaded @"downloadedBytes"
 #define kShouldResumeDownload @"shouldResumeDownload"
@@ -24,7 +25,7 @@
 NSString * const OVERRIDDEN_REGION_KEY = @"overriddenRegion";
 NSString * const PAPER_REGION_KEY = @"region";
 
-@synthesize errorMessage, delegate, isDownloading, myURL, isShowingManager, isPauseDownloadedManually, willResign;
+     @synthesize errorMessage, delegate, isDownloading, myURL, isShowingManager, isPauseDownloadedManually, willResign;
 @synthesize hasSpeedError, startDate;
 @synthesize edition;
 
@@ -40,9 +41,9 @@ NSString * const PAPER_REGION_KEY = @"region";
 -(id) init {
 	self = [super init];
 	return self;
-}
+} 
 
--(void) startDownload:(Edition *)_edition
+- (void) startDownload:(Edition *)theEdition isAutomated:(BOOL)isAutomated
 {
 	theFile = nil;
 	hasSpeedError = NO;
@@ -52,8 +53,8 @@ NSString * const PAPER_REGION_KEY = @"region";
 	fileSizeExpected = 0;
 	isPauseDownloadedManually = NO;
 	
-    self.edition = _edition;
-	self.myURL = _edition.paperUrl;
+    self.edition = theEdition;
+	self.myURL = theEdition.paperUrl;
     NSString *theURL = myURL;
 	
 	NSDictionary *bytesForFiles = [[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict];
@@ -71,11 +72,16 @@ NSString * const PAPER_REGION_KEY = @"region";
 	}
 	else
     {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.myURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:kLowConnectionSpeedTime];
+        [request setValue:[NSString stringWithFormat:@"%@",[defaults valueForKey:@"token"]] forHTTPHeaderField: @"ACS-Auth-TokenId"];
+        [request setValue:kUserAgent forHTTPHeaderField:@"User-Agent"];
         self.startDate =[NSDate date];
 		myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        NSLog(@"REQUEST %@", request);
 	}
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES; ;
 }
 
 // the pause method saves in the UserDefaults the number of bytes downloaded to allow resuming download for later.
@@ -94,7 +100,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 		bytesForFiles = [[NSMutableDictionary alloc] initWithCapacity:1];
 	}
 	if (totalDataReceived > 0) {
-		[bytesForFiles setObject:[NSNumber numberWithDouble:totalDataReceived] forKey:myURL];
+		[bytesForFiles setObject:[NSNumber numberWithLongLong:totalDataReceived] forKey:myURL];
 	}
 	[[NSUserDefaults standardUserDefaults] setObject:bytesForFiles forKey:kSizeByFileDict];
 	
@@ -159,7 +165,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 		checkIfDataReceived = [NSTimer scheduledTimerWithTimeInterval:kLowConnectionSpeedTime target:self selector:@selector(checkData) userInfo:nil repeats:NO];
 		dataReceivedForThisConnection = 0;
 		
-		fileSizeExpected = [[NSNumber numberWithInt:response.expectedContentLength] doubleValue];
+		fileSizeExpected = [[NSNumber numberWithLongLong:response.expectedContentLength] doubleValue];
 		
 		// we check if the "papers" directory exists, if not we create it.
 		NSError *error = nil;
@@ -227,12 +233,12 @@ NSString * const PAPER_REGION_KEY = @"region";
 			[[NSUserDefaults standardUserDefaults] setObject:filesDict forKey:kfileClosedOK];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			
-			[theFile seekToEndOfFile];
+            [theFile seekToEndOfFile];
 		}
 	}
 	else {
 		// no  content in the response.. No file at the specified location ?
-		
+
 	}
 }
 
@@ -243,6 +249,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 
 -(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	if (theFile) {
+        
 		totalDataReceived += [[NSNumber numberWithInt:data.length] doubleValue];
 		dataReceivedForThisConnection += [[NSNumber numberWithInt:data.length] doubleValue];
 		
@@ -275,7 +282,6 @@ NSString * const PAPER_REGION_KEY = @"region";
         [delegate downloadStoppedForURL:self.myURL toPath:@"" file:@"" success:NO];
     }
     
-	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 

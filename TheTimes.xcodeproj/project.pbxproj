@@ -877,12 +877,12 @@
 				848D4F1E19B58F3600778C4E /* 3rdPLibraries */,
 				8454FA4419B450C9000200CA /* EditionRelated */,
 				8454FA3F19B44B5F000200CA /* UtilsClasses */,
-				8416B7E119AD80A500981621 /* Views */,
 				846082D319A4496C00D618FE /* ViewController */,
 				8460828319A4487900D618FE /* TheTimesAppDelegate.h */,
 				8460828419A4487900D618FE /* TheTimesAppDelegate.m */,
 				8460828C19A4487900D618FE /* TheTimesSecondViewController.h */,
 				8460828D19A4487900D618FE /* TheTimesSecondViewController.m */,
+				8416B7E119AD80A500981621 /* Views */,
 				8460827B19A4487900D618FE /* Supporting Files */,
 			);
 			path = TheTimes;

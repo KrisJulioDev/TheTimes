@@ -37,4 +37,5 @@ extern NSString * const PAPER_REGION_ENGLAND;
 
 + (void) setLogo:(UIImageView *)imageView;
 
++ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname;
 @end

@@ -13,6 +13,7 @@
 #import "SPDownloader.h"
 #import "SPUnzipper.h"
 #import "JSONKit.h"
+#import "UserInterfaceUtils.h"
 #import "UIImageView+AFNetworking.h"
 
 @implementation TTMagazineView
@@ -156,6 +157,7 @@ static NSDateFormatter *dayFormatter;
 - (IBAction) viewEdition
 {
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
+     
     if (downloadedEdition != nil)
     {
         TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -163,11 +165,13 @@ static NSDateFormatter *dayFormatter;
         [trackingDict setObject:@"navigation" forKey:@"event_navigation_action"];
         [trackingDict setObject:@"click" forKey:@"event_navigation_browsing_method"];
         [trackingDict setObject:[NSString stringWithFormat:@"sun edition:open:%@", [_edition getTrackingDateString]] forKey:@"event_navigation_name"];
+        
         /*
         EditionViewController *editionViewController = [[EditionViewController alloc] init];
         editionViewController.edition = downloadedEdition;
         [appDelegate.navigationController pushViewController:editionViewController animated:YES]; */
-        
+         
+        [appDelegate.bookShelfVC openPDF:downloadedEdition];
     }
     else if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
     {
@@ -196,6 +200,7 @@ static NSDateFormatter *dayFormatter;
         if ([[SPUnzipper mySPUnzipper] unzipFile:fileFullPath inDirectory:path])
         {
             // Parse the JSON
+            NSMutableArray *listOfPath = [NSMutableArray new];
             NSString *jsonPath = [_edition getConfigFile];
             NSString *jsonString = [NSString stringWithContentsOfFile:jsonPath encoding:NSUTF8StringEncoding error:nil];
             NSDictionary *infoDict = [jsonString objectFromJSONString];
@@ -218,6 +223,7 @@ static NSDateFormatter *dayFormatter;
                 newPage.relativePdfUrl = [NSString stringWithFormat:@"%@", [page objectForKey:@"pdfUrl"]];
                 newPage.relativeThumbnailUrl = [NSString stringWithFormat:@"%@", [page objectForKey:@"thumbUrl"]];
                 
+                [listOfPath addObject:[NSString stringWithFormat:@"%@%@", [newEdition getPDFDirectory], newPage.relativePdfUrl]];
                 [newEdition.pages addObject:newPage];
             }
             
@@ -225,15 +231,19 @@ static NSDateFormatter *dayFormatter;
             for (NSDictionary *section in sections)
             {
                 EditionSection *newSection = [[EditionSection alloc] init];
-                newSection.name = [section objectForKey:@"title"];
-                newSection.pageNumber = [[section objectForKey:@"page"] intValue];
+                newSection.name         = [section objectForKey:@"title"];
+                newSection.pageNumber   = [[section objectForKey:@"page"] intValue];
                 
                 [newEdition.sections addObject:newSection];
             }
             
+            //Merge all pdf's
+            newEdition.fullPDFPath = [UserInterfaceUtils joinPDF:listOfPath withName:newEdition.dateString];
+            
             // Add the edition to our cache and save
             [[TTEditionManager sharedInstance].downloadedEditions addObject:newEdition];
             [[TTEditionManager sharedInstance] snapshot];
+            
         }
     }
     
@@ -276,7 +286,7 @@ static NSDateFormatter *dayFormatter;
         
         [self setProgress:0];
         [SPDownloader mySPDownloader].delegate = self;
-        [[SPDownloader mySPDownloader] startDownload:_edition];
+         [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
         
         TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate.bookShelfVC refreshEditionViews];

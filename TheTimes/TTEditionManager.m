@@ -30,6 +30,55 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return sharedInstance;
 }
 
+- (id) init
+{
+    if (self = [super init])
+    {
+        [self loadData];
+    }
+    
+    return self;
+}
+
+- (void) loadData
+{
+    self.LatestEditions = [self loadFromDefaults:LATEST_EDITIONS_KEY defaultValue:[[NSMutableArray alloc] init]];
+    self.downloadedEditions = [self loadFromDefaults:DOWNLOADED_EDITIONS_KEY defaultValue:[[NSMutableArray alloc] init]];
+}
+
+- (id) loadFromDefaults:(NSString *)key defaultValue:(id)defaultValue
+{
+    id result = nil;
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if (data != nil)
+    {
+        result = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+    
+    if (result != nil)
+    {
+        return result;
+    }
+    else
+    {
+        return defaultValue;
+    }
+}
+
+- (BOOL) deleteEdition:(Edition *)edition
+{
+    NSError *error = nil;
+    BOOL success = [[NSFileManager defaultManager] removeItemAtPath:[edition getBaseDirectory] error:&error];
+    
+    if (success)
+    {
+        [_downloadedEditions removeObject:edition];
+        [self snapshot];
+    }
+    
+    return success;
+}
+
 - (void) updateEditions
 {
     [self performSelectorInBackground:@selector(updateEditionsInBackground) withObject:nil];
@@ -40,10 +89,9 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     for (Edition *thisEdition in _downloadedEditions)
     {
         if ([edition.paperUrl isEqualToString:thisEdition.paperUrl])
-        {
+        { 
             return thisEdition;
         }
-        
     }
     return nil;
 }
@@ -78,6 +126,7 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
         self.LatestEditions = newEditions;
         
         TheTimesAppDelegate* appDelegate = (TheTimesAppDelegate*)[UIApplication sharedApplication].delegate;
+        [appDelegate.bookShelfVC downloadLatest];
         [appDelegate.bookShelfVC refreshEditionViews];
     }
 }

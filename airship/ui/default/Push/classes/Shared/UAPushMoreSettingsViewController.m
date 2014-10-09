@@ -66,15 +66,7 @@ static NSUInteger userRowCount = 1;
 
 - (void)dealloc {
     [[UAPush shared] removeObserver:self];
-
-
-
-    
-    
-
-
     [[NSNotificationCenter defaultCenter] removeObserver:self.userCreatedObserver name:UAUserCreatedNotification object:nil];
-    
 }
 
 - (void)viewDidLoad {

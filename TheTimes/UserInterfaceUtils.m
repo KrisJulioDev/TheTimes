@@ -97,6 +97,54 @@
     return [UIImage imageNamed:image];
 }
 
++ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname{
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *layOutPath=[NSString stringWithFormat:@"%@/mergepdf/pdf",[paths objectAtIndex:0]];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:layOutPath]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:layOutPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    // File paths
+    NSString *fileName = pname;
+    NSString *pdfPathOutput = [layOutPath stringByAppendingPathComponent:fileName];
+    CFURLRef pdfURLOutput = (__bridge CFURLRef)[NSURL fileURLWithPath:pdfPathOutput];
+    NSInteger numberOfPages = 0;
+    // Create the output context
+    CGContextRef writeContext = CGPDFContextCreateWithURL(pdfURLOutput, NULL, NULL);
+    
+    for (NSString *source in listOfPath) {
+        //        CFURLRef pdfURL = (__bridge CFURLRef)[NSURL fileURLWithPath:source];
+        
+        CFURLRef pdfURL =  CFURLCreateFromFileSystemRepresentation(NULL, [source UTF8String],[source length], NO);
+        
+        //file ref
+        CGPDFDocumentRef pdfRef = CGPDFDocumentCreateWithURL(pdfURL);
+        numberOfPages = CGPDFDocumentGetNumberOfPages(pdfRef);
+        
+        // Loop variables
+        CGPDFPageRef page;
+        CGRect mediaBox;
+        
+        // Read the first PDF and generate the output pages
+        for (int i=1; i<=numberOfPages; i++) {
+            page = CGPDFDocumentGetPage(pdfRef, i);
+            mediaBox = CGPDFPageGetBoxRect(page, kCGPDFMediaBox);
+            CGContextBeginPage(writeContext, &mediaBox);
+            CGContextDrawPDFPage(writeContext, page);
+            CGContextEndPage(writeContext);
+        }
+        
+        CGPDFDocumentRelease(pdfRef);
+        CFRelease(pdfURL);
+    }
+    
+    //    // Finalize the output file
+    CGPDFContextClose(writeContext);
+    CGContextRelease(writeContext);
+    
+    return pdfPathOutput;
+}
+
 + (BOOL) isAustralia
 {
     return [UserInterfaceUtils isCurrency:@"AUD"];

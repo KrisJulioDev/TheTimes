@@ -41,7 +41,8 @@
     [dataFields setObject:@"IPAD" forKey:@"device_name"];
     //[dataFields setObject:@"" forKey:@"content_name"];
     
-    if(![userName isEqual: @""] && ![password isEqual: @""] && ![password isEqual:nil] && ![userName isEqual:nil])
+    if(![userName isEqual: @""] && ![password isEqual: @""]
+       && password != nil && userName != nil)
     {
         [dataFields setObject:userName forKey:@"username"];
         [dataFields setObject:password forKey:@"password"];

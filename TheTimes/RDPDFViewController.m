@@ -10,7 +10,8 @@
 
 #import "RDPDFViewController.h"
 #import "PDFVThumb.h"
-#import "HeaderView.h"
+#import "HeaderView.h" 
+
 @interface RDPDFViewController ()
 
 @end
@@ -41,7 +42,6 @@
     NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pageno];
     pagestr = [pagestr stringByAppendingFormat:@"%d",pagecount];
     pageNumLabel.text = pagestr;
-
 }
 
 - (void)OnLongPressed:(float)x :(float)y{}

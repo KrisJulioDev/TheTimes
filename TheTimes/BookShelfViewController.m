@@ -63,11 +63,11 @@ float g_swipe_distance=1.0f;
 int g_render_quality = 1;
 bool g_CaseSensitive = false;
 bool g_MatchWholeWord = false;
-bool g_DarkMode = false;
-bool g_sel_right= false;
-bool g_ScreenAwake = false;
-uint g_ink_color = 0xFF000000;
-uint g_rect_color = 0xFF000000;
+bool g_DarkMode     = false;
+bool g_sel_right    = false;
+bool g_ScreenAwake  = false;
+uint g_ink_color    = 0xFF000000;
+uint g_rect_color   = 0xFF000000;
 
 static NSDateFormatter *dateFormatter;
 
@@ -100,6 +100,8 @@ static int portraitVGap = 70;
     
     [self loadSettingsWithDefaults];
     
+    [[NSUserDefaults standardUserDefaults] setObject:REGION_IRELAND forKey:PAPER_REGION_KEY];
+    
     /*
     
     if (appDel.config == nil) {
@@ -108,6 +110,11 @@ static int portraitVGap = 70;
     
     [self showLoginScreen];
     [self loadEditionPapers];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [self refreshEditionViews];
 }
 
 /* INITIALIZE RADAE SETTINGS */
@@ -153,10 +160,26 @@ static int portraitVGap = 70;
     }
 }
 
+// download latest automatically.
+- (void) downloadLatest
+{
+    Edition *latest = [[TTEditionManager sharedInstance].LatestEditions objectAtIndex:0];
+    
+     if ( latest != nil )
+    {
+        Edition *downloadedLatest = [[TTEditionManager sharedInstance] getDownloadedEdition:latest];
+        if (downloadedLatest == nil && ![SPDownloader mySPDownloader].isDownloading)
+        {
+            [[SPDownloader mySPDownloader] startDownload:latest isAutomated:YES];
+        }
+    }
+}
+
 - (void) refreshEditionViews
 {
     [self setupInterface:[UIApplication sharedApplication].statusBarOrientation];
 }
+
 
 #pragma mark SHOW ALL EDITIONS AVAILABLE 
 - (void) setupInterface:(UIInterfaceOrientation)toInterfaceOrientation
@@ -165,15 +188,17 @@ static int portraitVGap = 70;
     {
         self.landscapeEditionViews = [[NSMutableArray alloc] init];
         self.portraitEditionViews = [[NSMutableArray alloc] init];
+        
+        self.landscapeMagazineViews = [[NSMutableArray alloc] init];
+        self.portraitMagazineViews = [[NSMutableArray alloc] init];
     }
-    
+ 
     NSArray *editions = [TTEditionManager sharedInstance].LatestEditions;
     if (editions != nil)
     {
         int i = 0;
         if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
         {
-            
             for (Edition *edition in editions)
             {
                 TTMagazineView *magazineView = nil;
@@ -193,8 +218,10 @@ static int portraitVGap = 70;
                 
                 i++;
             }
-            [_sv_landscapeScrollView setHidden:NO];
+            
+            
             _sv_landscapeScrollView.contentSize = CGSizeMake((landscapePaperWidth+landscapeGap)*i+1024-landscapePaperWidth, landscapePaperHeight);
+        
         }
         else
         {
@@ -227,7 +254,6 @@ static int portraitVGap = 70;
                 i++;
             }
             
-            [_sv_portraitScrollView setHidden:NO];
             _sv_portraitScrollView.contentSize = CGSizeMake(768, (row+1)*(portraitPaperHeight+portraitVGap)+30);
         }
     }
@@ -271,8 +297,6 @@ static int portraitVGap = 70;
             @catch (NSException *exception) {
                 NSLog(@"Error On Getting Json data");
             }
-            
-            
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -282,7 +306,7 @@ static int portraitVGap = 70;
                 NSDictionary *jsonDic = [[NSUserDefaults standardUserDefaults] objectForKey:kCachedGlobalJSON];
                 if (jsonDic) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        //[self createPapersArrayFromJsonDic:jsonDic];
+                        [self createPapersArrayFromJsonDic:jsonDic];
                         NSLog(@"JSON DICT %@", jsonDic);
                     });
                 }
@@ -327,7 +351,6 @@ static int portraitVGap = 70;
 		}
 	}
 }
-
 
 
 #pragma mark -
@@ -422,9 +445,7 @@ static int portraitVGap = 70;
 	for(NSDictionary* dicPaper in availablePapers)
 	{
 		NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:dicPaper];
-		
 		[mutablePapers addObject:dic];
-		
 	}
 }
 
@@ -485,20 +506,18 @@ static int portraitVGap = 70;
 }
 
 #pragma mark OPEN PDF CALLBACKS
-- (IBAction) openPDF:(id)sender
+- (void) openPDF:(Edition*)edition
 {
-    int pdf_tag = [(UIButton*)sender tag];
-    
     [self loadSettingsWithDefaults];
+    
     RDPDFViewController *pdf;
     if( pdf == nil )
     {
         pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController"bundle:nil];
     }
     
-    m_pdfName = [NSMutableString stringWithFormat:@"pdf_%i" , pdf_tag];
-    
-    m_pdfFullPath = [[NSBundle mainBundle] pathForResource:m_pdfName ofType:@"pdf"];
+    m_pdfName = edition.paperUrl; //[NSMutableString stringWithFormat:@"pdf_"];
+    m_pdfFullPath = edition.fullPDFPath;
     
     int result = [pdf PDFOpen:m_pdfFullPath withPassword:@""];
     if(result == 1)
