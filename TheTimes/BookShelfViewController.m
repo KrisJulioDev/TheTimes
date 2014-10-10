@@ -101,13 +101,8 @@ static int portraitVGap = 70;
     [self loadSettingsWithDefaults];
     
     [[NSUserDefaults standardUserDefaults] setObject:REGION_IRELAND forKey:PAPER_REGION_KEY];
-    
-    /*
-    
-    if (appDel.config == nil) {
-     
-    }*/
-    
+    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
+ 
     [self showLoginScreen];
     [self loadEditionPapers];
 }
@@ -177,6 +172,7 @@ static int portraitVGap = 70;
 
 - (void) refreshEditionViews
 {
+    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
     [self setupInterface:[UIApplication sharedApplication].statusBarOrientation];
 }
 
@@ -219,7 +215,7 @@ static int portraitVGap = 70;
                 i++;
             }
             
-            
+
             _sv_landscapeScrollView.contentSize = CGSizeMake((landscapePaperWidth+landscapeGap)*i+1024-landscapePaperWidth, landscapePaperHeight);
         
         }
@@ -501,6 +497,7 @@ static int portraitVGap = 70;
     [self setupInterface:toInterfaceOrientation];
     
     showingInfo = NO;
+    
     //portraitInfoButton.selected = NO;
     //landscapeInfoButton.selected = NO;
 }

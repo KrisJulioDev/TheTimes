@@ -8,6 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TTMagazineView">
             <connections>
                 <outlet property="buyButton" destination="Wlp-h9-07M" id="Dtl-cn-1ub"/>
+                <outlet property="cornerImage" destination="SI3-9T-vMy" id="8DF-lK-HWF"/>
+                <outlet property="deleteButton" destination="53g-Jh-7CT" id="5ZY-sz-RBP"/>
+                <outlet property="downloadButton" destination="ON6-5k-9o0" id="luJ-si-1Ng"/>
                 <outlet property="downloadingLabel" destination="rMx-ts-l0g" id="Mwg-bI-Zpv"/>
                 <outlet property="downloadingView" destination="FC0-cS-Q07" id="IcZ-Dt-vrJ"/>
                 <outlet property="iv_frontPage" destination="h0z-9u-ReT" id="Ql6-j8-tdi"/>
@@ -15,6 +18,7 @@
                 <outlet property="progressTop" destination="Noz-Od-q6A" id="QyE-uF-hPy"/>
                 <outlet property="textLabel" destination="WTJ-rz-XDS" id="ebz-GS-cHj"/>
                 <outlet property="textLabel2" destination="Iod-gk-Hzq" id="E0K-7m-BAX"/>
+                <outlet property="viewButton" destination="hZo-W9-BVU" id="UDN-QQ-Q6F"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -27,7 +31,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZo-W9-BVU">
-                    <rect key="frame" x="87" y="145" width="46" height="30"/>
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <state key="normal">
