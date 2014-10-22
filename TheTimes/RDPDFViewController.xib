@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -14,7 +14,70 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="blackBarLarge" translatesAutoresizingMaskIntoConstraints="NO" id="auE-hO-O1L">
+                    <rect key="frame" x="0.0" y="974" width="768" height="50"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="qkb-VC-Jfl"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="6fn-nk-kjj">
+                    <rect key="frame" x="20" y="978" width="106" height="41"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="106" id="KrU-am-BMn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-100" minY="0.0" maxX="0.0" maxY="-30"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Pages" image="BT_Icon_SunDial_Off">
+                        <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="quickNavPressed" destination="-1" eventType="touchUpInside" id="C92-IZ-TGR"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="Vw9-Gd-92I" userLabel="Button - Sections">
+                    <rect key="frame" x="134" y="969" width="106" height="60"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="12"/>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <inset key="titleEdgeInsets" minX="-100" minY="0.0" maxX="0.0" maxY="-30"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="-15" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Sections" image="BT_Icon_Menu_Off">
+                        <color key="titleColor" cocoaTouchSystemColor="lightTextColor"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="showSection:" destination="-1" eventType="touchUpInside" id="GQX-e6-YEa"/>
+                    </connections>
+                </button>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Vw9-Gd-92I" secondAttribute="bottom" constant="-5" id="0d1-z9-xty"/>
+                <constraint firstItem="auE-hO-O1L" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Dcz-ye-25b"/>
+                <constraint firstAttribute="bottom" secondItem="6fn-nk-kjj" secondAttribute="bottom" constant="-5" id="QcK-y5-8AY"/>
+                <constraint firstAttribute="trailing" secondItem="auE-hO-O1L" secondAttribute="trailing" id="UJo-ec-ThT"/>
+                <constraint firstAttribute="bottom" secondItem="auE-hO-O1L" secondAttribute="bottom" id="bjO-YJ-eq3"/>
+                <constraint firstItem="Vw9-Gd-92I" firstAttribute="leading" secondItem="6fn-nk-kjj" secondAttribute="trailing" constant="8" id="fl6-iK-hmk"/>
+                <constraint firstItem="6fn-nk-kjj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="rrp-XQ-zda"/>
+            </constraints>
         </view>
     </objects>
+    <resources>
+        <image name="BT_Icon_Menu_Off" width="60" height="60"/>
+        <image name="BT_Icon_SunDial_Off" width="100" height="60"/>
+        <image name="blackBarLarge" width="1" height="44"/>
+    </resources>
 </document>

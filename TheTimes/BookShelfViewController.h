@@ -10,7 +10,7 @@
 #import "TheTimesBaseViewController.h"
 #import "SPDownloader.h"
 
-@interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate>
+@interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate, UIAlertViewDelegate>
 { 
     NSString *m_pdfName;
     NSString *m_pdfPath;
@@ -20,6 +20,12 @@
     
     BOOL showingInfo;
     NSString *lastRegionSelected;
+    
+    IBOutlet UIButton *portraitDoneButton;
+    IBOutlet UIButton *landscapeDoneButton;
+    
+    IBOutlet UIButton *settingsBtn;
+    IBOutlet UIButton *paperBtn;
 }
 
 @property (nonatomic, retain) NSMutableArray        *portraitEditionViews;
@@ -33,6 +39,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *m_landscapeView;
 @property (weak, nonatomic) IBOutlet UIView *m_portraitView;
+
+@property (atomic) BOOL isDeleting;
 
 - (void) downloadLatest;
 - (void) displayBooks;

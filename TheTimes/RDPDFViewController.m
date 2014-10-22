@@ -11,6 +11,8 @@
 #import "RDPDFViewController.h"
 #import "PDFVThumb.h"
 #import "HeaderView.h" 
+#import "SectionPopUpVC.h"
+#import "SemiModalAnimatedTransition.h"
 
 @interface RDPDFViewController ()
 
@@ -37,8 +39,8 @@
 - (void)OnPageChanged :(int)pageno{
     
     [m_Thumbview vGoto:pageno];
+    
     pageno++;
-    // sliderBar.value = pageno;
     NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pageno];
     pagestr = [pagestr stringByAppendingFormat:@"%d",pagecount];
     pageNumLabel.text = pagestr;
@@ -86,15 +88,15 @@
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     if([iosversion integerValue]>=7)
     {
-        m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height)];
+        float hi = self.navigationController.navigationBar.bounds.size.height;
+        m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-80-hi)];
     }
     else
     {
         m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-20-44)];
     }
-
-    float hi = self.navigationController.navigationBar.bounds.size.height;
-    m_view = [[PDFView alloc] initWithFrame:CGRectMake(0, 0, rect.size.width, rect.size.height-20-hi)];
+    
+    m_view.edition = _pageEdition; 
     [m_view vOpen:m_doc: self];
     [self.view addSubview:m_view];
     
@@ -113,42 +115,45 @@
     int cwidth = boundsc.size.width;
     int cheight = boundsc.size.height;
     
-    //if (IS_RETINA) {
-        cheight *= 1.4f;
-   // }
+    float hi            = self.navigationController.navigationBar.bounds.size.height;
+    float thumbHeight   = [self isPortrait] ? -100 : 150;
     
-    float hi = self.navigationController.navigationBar.bounds.size.height;
     CGRect rect;
     rect = [[UIApplication sharedApplication] statusBarFrame];
     
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
+    
     if([[iosversion substringToIndex:1] isEqualToString:@"7"])
     {
-        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight-100, cwidth, 50)];
+        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight - thumbHeight, cwidth, 100)];
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20+hi+1, 65, 30)];
-    }
-    else{
-        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight-hi-50-20, cwidth, 50)];
+        
+    } else {
+        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight-hi-50-20, cwidth, 100)];
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 65, 30)];
     }
+    
+    
     [m_Thumbview vOpenThumb:m_doc];
-    [m_Thumbview sizeThatFits:CGRectMake(0, cheight-180, cwidth, 110).size];
+    //[m_Thumbview setFrame:CGRectMake(0, boundsc.size.height - 150, cwidth, 100)];
+    [m_Thumbview sizeThatFits:CGRectMake(0, cheight-50, cwidth, 100).size];
     
     m_Thumbview.backgroundColor = [UIColor clearColor];
     
     //ADD ThumbView on PDFREADER Screen
-//    [self.view addSubview:m_Thumbview];
+    [self.view addSubview:m_Thumbview];
+    [m_Thumbview setHidden:YES];
     
+    NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pagecount];
     pagenow = pageno;
     
     pageNumLabel.backgroundColor = [UIColor colorWithRed:1.5 green:1.5 blue:1.5 alpha:0.2];
     
     pageNumLabel.textColor = [UIColor whiteColor];
     pageNumLabel.adjustsFontSizeToFitWidth = YES;
-    pageNumLabel.textAlignment= UITextAlignmentCenter;
+    [pageNumLabel setTextAlignment:NSTextAlignmentCenter];
     pageNumLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
     pageNumLabel.layer.cornerRadius = 10;
-    NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pagecount];
     pagestr = [pagestr stringByAppendingFormat:@"%d",pagecount];
     pageNumLabel.text = pagestr;
     pageNumLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -158,12 +163,16 @@
     //pageNumLabel.setNeedsDisplay;
     [m_Thumbview vSetDelegate:self];
     [pageNumLabel setHidden:NO];
-    
 }
 
 -(void)PDFVThumbOnPageClicked:(int)pageno
 {
     [m_view vGoto:pageno];
+}
+
+-(void)PDFVGotoSection:(int)sectionpage
+{
+    [m_view vGoto:sectionpage];
 }
 
 -(void)PDFClose
@@ -177,62 +186,82 @@
     m_doc = NULL;
 }
 
+#pragma mark BOTTOM NAVIGATION CALLBACKS
+- (IBAction) quickNavPressed {
+    [m_Thumbview setHidden:!m_Thumbview.isHidden];
+}
+
+- (IBAction) showSection:(id)sender
+{
+    //[self removeFromParentViewController];
+    
+    SectionPopUpVC *spu                 = [[SectionPopUpVC alloc] initWithNibName:@"SectionPopUpVC" bundle:nil];
+    spu.rdDelegate                      = self;
+    spu.modalPresentationStyle          = UIModalPresentationCustom;
+    spu.view.backgroundColor            = [UIColor clearColor];
+    spu.view.superview.backgroundColor  = [UIColor clearColor];
+    spu.transitioningDelegate = self;
+    
+    spu.edition = _pageEdition;
+    
+    [self presentViewController:spu animated:YES completion:nil];
+}
+
+#pragma TRANSITIONING DELEGATES
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    SemiModalAnimatedTransition *semiModalAnimatedTransition = [[SemiModalAnimatedTransition alloc] init];
+    semiModalAnimatedTransition.presenting = YES;
+    return semiModalAnimatedTransition;
+}
+
+- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    SemiModalAnimatedTransition *semiModalAnimatedTransition = [[SemiModalAnimatedTransition alloc] init];
+    return semiModalAnimatedTransition;
+}
+
 #pragma mark ROTATE METHOD
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    CGRect rect =[[UIScreen mainScreen]bounds];
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    float h     = self.navigationController.navigationBar.bounds.size.height;
+    int cwidth  = rect.size.width;
+    int cheight = rect.size.height;
+    
     if ([self isPortrait])
     {
-        if (rect.size.height < rect.size.width) {
-            
-            float height = rect.size.height;
-            rect.size.height = rect.size.width;
-            rect.size.width = height;
-        }
+        float height = rect.size.height - 20 - h;
+        rect.size.height = height;
+        rect.size.width = rect.size.width;
     }
     else
     {
-        if (rect.size.height > rect.size.width) {
-            
-            float height = rect.size.height;
-            rect.size.height = rect.size.width;
-            rect.size.width = height;
-        }
+        float height = rect.size.height;
+        
+        cwidth = cheight;
+        cheight = rect.size.width;
+        
+        rect.size.height = rect.size.width - 20 - h;
+        rect.size.width = height;
     }
     
     [m_view setFrame:rect];
     [m_view sizeThatFits:rect.size];
     //[self.toolBar sizeToFit];
     
-    CGRect boundsc = [[UIScreen mainScreen]bounds];
-    int cwidth = boundsc.size.width;
-    int cheight = boundsc.size.height;
     
-    if ([self isPortrait]) {
-        if (cwidth > cheight) {
-            cwidth = cheight;
-            cheight = boundsc.size.width;
-        }
-    }
-    else
-    {
-        if (cwidth < cheight) {
-            cwidth = cheight;
-            cheight = boundsc.size.width;
-        }
-    }
-    float hi = self.navigationController.navigationBar.bounds.size.height;
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     if([[iosversion substringToIndex:1] isEqualToString:@"7"])
     {
-        [m_Thumbview setFrame:CGRectMake(0, cheight-50, cwidth, 50)];
-        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-50, cwidth, 50).size];
+        [m_Thumbview setFrame:CGRectMake(0, rect.size.height - 100, cwidth, 100)];
+        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-50, cwidth, 100).size];
         //[m_searchBar setFrame:CGRectMake(0,hi+20,cwidth,41)];
     }
     else
     {
-        [m_Thumbview setFrame:CGRectMake(0, cheight-hi-50-20, cwidth, 50)];
-        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-hi-50-20, cwidth, 50).size];
+        [m_Thumbview setFrame:CGRectMake(0, cheight-h-50-20, cwidth, 50)];
+        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-h-50-20, cwidth, 50).size];
         //[m_searchBar setFrame:CGRectMake(0, 0, cwidth, 41)];
     }
     [m_Thumbview refresh];

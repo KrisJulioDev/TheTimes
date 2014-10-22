@@ -7,6 +7,7 @@
 //
 
 #import "ImageCache.h" 
+#import "Edition.h"
 
 @implementation ImageCache
 
@@ -88,6 +89,5 @@ static ImageCache *sharedInstance;
     }
     return success;
 }
-
 
 @end

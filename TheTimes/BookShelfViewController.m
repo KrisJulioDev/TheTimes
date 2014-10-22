@@ -18,6 +18,7 @@
 #import "Edition.h"
 #import "SubscriptionHandler.h"
 #import "SPDownloader.h"
+#import "SettingsTableViewController.h"
 
 #import "configOptions.h"
 #import "ConfigHudson.h"
@@ -29,6 +30,7 @@
 #import <UIKit/UIKit.h>
 
 #import "CJSONDeserializer.h"
+#import "TrackingUtil.h"
 
 @interface BookShelfViewController ()
 
@@ -47,6 +49,8 @@
 	UIActivityIndicatorView *activityIndicator;
 	BOOL hasDownloadedJSON;
 	NSTimer *globalJSONTimer;
+    
+    SettingsTableViewController *settingsVC;
 }
 
 #pragma mark RADAEE PROPERTIES
@@ -58,8 +62,8 @@ NSUserDefaults *userDefaults;
 int g_PDF_ViewMode = 0 ;
 float g_Ink_Width = 2.0f;
 float g_rect_Width = 2.0f;
-float g_swipe_speed = 0.15f;
-float g_swipe_distance=1.0f;
+float g_swipe_speed = 0.5f;
+float g_swipe_distance=5.0f;
 int g_render_quality = 1;
 bool g_CaseSensitive = false;
 bool g_MatchWholeWord = false;
@@ -104,12 +108,26 @@ static int portraitVGap = 70;
     [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
  
     [self showLoginScreen];
-    [self loadEditionPapers];
+    
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [self refreshEditionViews];
+    [paperBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [paperBtn.layer setBorderWidth:2];
+    
+    [settingsBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [settingsBtn.layer setBorderWidth:2];
+    
+    if ( [SubscriptionHandler checkLoginValid]  == YES ) {
+        
+        static dispatch_once_t predicate;
+        dispatch_once(&predicate, ^{
+            [self loadEditionPapers];
+        });
+    }
+    
 }
 
 /* INITIALIZE RADAE SETTINGS */
@@ -208,7 +226,7 @@ static int portraitVGap = 70;
                 }
                 magazineView.paperNumber = i;
                 [_sv_landscapeScrollView addSubview:magazineView];
-                //[self addLongPressRecogniser:magazineView];
+                [self addLongPressRecogniser:magazineView];
                 [magazineView setUpMagazine:edition];
                 [_landscapeEditionViews addObject:magazineView];
                 
@@ -244,7 +262,7 @@ static int portraitVGap = 70;
                 
                 magazineView.paperNumber = i;
                 [_sv_portraitScrollView addSubview:magazineView];
-                //[self addLongPressRecogniser:paperView];
+                [self addLongPressRecogniser:magazineView];
                 [magazineView setUpMagazine:edition];
                 [_portraitEditionViews addObject:magazineView];
                 i++;
@@ -255,12 +273,33 @@ static int portraitVGap = 70;
     }
 }
 
+#pragma mark OPEN SETTINGS PANEL
+- (IBAction) showSettingsPanel:(id)sender
+{
+    if (settingsVC == nil) {
+        
+        CGRect rect = [[UIScreen mainScreen] bounds];
+        BOOL isLandscape = UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+        
+        settingsVC = [[SettingsTableViewController alloc] initWithNibName:@"SettingsTableViewController" bundle:nil];
+        float xPos = isLandscape ? rect.size.height - settingsVC.view.frame.size.width/2 : rect.size.width - settingsVC.view.frame.size.width/2;
+        
+        [settingsVC.view setCenter:CGPointMake(xPos, settingsBtn.frame.origin.y+50 + settingsVC.view.frame.size.height/2)];
+        
+        [self.view addSubview:settingsVC.view];
+    }
+    else
+    {
+        [settingsVC.view removeFromSuperview];
+        settingsVC = nil;
+    }
+}
+
 #pragma mark LOAD EDITIONS
 - (void)loadEditionPapers {
     dispatch_queue_t downloadQueue = dispatch_queue_create("tracking", NULL);
     dispatch_async(downloadQueue, ^{
         
-        [SubscriptionHandler checkLoginValid];
         parsingError=@"NO";
         [SPDownloader mySPDownloader].delegate = self;
         context = [(TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
@@ -268,7 +307,6 @@ static int portraitVGap = 70;
         if ( [NI_reachabilityService isNetworkAvailable]) {
             
             @try {
-                
                 NSMutableURLRequest *request= [[NSMutableURLRequest alloc] init] ;
                 [request setURL:[NSURL URLWithString:kWebServicePath]];
                 [request setHTTPMethod:@"GET"];
@@ -303,7 +341,6 @@ static int portraitVGap = 70;
                 if (jsonDic) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self createPapersArrayFromJsonDic:jsonDic];
-                        NSLog(@"JSON DICT %@", jsonDic);
                     });
                 }
                 else {
@@ -348,6 +385,11 @@ static int portraitVGap = 70;
 	}
 }
 
+- (void)refreshPapers {
+    [self performSelector:@selector(refreshPapers) withObject:nil afterDelay:3600];
+    [self loadEditionPapers];
+    
+}
 
 #pragma mark -
 #pragma mark NSURLConnection interface
@@ -381,7 +423,7 @@ static int portraitVGap = 70;
 	NSString *jsonString = [[ NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding] ;
 
     NSError *error = nil;
-    @try{
+        @try{
         NSData *jsonData = [jsonString dataUsingEncoding:NSUTF32BigEndianStringEncoding];
         NSDictionary *papersDictionary = [[CJSONDeserializer deserializer] deserializeAsDictionary:jsonData error:&error];
         if ([[papersDictionary objectForKey:availablePapersKey] count]>0) {
@@ -470,6 +512,23 @@ static int portraitVGap = 70;
     }
 }
 
+#pragma mark ALERT VIEW DELEGATE
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	
+    if (alertView.tag == 4) {
+        if(buttonIndex==1){
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        }
+		
+	}
+    else if (alertView.tag == 15) {
+        [self performSelector:@selector(refreshPapers) withObject:nil afterDelay:5];
+        
+		
+	}
+}
+
 
 #pragma mark SHOW LOGIN SCREEN IF NO USER LOGGED
 - (void) showLoginScreen
@@ -498,8 +557,47 @@ static int portraitVGap = 70;
     
     showingInfo = NO;
     
+    if (settingsVC) {
+        [settingsVC.view removeFromSuperview];
+        settingsVC = nil;
+    }
+    
     //portraitInfoButton.selected = NO;
     //landscapeInfoButton.selected = NO;
+}
+
+#pragma mark ADD LONG PRESS GESTURE
+- (void) addLongPressRecogniser:(UIView *)thisView
+{
+    UILongPressGestureRecognizer *gestureLong = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [thisView addGestureRecognizer:gestureLong];
+}
+
+// Start deleting on long presses.
+- (IBAction)handleLongPress:(UIGestureRecognizer *)sender
+{
+    // Start / stop delete papers view
+    if (sender.state == UIGestureRecognizerStateBegan)
+    {
+        self.isDeleting = !_isDeleting;
+        portraitDoneButton.hidden = !_isDeleting;
+        landscapeDoneButton.hidden = !_isDeleting;
+        [self refreshEditionViews];
+        
+        NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+        [trackingDict setObject:@"navigation" forKey:@"event_navigation_action"];
+        [trackingDict setObject:@"click" forKey:@"event_navigation_browsing_method"];
+        if (_isDeleting)
+        {
+            [trackingDict setObject:@"delete mode:enable" forKey:@"event_navigation_name"];
+            [TrackingUtil trackEvent:@"delete mode:enable" fromView:self.view extraData:trackingDict];
+        }
+        else
+        {
+            [trackingDict setObject:@"delete mode:disable" forKey:@"event_navigation_name"];
+            [TrackingUtil trackEvent:@"delete mode:disable" fromView:self.view extraData:trackingDict];
+        }
+    }
 }
 
 #pragma mark OPEN PDF CALLBACKS
@@ -513,8 +611,9 @@ static int portraitVGap = 70;
         pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController"bundle:nil];
     }
     
-    m_pdfName = edition.paperUrl; //[NSMutableString stringWithFormat:@"pdf_"];
-    m_pdfFullPath = edition.fullPDFPath;
+    pdf.pageEdition = edition;
+    m_pdfName       = edition.paperUrl; //[NSMutableString stringWithFormat:@"pdf_"];
+    m_pdfFullPath   = edition.fullPDFPath;
     
     int result = [pdf PDFOpen:m_pdfFullPath withPassword:@""];
     if(result == 1)

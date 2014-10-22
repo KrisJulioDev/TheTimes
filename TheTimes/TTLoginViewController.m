@@ -19,6 +19,7 @@
 #import "GAITrackedViewController.h"
 #import <sys/utsname.h>
 #import "NI_reachabilityService.h"
+#import "TrackingUtil.h"
 
 @interface TTLoginViewController ()
 
@@ -50,6 +51,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
 
     });
     
+    [TrackingUtil trackPageView:@"access option page" fromView:self.view pageName:@"access option page" pageType:@"app launch and login" pageSection:@"launch and login" pageNumber:nil articleParent:nil customerId:nil customerType:@"guest"];
     
     dispatch_queue_t downloadQueue = dispatch_queue_create("mainLoad", NULL);
     dispatch_async(downloadQueue, ^{
@@ -248,6 +250,8 @@ NSString *const SIGNIN_SCHEME = @"signin";
             if(userName.length>0 && password.length>0){
                 loginStatus = @"Login";
                 //[tracker sendEventWithCategory:@"Login Event" withAction:@"Login Offline" withLabel:@"Offline Previous User" withValue:0];
+                
+                
             }else{
                 loginStatus = @"Offline";
                 //[tracker sendEventWithCategory:@"Login Event" withAction:@"Login Offline" withLabel:@"New User Offline" withValue:0];
@@ -303,6 +307,8 @@ NSString *const SIGNIN_SCHEME = @"signin";
                 if(STORE_USER_DETAILS){
                     [SubscriptionHandler storeUserDetails:userName password:password];
                 }
+                
+                [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
 

@@ -145,6 +145,57 @@
     return pdfPathOutput;
 }
 
++ (bool*) split :(NSMutableArray*)firstPages totalNumber:(int)totalNumberOfPages
+{
+    NSMutableArray *splits = [NSMutableArray new];
+    int numOfSplits = 0;
+    
+    for (int i = 0; i < totalNumberOfPages; i++) {
+        BOOL isSinglePage = false;
+        
+        for(int j = 0; j < firstPages.count; j++) {
+            
+            int firstPageVal = [[firstPages objectAtIndex:j] intValue];
+            
+            if((i+1) == firstPageVal - 1) {
+                isSinglePage = true;
+                break;
+            }
+            
+            if((i+1) == firstPageVal ) {
+                isSinglePage = true;
+                break;
+            }
+        }
+        
+        if(i == totalNumberOfPages - 1) {
+            
+            isSinglePage = true;
+            
+        }
+        
+        if(!isSinglePage) {
+            
+            i++;
+            
+        }
+         
+        [splits addObject:[NSNumber numberWithBool:!isSinglePage]];
+        numOfSplits++;
+        
+    }
+    
+    bool *returnSplits = (bool *)calloc( sizeof(bool), numOfSplits );
+    
+    int loop = 0;
+    for (NSNumber *boolInt in splits) { 
+        returnSplits[loop] = [boolInt boolValue] ;
+        loop++;
+    }
+    
+    return returnSplits;
+}
+
 + (BOOL) isAustralia
 {
     return [UserInterfaceUtils isCurrency:@"AUD"];

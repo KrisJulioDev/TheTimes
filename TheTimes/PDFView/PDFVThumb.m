@@ -40,7 +40,7 @@ extern uint g_rect_color;
     struct PDFVThreadBack tback;
     tback.OnPageRendered = @selector(OnPageRendered:);
     //tback.OnFound = @selector(OnFound:);
-    self.backgroundColor = [UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:0.5f];
+    self.backgroundColor = [UIColor whiteColor];
     [m_view vOpen:doc :4 : self: &tback];
     [m_view vResize:m_w :m_h];
     
@@ -187,7 +187,6 @@ extern uint g_rect_color;
     m_h = size.height * m_scale;
     [m_view vResize:m_w :m_h];
     return size;
-    
 }
 
 -(void)swipe_init:(float) x :(float) y :(NSTimeInterval) ts

@@ -7,6 +7,8 @@
 //
 #import "PDFView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UserInterfaceUtils.h"
+
 extern int g_PDF_ViewMode;
 extern float g_Ink_Width;
 extern float g_rect_Width;
@@ -54,8 +56,19 @@ extern NSMutableString *pdfPath;
     g_PDF_ViewMode =2;
     
     defView = 3;
-    
+
     bool *verts = (bool *)calloc( sizeof(bool), [doc pageCount] );
+ 
+    NSMutableArray *firstPages = [NSMutableArray new];
+    
+    for (int x = 0; x < [_edition.sections count]; x++) {
+        
+        EditionSection *section = [_edition.sections objectAtIndex:x];
+        [firstPages addObject:[NSNumber numberWithInt:section.pageNumber]];
+    }
+    
+    verts = [UserInterfaceUtils split:firstPages totalNumber:[doc pageCount]];
+    
     switch(defView)
     {
         case 1:
@@ -66,10 +79,7 @@ extern NSMutableString *pdfPath;
             break;
         case 3:
             //for dual view
-            
-            //m_view = [[PDFVDual alloc] init:false :NULL :0 :NULL :0];
-            //for single view
-            m_view = [[PDFVDual alloc] init:false :NULL :0 :verts :1 ];
+            m_view = [[PDFVDual alloc] init:false :NULL :0 :verts :[doc pageCount] ];
             break;
         case 4:
             //for dual view
@@ -88,7 +98,8 @@ extern NSMutableString *pdfPath;
     struct PDFVThreadBack tback;
     tback.OnPageRendered = @selector(OnPageRendered:);
     tback.OnFound = @selector(OnFound:);
-    self.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:0.7f green:0.7f blue:0.7f alpha:1.0f];
+    self.backgroundColor = [UIColor blackColor];
+    
     [m_view vOpen:doc :4 :self: &tback];
     [m_view vResize:m_w :m_h];
     
@@ -118,9 +129,13 @@ extern NSMutableString *pdfPath;
     
     pos.x = 0;
     pos.y = [m_doc pageHeight:pageno];
+
     pos.pageno = pageno;
+    PDFVPage *vpage = [m_view vGetPage:pos.pageno];
+    
     [m_view vSetPos:&pos :0 :0];
     [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+    
     [self refresh];
 }
 
@@ -392,12 +407,12 @@ extern NSMutableString *pdfPath;
 - (CGSize)sizeThatFits:(CGSize)size
 {
     struct PDFV_POS pos;
-    [m_view vGetPos:&pos :m_w/2 :m_h/2];
+    [m_view vGetPos:&pos :m_w :m_h ];
     m_w = size.width * m_scale;
     m_h = size.height * m_scale;
     [m_view vResize:m_w :m_h];
-    //[m_view vSetScale:1];//set scale to min
-    [m_view vSetPos:&pos :m_w/2 :m_h/2];
+    [m_view vSetScale:0.1f];//set scale to min
+    [m_view vSetPos:&pos :m_w :m_h];
     [self refresh];
     return size;
 }
@@ -623,7 +638,7 @@ extern NSMutableString *pdfPath;
         //***ellipse
         if( m_status == sta_ellipse )
         {
-            PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt<<1];
+            PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt << 1];
             pt_cur[1].x = point.x * m_scale;
             pt_cur[1].y = point.y * m_scale;
         }
@@ -653,7 +668,7 @@ extern NSMutableString *pdfPath;
     NSSet *allTouches = [event allTouches];
     int cnt = [allTouches count];
     if( cnt == 1 )
-    { 
+    {
         UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
         CGPoint point=[touch locationInView:[touch view]];
         switch (m_status)
@@ -671,8 +686,10 @@ extern NSMutableString *pdfPath;
                     vx = dx/del;
                     vy = dy/del;
                 }
+                
                 dx = 0;
                 dy = 0;
+                
                 if( vx > 400 || vx < -400 ) dx = vx;
                 if( vy > 400 || vy < -400 ) dy = vy;
                 
@@ -680,32 +697,39 @@ extern NSMutableString *pdfPath;
                 float sdx = (m_swx[7] - m_swx[0])/(del * m_scale);
                 float sdy = (m_swy[7] - m_swy[0])/(del * m_scale);
                 
-               // if( m_long_pressed )
-                //    [self vSelEnd];
-                if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
-                    [self onSwipe: sdx :sdy];
-                else if( touch.timestamp - m_tstamp_tap < 0.15 )//single tap
+                int threshold = 1500;
+                if (    (vx > threshold || vx < -threshold)
+                    ||  (vy > threshold || vy < -threshold) )
                 {
-                    bool single_tap = true;
-                    if( dx > 5 || dx < -5 )
-                        single_tap = false;
-                    if( dy > 5 || dy < -5 )
-                        single_tap = false;
-                    if( single_tap )
-                        [self onSingleTap:point.x * m_scale :point.y * m_scale:nil];
-                }
-                else
-                {
-                    if( m_type == 3 || m_type == 4 )
+                    // if( m_long_pressed )
+                    //    [self vSelEnd];
+                    if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
+                        [self onSwipe: sdx :sdy];
+                    else if( touch.timestamp - m_tstamp_tap < 0.15 )//single tap
                     {
-                        struct PDFV_POS pos;
-                        [m_view vGetPos:&pos :m_w/2 :m_h/2];
-                        [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+                        bool single_tap = true;
+                        if( dx > 5 || dx < -5 )
+                            single_tap = false;
+                        if( dy > 5 || dy < -5 )
+                            single_tap = false;
+                        if( single_tap )
+                            [self onSingleTap:point.x * m_scale :point.y * m_scale:nil];
                     }
-                    if( m_delegate )
+                    else
                     {
-                        //[m_view vGetPos:&pos: m_tx: m_ty];
-                        [m_delegate OnTouchUp:point.x * m_scale :point.y * m_scale ];
+                        if( m_type == 3 || m_type == 4 )
+                        {
+                            struct PDFV_POS pos;
+                            [m_view vGetPos:&pos :m_w/2 :m_h/2];
+                            
+                            if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
+                                [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+                        }
+                        if( m_delegate )
+                        {
+                            //[m_view vGetPos:&pos: m_tx: m_ty];
+                            [m_delegate OnTouchUp:point.x * m_scale :point.y * m_scale ];
+                        }
                     }
                 }
                 break;
@@ -857,12 +881,10 @@ extern NSMutableString *pdfPath;
 
 -(void)vLockSide:(bool)lock
 {
- /*
-    if( lock )
+    /*if( lock )
         PDFV_lock(m_view, 1);
     else
-        PDFV_lock(m_view, 0);
-*/
+        PDFV_lock(m_view, 0);*/
 }
 
 -(bool)vFindStart:(NSString *)pat :(bool)match_case :(bool)whole_word

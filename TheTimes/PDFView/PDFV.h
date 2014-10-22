@@ -70,6 +70,7 @@ struct PDFV_POS
 -(int)vGetDocW;
 -(int)vGetDocH;
 -(void)vRenderPage:(int)pageno;
+-(void)vLayout:(int)page; 
 @end
 
 @interface PDFVVert: PDFV

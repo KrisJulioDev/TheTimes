@@ -24,6 +24,7 @@
 - (BOOL) downloadedEdition:(Edition *)edition;
 - (Edition *) getDownloadedEdition:(Edition *)edition;
 - (void) completeUpdateEditions:(NSMutableArray *)newEditions;
+- (BOOL) deleteEdition:(Edition *)edition;
 - (void) snapshot;
 
 @end

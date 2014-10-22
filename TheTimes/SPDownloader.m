@@ -61,7 +61,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 	NSDictionary *filesDict = [[NSUserDefaults standardUserDefaults] objectForKey:kfileClosedOK];
 	
 	double size = 0;
-	size = [[bytesForFiles objectForKey:theURL] doubleValue];
+	size =  [[bytesForFiles objectForKey:theURL] doubleValue];
 	int fileClosed = 0;
 	fileClosed = [[filesDict objectForKey:theURL] intValue];
 	
@@ -93,8 +93,9 @@ NSString * const PAPER_REGION_KEY = @"region";
     [theFile closeFile];
     self.startDate = nil;
 	//if(!isPauseDownloadedManually){
-        totalDataReceived=0;
+    //totalDataReceived=0;
     //}
+    
 	NSMutableDictionary *bytesForFiles = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict]];
 	if (!bytesForFiles) {
 		bytesForFiles = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -127,14 +128,19 @@ NSString * const PAPER_REGION_KEY = @"region";
 	//we retrieve the number of bytes already downloaded
 	//bytesAlreadyDownloaded = [[[NSUserDefaults standardUserDefaults] objectForKey:kBytes_already_downloaded] integerValue];
 	//totalDataReceived = bytesAlreadyDownloaded;
-	totalDataReceived = fromBytes;
+	totalDataReceived = (long long)fromBytes;
 	self.startDate = nil;
 	// creating a new URLRequest (mutable so we can add in the header the range of the bytes)
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.myURL] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10.0];
-	[request addValue:@"bytes" forHTTPHeaderField:@"Accept-Ranges"];
+	[request setValue:[NSString stringWithFormat:@"%@",[defaults valueForKey:@"token"]] forHTTPHeaderField: @"ACS-Auth-TokenId"];
+    [request setValue:kUserAgent forHTTPHeaderField:@"User-Agent"];
+    [request addValue:@"bytes" forHTTPHeaderField:@"Accept-Ranges"];
 	[request addValue:[NSString stringWithFormat:@"bytes=%f-", fromBytes] forHTTPHeaderField:@"Range"];
 	myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
+
 
 - (void)checkData
 {

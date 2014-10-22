@@ -110,6 +110,7 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return NO;
 }
 
+
 - (void) updateEditionsInBackground
 {
     @autoreleasepool

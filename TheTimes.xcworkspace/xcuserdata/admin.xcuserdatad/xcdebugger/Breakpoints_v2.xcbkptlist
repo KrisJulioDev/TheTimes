@@ -6,32 +6,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TheTimes/TTEditionManager.m"
-            timestampString = "434535705.598518"
+            filePath = "TheTimes/TheTimesAppDelegate.m"
+            timestampString = "434882218.035977"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "-completeUpdateEditions:"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "-loginUser:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TheTimes/TheTimesAppDelegate.m"
-            timestampString = "434530973.913751"
+            filePath = "TheTimes/TTMagazineView.m"
+            timestampString = "435051580.992248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
-            landmarkName = "-loginUser:"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "-downloadUpdatedProgress:progress:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TheTimes/PDFView/PDFV.m"
+            timestampString = "435645137.587887"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "722"
+            endingLineNumber = "722"
+            landmarkName = "-vLayout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

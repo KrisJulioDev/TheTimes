@@ -8,9 +8,12 @@
         <!--Navigation Controller-->
         <scene sceneID="TGW-0a-55G">
             <objects>
-                <navigationController definesPresentationContext="YES" id="I4Y-uk-rlk" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aZl-94-Lsd">
+                <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="I4Y-uk-rlk" sceneMemberID="viewController">
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="aZl-94-Lsd">
+                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.25655691959999999" green="0.25655691959999999" blue="0.25655691959999999" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <connections>
                         <segue destination="uY6-yR-kUi" kind="relationship" relationship="rootViewController" id="PCa-xd-9y8"/>
@@ -33,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LHM-q6-mKi">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <rect key="frame" x="0.0" y="55" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAC-qQ-fy7">
@@ -60,17 +63,51 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="asD-0G-vbb" userLabel="Settings">
+                                <rect key="frame" x="600" y="30" width="126" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="126" id="wSB-Hw-Czi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="SETTINGS">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showSettingsPanel:" destination="uY6-yR-kUi" eventType="touchUpInside" id="Ocs-jw-BHH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz1-ko-gDw" userLabel="Paper">
+                                <rect key="frame" x="450" y="30" width="126" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="PAPER">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.69587053570000001" green="0.11690536980000001" blue="0.097640206460000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.25655691959999999" green="0.25655691959999999" blue="0.25655691959999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="asD-0G-vbb" firstAttribute="leading" secondItem="zz1-ko-gDw" secondAttribute="trailing" constant="24" id="DDv-5j-mlq"/>
+                            <constraint firstAttribute="trailing" secondItem="asD-0G-vbb" secondAttribute="trailing" constant="42" id="hPi-Sh-rpQ"/>
+                        </constraints>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="Gbm-QF-0Fa"/>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="768" height="1024"/>
                     <connections>
                         <outlet property="m_landscapeView" destination="wyb-xz-9p4" id="Ge6-LP-Fgi"/>
                         <outlet property="m_portraitView" destination="LHM-q6-mKi" id="4QJ-1M-qdT"/>
+                        <outlet property="paperBtn" destination="zz1-ko-gDw" id="p2s-oX-4lX"/>
+                        <outlet property="settingsBtn" destination="asD-0G-vbb" id="vcG-LW-dGl"/>
                         <outlet property="sv_landscapeScrollView" destination="pq5-KC-EnO" id="tEx-uE-U8b"/>
                         <outlet property="sv_portraitScrollView" destination="TAC-qQ-fy7" id="av1-vN-MRd"/>
                         <segue destination="yny-yd-nlH" kind="modal" identifier="LoginScreen" id="C0k-tW-QJQ"/>
@@ -108,7 +145,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttr-16-qok" userLabel="Screenbarrier">
+                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttr-16-qok" userLabel="Screenbarrier">
                                 <rect key="frame" x="1000" y="0.0" width="768" height="1024"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -227,6 +264,7 @@ member, please login</string>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Q1B-HP-dvv"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="mScreenBarrier" destination="ttr-16-qok" id="Jjg-oo-kvc"/>
                         <outlet property="mScreenBarrierView" destination="Ake-qa-BAT" id="27C-dh-04s"/>
@@ -243,7 +281,7 @@ member, please login</string>
         <scene sceneID="VI2-98-29D">
             <objects>
                 <navigationController definesPresentationContext="YES" id="yny-yd-nlH" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4Qy-VS-zzo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="4Qy-VS-zzo">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

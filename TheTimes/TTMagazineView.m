@@ -15,6 +15,7 @@
 #import "JSONKit.h"
 #import "UserInterfaceUtils.h"
 #import "UIImageView+AFNetworking.h"
+#import "TrackingUtil.h"
 
 @implementation TTMagazineView
 
@@ -26,9 +27,9 @@
     
     magazineView.frame = frame; 
     
-    _iv_frontPage.frame = [magazineView bounds];
-    _viewButton.frame = [magazineView bounds];
-    _downloadButton.frame = [magazineView bounds];
+    _iv_frontPage.frame     = [magazineView bounds];
+    _viewButton.frame       = [magazineView bounds];
+    _downloadButton.frame   = [magazineView bounds];
     
     _iv_frontPage.layer.masksToBounds = NO;
     _iv_frontPage.layer.cornerRadius = 8;
@@ -49,17 +50,26 @@
     
     [UserInterfaceUtils setY:magazineView.frame.size.height+5  forView:_textLabel];
     [UserInterfaceUtils setY:magazineView.frame.size.height+25 forView:_textLabel2];
+     
     
     [self setupCustomProgress];
       
     return magazineView;
 }
 
+/* SETUP PROGRESS BAR */
 - (void) setupCustomProgress
 {
     //Style the progress to match the designs.
     [self.progressView setTransform:CGAffineTransformMakeScale(1.0, 10.0)];
 }
+
+/* UPDATE PROGRESS BAR ON DOWNLOAD */
+- (void) setProgress:(float)newProgress
+{
+    _progressTop.frame = CGRectMake(_progressBottom.frame.origin.x, _progressBottom.frame.origin.y, _progressBottom.frame.size.width*newProgress, _progressBottom.frame.size.height);
+}
+
 
 static NSDateFormatter *dateFormatter;
 static NSDateFormatter *dayFormatter;
@@ -83,6 +93,23 @@ static NSDateFormatter *dayFormatter;
     _textLabel2.text = [dateFormatter stringFromDate:_edition.date];
  
     [self setThumbImageFromURL];
+    
+    TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.bookShelfVC.isDeleting)
+    {
+        if ([[TTEditionManager sharedInstance] downloadedEdition:_edition])
+        {
+            [self startWobbling];
+        }
+        else
+        {
+            [self stopWobbling];
+        }
+    }
+    else
+    {
+        [self stopWobbling];
+    }
     
     _viewButton.hidden = YES;
     if ([[TTEditionManager sharedInstance] downloadedEdition:_edition])
@@ -120,6 +147,7 @@ static NSDateFormatter *dayFormatter;
     }
 }
 
+/* FETCH AND SET THE THUMB IMAGE OF THE MAGAZINE */
 - ( void ) setThumbImageFromURL
 {
     NSString *contentType = [NSString stringWithFormat:@"application/jpeg;"];
@@ -149,11 +177,6 @@ static NSDateFormatter *dayFormatter;
                                   }];
 }
 
-- (void) setProgress:(float)newProgress
-{
-    _progressTop.frame = CGRectMake(_progressBottom.frame.origin.x, _progressBottom.frame.origin.y, _progressBottom.frame.size.width*newProgress, _progressBottom.frame.size.height);
-}
-
 - (IBAction) viewEdition
 {
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
@@ -166,11 +189,6 @@ static NSDateFormatter *dayFormatter;
         [trackingDict setObject:@"click" forKey:@"event_navigation_browsing_method"];
         [trackingDict setObject:[NSString stringWithFormat:@"sun edition:open:%@", [_edition getTrackingDateString]] forKey:@"event_navigation_name"];
         
-        /*
-        EditionViewController *editionViewController = [[EditionViewController alloc] init];
-        editionViewController.edition = downloadedEdition;
-        [appDelegate.navigationController pushViewController:editionViewController animated:YES]; */
-         
         [appDelegate.bookShelfVC openPDF:downloadedEdition];
     }
     else if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
@@ -185,6 +203,36 @@ static NSDateFormatter *dayFormatter;
         [trackingDict setObject:@"engagement" forKey:@"event_engagement_action"];
         [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@:download:abort", [_edition getTrackingDateString]] forKey:@"event_engagement_name"];
         [trackingDict setObject:@"click" forKey:@"event_engagement_browsing_method"];
+    }
+}
+
+
+#pragma mark DOWNLOAD EDITION USING NSURL
+- (IBAction) downloadThisEdition : ( id ) sender
+{
+    if (![SPDownloader mySPDownloader].isDownloading)
+    {
+        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+        [dictionary setObject:@"edition download start" forKey:@"product_size"];
+        [dictionary setObject:@"download" forKey:@"product_sku"];
+        [dictionary setObject:_edition.dateString forKey:@"webview_url"];
+        
+        _progressView.progress = 0;
+        _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", 0];
+        
+        [self setProgress:0];
+        [SPDownloader mySPDownloader].delegate = self;
+        [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
+        
+        TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.bookShelfVC refreshEditionViews];
+        [self trackDownload];
+    }
+    else
+    {
+        NSString *title = NSLocalizedString(@"Downloading", nil);
+        NSString *text = NSLocalizedString(@"SINGLE_DOWNLOAD_MESSAGE", nil);
+        [UserInterfaceUtils showPopupWithTitle:title text:text];
     }
 }
 
@@ -272,40 +320,66 @@ static NSDateFormatter *dayFormatter;
 }
 
 
-- (IBAction) downloadThisEdition : ( id ) sender
-{
-    if (![SPDownloader mySPDownloader].isDownloading)
-    {
-        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-        [dictionary setObject:@"edition download start" forKey:@"product_size"];
-        [dictionary setObject:@"download" forKey:@"product_sku"];
-        [dictionary setObject:_edition.dateString forKey:@"webview_url"];
-        
-        _progressView.progress = 0;
-        _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", 0];
-        
-        [self setProgress:0];
-        [SPDownloader mySPDownloader].delegate = self;
-         [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
-        
-        TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate.bookShelfVC refreshEditionViews];
-        [self trackDownload];
-    }
-    else
-    {
-        NSString *title = NSLocalizedString(@"Downloading", nil);
-        NSString *text = NSLocalizedString(@"SINGLE_DOWNLOAD_MESSAGE", nil);
-        [UserInterfaceUtils showPopupWithTitle:title text:text];
-    }
-}
-
 - (void) trackDownload
 {
     NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
     [trackingDict setObject:@"download" forKey:@"event_download_action"];
     [trackingDict setObject:@"sun edition" forKey:@"event_download_type"];
     [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@", [_edition getTrackingDateString]] forKey:@"event_download_name"];
+}
+
+#pragma mark DELETING METHODS
+// For the option to delete an edition.
+- (void) startWobbling
+{
+    // This delay is required to allow multiple UIView animations to take place at once
+    [UIView setAnimationDelay:0.05];
+    [UIView setAnimationDuration:0.3];
+    _deleteButton.hidden = NO;
+    _deleteButton.frame = CGRectMake(self.frame.size.width-_deleteButton.frame.size.width, 0, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
+    
+    [UIView commitAnimations];
+    
+    int randomnum = (int)random()%5;
+    float randomfloat = (float)randomnum/50.0;
+    
+    CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
+    CGAffineTransform swirl = CGAffineTransformRotate(scale, -M_PI/(300));
+    [self setTransform:swirl];
+    
+    [UIView beginAnimations:@"wobble" context:nil];
+    [UIView setAnimationRepeatCount:HUGE_VALF];
+    [UIView setAnimationRepeatAutoreverses:YES];
+    
+    [UIView setAnimationDuration:0.15+randomfloat];
+    
+    swirl = CGAffineTransformRotate(scale, M_PI/(300));
+    [self setTransform:swirl];
+    [UIView commitAnimations];
+}
+
+// Cancel and previous wobbling animations
+- (void) stopWobbling
+{
+	CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+	[UIView setAnimationDuration:0.1];
+	self.transform = scale;
+	_deleteButton.hidden = YES;
+	[UIView commitAnimations];
+}
+
+- (IBAction) deleteEdition
+{
+    NSString *title = NSLocalizedString(@"Delete Edition", nil);
+    NSString *text = NSLocalizedString(@"CONFIRM_DELETE", nil);
+    NSString *delete = NSLocalizedString(@"Delete", nil);
+    NSString *cancel = NSLocalizedString(@"Cancel", nil);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:cancel otherButtonTitles:delete, nil];
+    alertView.tag = DELETE_POPUP_TAG;
+    [alertView show];
 }
 
 #pragma mark ALERT VIEW DELEGATE
@@ -322,15 +396,15 @@ static NSDateFormatter *dayFormatter;
     {
         if (buttonIndex == 1)
         {
-           /* [[TTEditionManager sharedInstance] deleteEdition:_edition];
-            TheSunAppDelegate *appDelegate = (TheSunAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate.editionsViewController refreshEditionViews];
+            [[TTEditionManager sharedInstance] deleteEdition:_edition];
+            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.bookShelfVC refreshEditionViews];
             
             NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
             [trackingDict setObject:@"navigation" forKey:@"event_navigation_action"];
             [trackingDict setObject:@"click" forKey:@"event_navigation_browsing_method"];
             [trackingDict setObject:[NSString stringWithFormat:@"sun edition:delete:%@", [_edition getTrackingDateString]] forKey:@"event_navigation_name"];
-            [TrackingUtil trackEvent:@"edition delete" fromView:appDelegate.editionsViewController.view extraData:trackingDict];*/
+            [TrackingUtil trackEvent:@"edition delete" fromView:appDelegate.bookShelfVC.view extraData:trackingDict];
         }
     }
 }

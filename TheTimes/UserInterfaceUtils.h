@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface UserInterfaceUtils : NSObject
-/*
+
 extern NSString * const OVERRIDDEN_REGION_KEY;
 extern NSString * const PAPER_REGION_KEY;
 extern NSString * const PAPER_REGION_ENGLAND;
-*/
+
 
 + (UIImageView *)getLoadingImage;
 + (UIView *) addLoadingCover:(UIView *)loadingView parent:(UIView *)parent;
@@ -37,5 +37,7 @@ extern NSString * const PAPER_REGION_ENGLAND;
 
 + (void) setLogo:(UIImageView *)imageView;
 
-+ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname;
++ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname; 
+
++ (bool*) split :(NSMutableArray*)firstPages totalNumber:(int)totalNumberOfPages;
 @end

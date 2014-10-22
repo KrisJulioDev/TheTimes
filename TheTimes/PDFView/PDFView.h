@@ -26,6 +26,8 @@
 - (void)OnSound:(NSString *)fileName;
 @end
 
+#import "Edition.h"
+
 @interface PDFView : UIView <PDFVInnerDel>
 {
     PDFDoc *m_doc;
@@ -81,6 +83,8 @@
     NSMutableArray* m_arrayTouch;
     id<PDFVDelegate> m_delegate;
 }
+
+@property (strong, nonatomic) Edition* edition;
 
 -(void)vOpen:(PDFDoc *)doc :(id<PDFVDelegate>)delegate;
 -(void)vOpenPage:(PDFDoc *)doc :(int)pageno :(float)x :(float)y :(id<PDFVDelegate>)delegate;

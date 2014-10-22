@@ -31,7 +31,7 @@
 		m_hold_vy = 0;
 		m_hold_x = 0;
 		m_hold_y = 0;
-		m_back_clr = 0xFFCCCCCC;
+		m_back_clr = 0xFFFFFFFF;
         m_pages = nil;
         m_thread = [[PDFVThread alloc] init];
         m_finder = [[PDFVFinder alloc] init];
@@ -134,7 +134,7 @@
     if( m_w <= 0 || m_h <= 0 || !m_pages ) return;
     PDFVPage *cur = m_pages[pos->pageno];
     m_x = [cur GetX] + [cur ToDIBX:pos->x] - x;
-    m_y = [cur GetY] + [cur ToDIBY:pos->y] - y;
+    m_y = [cur GetY] + [cur ToDIBY:pos->y] - y; 
 }
 -(bool)vNeedRefresh
 {
@@ -278,6 +278,7 @@
 }
 -(float)vGetScale
 {return m_scale;}
+
 -(void)vSetScale:(float) scale
 {
     m_scale = scale;
@@ -326,6 +327,7 @@
         if( max_w < pw ) max_w = pw;
         if( max_h < ph ) max_h = ph;
     }
+    
     m_scale_min = (m_w - m_page_gap) / max_w;
     m_scale_max = m_scale_min * zoomLevel;
     if( m_scale < m_scale_min ) m_scale = m_scale_min;
@@ -396,6 +398,7 @@
     [super vResize : w : h];
     if( set ) m_x = m_docw;
 }
+
 -(void)vLayout
 {
     if( m_doc == NULL || m_w <= m_page_gap || m_h <= m_page_gap ) return;
@@ -489,9 +492,10 @@
 
 @end
 
-@implementation PDFVDual
+@implementation PDFVDual 
 -(id)init:(bool)rtol : (const bool *)verts : (int)verts_cnt : (const bool *)horzs : (int)horzs_cnt;
 {
+    
     if( self = [super init] )
     {
         if( verts && verts_cnt > 0 )
@@ -507,7 +511,7 @@
         }
         if( horzs && horzs_cnt > 0 )
         {
-            m_horz_dual = (bool *)malloc( sizeof( bool ) * horzs_cnt );
+             m_horz_dual = (bool *)malloc( sizeof( bool ) * horzs_cnt );
             memcpy( m_horz_dual, horzs, sizeof( bool ) * horzs_cnt );
             m_horz_dual_cnt = horzs_cnt;
         }
@@ -548,6 +552,7 @@
 -(void)vOpen:(PDFDoc *)doc : (int)page_gap :(id<PDFVInnerDel>)notifier :(const struct PDFVThreadBack *)disp
 {
     [super vOpen:doc: page_gap: notifier: disp];
+    
     if( m_rtol ) m_x = m_docw;
 }
 -(void)vResize:(int)w : (int)h
@@ -556,20 +561,24 @@
     [super vResize:w: h];
     if( set ) m_x = m_docw;
 }
+
+
 -(void)vLayout
 {
     if( m_doc == NULL || m_w <= m_page_gap || m_h <= m_page_gap ) return;
-    int pcur = 0;
+    
     int pcnt = [m_doc pageCount];
+    int pcur = 0;
     int ccur = 0;
     int ccnt = 0;
     float max_w = 0;
     float max_h = 0;
+    
     if( m_h > m_w )//vertical
     {
         while( pcur < pcnt )
         {
-            if( m_vert_dual != NULL && ccnt < m_vert_dual_cnt && m_vert_dual[ccnt] && pcur < pcnt - 1 )
+           if( m_vert_dual != NULL && ccnt < m_vert_dual_cnt && m_vert_dual[ccnt] && pcur < pcnt - 1 )
             {
                 float w = [m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1];
                 if( max_w < w ) max_w = w;
@@ -589,14 +598,17 @@
             }
             ccnt++;
         }
+        /*
         float scale1 = ((float)(m_h - m_page_gap)) / max_h;
         m_scale_min = ((float)(m_w - m_page_gap)) / max_w;
         if( m_scale_min > scale1 ) m_scale_min = scale1;
         m_scale_max = m_scale_min * zoomLevel;
+        
         if( m_scale < m_scale_min ) m_scale = m_scale_min;
         if( m_scale > m_scale_max ) m_scale = m_scale_max;
         m_doch = (int)(max_h * m_scale) + m_page_gap;
-        if( m_doch < m_h ) m_doch = m_h;
+        if( m_doch < m_h ) m_doch = m_h;*/
+        
         if( m_cells ) free( m_cells );
         m_cells = (struct PDFCell *)malloc( sizeof(struct PDFCell) * ccnt );
         m_cells_cnt = ccnt;
@@ -604,10 +616,12 @@
         ccur = 0;
         int left = 0;
         struct PDFCell *cell = m_cells;
+        
         while( ccur < ccnt )
         {
             int w = 0;
             int cw = 0;
+            
             if( m_vert_dual != NULL && ccur < m_vert_dual_cnt && m_vert_dual[ccur] && pcur < pcnt - 1 )
             {
                 w = (int)( ([m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1]) * m_scale );
@@ -624,6 +638,21 @@
             }
             else
             {
+                float w = [m_doc pageWidth:pcur];
+                max_w = w;
+                float h = [m_doc pageHeight:pcur];
+                max_h = h;
+  
+                float scale1 = ((float)(m_h - m_page_gap)) / max_h;
+                m_scale_min = ((float)(m_w - m_page_gap)) / max_w;
+                if( m_scale_min > scale1 ) m_scale_min = scale1;
+                m_scale_max = m_scale_min * zoomLevel;
+                
+                if( m_scale < m_scale_min ) m_scale = m_scale_min;
+                if( m_scale > m_scale_max ) m_scale = m_scale_max;
+                m_doch = (int)(max_h * m_scale) + m_page_gap;
+                if( m_doch < m_h ) m_doch = m_h;
+ 
                 w = (int)( [m_doc pageWidth:pcur] * m_scale );
                 if( w + m_page_gap < m_w ) cw = m_w;
                 else cw = w + m_page_gap;
@@ -631,6 +660,7 @@
                 cell->page_right = -1;
                 cell->left = left;
                 cell->right = left + cw;
+                
                 [m_pages[pcur] SetRect:left + (cw - w)/2: (int)(m_doch - [m_doc pageHeight:pcur] * m_scale) / 2: m_scale];
                 pcur++;
             }
@@ -642,64 +672,113 @@
     }
     else
     {
+        
         while( pcur < pcnt )
         {
             if( (m_horz_dual == NULL || ccnt >= m_horz_dual_cnt || m_horz_dual[ccnt]) && pcur < pcnt - 1 )
             {
-                float w = [m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1];
+                /*float w = [m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1];
                 if( max_w < w ) max_w = w;
                 float h = [m_doc pageHeight:pcur];
                 if( max_h < h ) max_h = h;
                 h = [m_doc pageHeight:pcur + 1];
-                if( max_h < h ) max_h = h;
+                if( max_h < h ) max_h = h;*/
                 pcur += 2;
             }
             else
             {
-                float w = [m_doc pageWidth:pcur];
+                /*float w = [m_doc pageWidth:pcur];
                 if( max_w < w ) max_w = w;
                 float h = [m_doc pageHeight:pcur];
-                if( max_h < h ) max_h = h;
+                if( max_h < h ) max_h = h;*/
                 pcur++;
             }
             ccnt++;
         }
+        
+        /*
         m_scale_min = ((float)(m_w - m_page_gap)) / max_w;
         float scale = ((float)(m_h - m_page_gap)) / max_h;
         if( m_scale_min > scale ) m_scale_min = scale;
         m_scale_max = m_scale_min * zoomLevel;
         if( m_scale < m_scale_min ) m_scale = m_scale_min;
         if( m_scale > m_scale_max ) m_scale = m_scale_max;
+        
         m_doch = (int)(max_h * m_scale) + m_page_gap;
-        if( m_doch < m_h ) m_doch = m_h;
+        if( m_doch < m_h ) m_doch = m_h;*/
+
         if( m_cells ) free( m_cells );
         m_cells = (struct PDFCell *)malloc( sizeof(struct PDFCell) * ccnt );
         m_cells_cnt = ccnt;
         pcur = 0;
         ccur = 0;
         int left = 0;
+        float appliedScale = 0.0;
         struct PDFCell *cell = m_cells;
+        
         while( ccur < ccnt )
         {
+            appliedScale = m_scale;
+            
             int w = 0;
             int cw = 0;
             if( (m_horz_dual == NULL || ccur >= m_horz_dual_cnt || m_horz_dual[ccur]) && pcur < pcnt - 1 )
             {
-                w = (int)( ([m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1]) * m_scale );
+                //START
+                float w = [m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1];
+                max_w = w;
+                float h = [m_doc pageHeight:pcur];
+                max_h = h;
+                
+                m_scale_min = ((float)(m_w - m_page_gap)) / max_w;
+                float scale = ((float)(m_h - m_page_gap)) / max_h;
+                if( m_scale_min > scale ) m_scale_min = scale;
+                m_scale_max = m_scale_min * zoomLevel;
+                
+                //m_scale = m_scale_min;
+                
+                if( appliedScale < m_scale_min ) appliedScale = m_scale_min;
+                if( appliedScale > m_scale_max ) appliedScale = m_scale_max;
+                
+                m_doch = (int)(max_h * appliedScale) + m_page_gap;
+                if( m_doch < m_h ) m_doch = m_h;
+                ///// END
+                
+                w = (int)( ([m_doc pageWidth:pcur] + [m_doc pageWidth:pcur + 1]) * appliedScale );
                 if( w + m_page_gap < m_w ) cw = m_w;
                 else cw = w + m_page_gap;
                 cell->page_left = pcur;
                 cell->page_right = pcur + 1;
                 cell->left = left;
                 cell->right = left + cw;
-                [m_pages[pcur] SetRect:left + (cw - w)/2: (int)(m_doch - [m_doc pageHeight:pcur] * m_scale) / 2: m_scale];
+                [m_pages[pcur] SetRect:left + (cw - w)/2: (int)(m_doch - [m_doc pageHeight:pcur] * appliedScale) / 2: appliedScale];
                 [m_pages[pcur + 1] SetRect:[m_pages[pcur] GetX] + [m_pages[pcur] GetWidth]:
-                        (int)(m_doch - [m_doc pageHeight:pcur+1] * m_scale) / 2: m_scale];
+                        (int)(m_doch - [m_doc pageHeight:pcur+1] * appliedScale) / 2: appliedScale];
                 pcur += 2;
-            }
+                
+             }
             else
             {
-                w = (int)( [m_doc pageWidth:pcur] * m_scale );
+                
+                 //START
+                float w = [m_doc pageWidth:pcur]; 
+                max_w = w;
+                float h = [m_doc pageHeight:pcur];
+                max_h = h;
+                
+                m_scale_min = ((float)(m_w - m_page_gap)) / max_w;
+                float scale = ((float)(m_h - m_page_gap)) / max_h;
+                if( m_scale_min > scale ) m_scale_min = scale;
+                m_scale_max = m_scale_min * zoomLevel;
+                
+                if( appliedScale < m_scale_min ) appliedScale = m_scale_min;
+                if( appliedScale > m_scale_max ) appliedScale = m_scale_max;
+                
+                m_doch = (int)(max_h * m_scale) + m_page_gap;
+                if( m_doch < m_h ) m_doch = m_h;
+                ///// END
+                
+                w = (int)( [m_doc pageWidth:pcur] * appliedScale );
                 if( w + m_page_gap < m_w ) cw = m_w;
                 else cw = w + m_page_gap;
                 cell->page_left = pcur;
@@ -707,15 +786,18 @@
                 cell->left = left;
                 cell->right = left + cw;
                 [m_pages[pcur] SetRect:left + (cw - w)/2:
-                        (int)(m_doch - [m_doc pageHeight:pcur] * m_scale) / 2: m_scale];
+                        (int)(m_doch - [m_doc pageHeight:pcur] * appliedScale) / 2: appliedScale];
                 pcur++;
-            }
+                
+             }
             left += cw;
             cell++;
             ccur++;
         }
         m_docw = left;
+        m_scale = appliedScale;
     }
+    
     if( m_rtol )
     {
         struct PDFCell *ccur = m_cells;
@@ -745,6 +827,7 @@
         }
     }
 }
+
 -(void)vGetPos:(struct PDFV_POS *)pos : (int) x : (int) y
 {
     pos->pageno = -1;
@@ -840,6 +923,7 @@
             if( maxh < h ) maxh = h;
             cur++;
         }
+        
         m_scale_min = ((float)(m_h - m_page_gap)) / maxh;
         m_scale_max = m_scale_min * zoomLevel;
         m_scale = m_scale_min;
@@ -866,6 +950,11 @@
         {
             while( cur < cnt )
             {
+                maxh = [m_doc pageHeight:cur];
+                m_scale_min = ((float)(m_h - m_page_gap)) / maxh;
+                m_scale_max = m_scale_min * zoomLevel;
+                m_scale = m_scale_min;
+ 
                 PDFVPage *vpage = m_pages[cur];
                 [vpage SetRect:left: top: m_scale];
                 left += [vpage GetWidth] + m_page_gap;
@@ -1036,3 +1125,4 @@
 }
 
 @end
+

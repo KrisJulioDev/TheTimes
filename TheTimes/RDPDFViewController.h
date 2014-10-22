@@ -11,22 +11,23 @@
 #import "PDFIOS.h"
 #import <CoreData/CoreData.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "Edition.h"
 
 @class OutLineViewController;
 @class PDFView;
 @class PopupMenu;
 @class PDFVThumb;
 @class PDFV;
-@interface RDPDFViewController : UIViewController <UISearchBarDelegate>
+@interface RDPDFViewController : UIViewController <UISearchBarDelegate, UIViewControllerTransitioningDelegate>
 {
     PDFView *m_view;
     PDFDoc *m_doc;
     PDFVThumb *m_Thumbview;
     
-    UIView *thumbNavigation;
+    UIView *thumbNavigation; 
 }
 
-
+@property (strong, nonatomic) Edition *pageEdition;
 @property (strong,nonatomic)IBOutlet UILabel *pageNumLabel;
 @property (assign, nonatomic)int pagenow;
 @property (assign, nonatomic)int pagecount;
@@ -35,6 +36,6 @@
 
 - (int)PDFOpen:(NSString *)path withPassword:(NSString *)pwd;
 - (void)PDFThumbNailinit:(int)pageno;
-
+- (void)PDFVGotoSection:(int)sectionpage;
 //END
 @end
