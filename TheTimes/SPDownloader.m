@@ -15,7 +15,7 @@
 #define kShouldResumeDownload @"shouldResumeDownload"
 #define kfileClosedOK @"fileHasBeenClosed"
 #define kUnzipStatusForFile @"unzipStatusForFile"
-#define kSizeByFileDict @"sizeByFile"
+#define kSizeByFileDict(DATE_ENTRY) [NSString stringWithFormat:@"sizeByFile%@", DATE_ENTRY]
 
 #define kLowConnectionSpeedTime 120.0
 #define kLowConnectionSpeedAmount 3072000
@@ -57,7 +57,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 	self.myURL = theEdition.paperUrl;
     NSString *theURL = myURL;
 	
-	NSDictionary *bytesForFiles = [[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict];
+	NSDictionary *bytesForFiles = [[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict(edition.dateString)];
 	NSDictionary *filesDict = [[NSUserDefaults standardUserDefaults] objectForKey:kfileClosedOK];
 	
 	double size = 0;
@@ -96,14 +96,14 @@ NSString * const PAPER_REGION_KEY = @"region";
     //totalDataReceived=0;
     //}
     
-	NSMutableDictionary *bytesForFiles = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict]];
+	NSMutableDictionary *bytesForFiles = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict(edition.dateString)]];
 	if (!bytesForFiles) {
 		bytesForFiles = [[NSMutableDictionary alloc] initWithCapacity:1];
 	}
 	if (totalDataReceived > 0) {
 		[bytesForFiles setObject:[NSNumber numberWithLongLong:totalDataReceived] forKey:myURL];
 	}
-	[[NSUserDefaults standardUserDefaults] setObject:bytesForFiles forKey:kSizeByFileDict];
+	[[NSUserDefaults standardUserDefaults] setObject:bytesForFiles forKey:kSizeByFileDict(edition.dateString)];
 	
 	NSMutableDictionary *filesDict = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kfileClosedOK]];
 	[filesDict setObject:[NSNumber numberWithInt:1] forKey:myURL];
@@ -123,12 +123,36 @@ NSString * const PAPER_REGION_KEY = @"region";
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+-(void) clearDownloadOnDelete {
+    
+    NSMutableDictionary *bytesForFiles = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict(edition.dateString)]];
+	 
+	if (bytesForFiles && totalDataReceived > 0) {
+		[bytesForFiles removeObjectForKey:kSizeByFileDict(edition.dateString)];
+	}
+	 
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
+	[myConnection cancel];
+	isDownloading = NO;
+	
+	// we notify the delegate (EditorManager) that the download has been paused. So he can cerate the appropriate managed object
+	if (self.delegate != NULL && [self.delegate respondsToSelector:@selector(downloadStoppedForURL:toPath:file:success:)])
+    {
+		[delegate downloadStoppedForURL:self.myURL toPath:fileDirectory file:fileFullPath success:NO];
+	}
+	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+}
+
 -(void) resumeDownload:(double)fromBytes
 {
 	//we retrieve the number of bytes already downloaded
-	//bytesAlreadyDownloaded = [[[NSUserDefaults standardUserDefaults] objectForKey:kBytes_already_downloaded] integerValue];
-	//totalDataReceived = bytesAlreadyDownloaded;
-	totalDataReceived = (long long)fromBytes;
+    //bytesAlreadyDownloaded = [[[NSUserDefaults standardUserDefaults] objectForKey:kBytes_already_downloaded] integerValue];
+    //totalDataReceived = bytesAlreadyDownloaded;
+	
+    totalDataReceived = (double)fromBytes;
 	self.startDate = nil;
 	// creating a new URLRequest (mutable so we can add in the header the range of the bytes)
     
@@ -140,7 +164,6 @@ NSString * const PAPER_REGION_KEY = @"region";
 	[request addValue:[NSString stringWithFormat:@"bytes=%f-", fromBytes] forHTTPHeaderField:@"Range"];
 	myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
-
 
 - (void)checkData
 {

@@ -79,6 +79,11 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return success;
 }
 
+- (BOOL) clearEditionDownload:(Edition*) edition
+{
+    
+}
+
 - (void) updateEditions
 {
     [self performSelectorInBackground:@selector(updateEditionsInBackground) withObject:nil];

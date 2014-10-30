@@ -83,9 +83,11 @@ NSString *const SIGNIN_SCHEME = @"signin";
             }
         }
         
+        originalFrame = [self.view frame];
         [defaults setObject:STORE_FIRST_LOAD forKey:@"loadedPreviously"];
         
-        // Do any additional setup after loading the view from its nib.
+        [passwordEntry setDelegate:self];
+        [userNameEntry setDelegate:self];
         
         if(FORCELOGIN==1){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -187,8 +189,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
 #pragma mark ALERT VIEW DELEGATES
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
-   
     if (buttonIndex == 1)
     {
         [self loadUrl];
@@ -198,6 +198,43 @@ NSString *const SIGNIN_SCHEME = @"signin";
         [self.navigationController popViewControllerAnimated:YES];
     }
     
+}
+
+#pragma mark UITEXTFIELD DELEGATE
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(originalFrame.origin.x, originalFrame.origin.y - 350);
+    
+    if ( UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        [UIView animateWithDuration:0.5f
+                              delay:0
+                            options: UIViewAnimationOptionTransitionNone
+                         animations:^{
+                            self.view.transform = transform;
+                         }
+                         completion:^(BOOL finished){
+                             textFieldIsUp = YES;
+                         }];
+    }
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(originalFrame.origin.x, originalFrame.origin.y);
+    
+    NSLog(@"Y :%f %f",self.view.frame.origin.y, originalFrame.origin.y);
+    if ( UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) ) {
+        [UIView animateWithDuration:0.5f
+                              delay:0
+                            options: UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.view.transform = transform;
+                         }
+                         completion:^(BOOL finished){
+                             textFieldIsUp = NO;
+                         }];
+    }
 }
 
 #pragma mark LOAD URL
@@ -219,7 +256,10 @@ NSString *const SIGNIN_SCHEME = @"signin";
 - (IBAction) memberSignIn
 {
     [[TTEditionManager sharedInstance] updateEditions];
+    
+    
     [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 - (IBAction)loginButtonPressed:(id)sender
@@ -243,6 +283,8 @@ NSString *const SIGNIN_SCHEME = @"signin";
     [spinnerContainer addSubview:lspinner];
     [lspinner startAnimating];
     
+    TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     // how we stop refresh from freezing the main UI thread
     dispatch_queue_t downloadQueue = dispatch_queue_create("downloader", NULL);
     dispatch_async(downloadQueue, ^{
@@ -261,6 +303,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
             if([SubscriptionHandler checkLoginValid:userName password:password])
             {
                 loginStatus=@"ValidOnline";
+                [appDelegate.bookShelfVC fetchTimesData];
                 //[tracker sendEventWithCategory:@"Login Event" withAction:@"Login Success" withLabel:@"Online Login" withValue:0];
             }
             else{
@@ -332,6 +375,13 @@ NSString *const SIGNIN_SCHEME = @"signin";
         [[[self view] window] makeKeyAndVisible];
     }
     [passwordEntry setText:@""];
+}
+
+#pragma mark ROTATION DELEGATE
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [passwordEntry resignFirstResponder];
+    [userNameEntry resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

@@ -61,6 +61,20 @@
                         <action selector="showSection:" destination="-1" eventType="touchUpInside" id="GQX-e6-YEa"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYz-xB-eqi">
+                    <rect key="frame" x="591" y="979" width="140" height="40"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="Dmt-UL-Db9"/>
+                        <constraint firstAttribute="height" constant="40" id="nZe-aw-GTq"/>
+                    </constraints>
+                    <state key="normal" title="Editions" backgroundImage="update_blank">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backToEditions:" destination="-1" eventType="touchUpInside" id="bX0-zb-81a"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -70,7 +84,9 @@
                 <constraint firstAttribute="bottom" secondItem="6fn-nk-kjj" secondAttribute="bottom" constant="-5" id="QcK-y5-8AY"/>
                 <constraint firstAttribute="trailing" secondItem="auE-hO-O1L" secondAttribute="trailing" id="UJo-ec-ThT"/>
                 <constraint firstAttribute="bottom" secondItem="auE-hO-O1L" secondAttribute="bottom" id="bjO-YJ-eq3"/>
+                <constraint firstAttribute="bottom" secondItem="CYz-xB-eqi" secondAttribute="bottom" constant="5" id="dYL-nF-GxL"/>
                 <constraint firstItem="Vw9-Gd-92I" firstAttribute="leading" secondItem="6fn-nk-kjj" secondAttribute="trailing" constant="8" id="fl6-iK-hmk"/>
+                <constraint firstAttribute="trailing" secondItem="CYz-xB-eqi" secondAttribute="trailing" constant="37" id="i01-gx-0XU"/>
                 <constraint firstItem="6fn-nk-kjj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="rrp-XQ-zda"/>
             </constraints>
         </view>
@@ -79,5 +95,6 @@
         <image name="BT_Icon_Menu_Off" width="60" height="60"/>
         <image name="BT_Icon_SunDial_Off" width="100" height="60"/>
         <image name="blackBarLarge" width="1" height="44"/>
+        <image name="update_blank" width="309" height="71"/>
     </resources>
 </document>

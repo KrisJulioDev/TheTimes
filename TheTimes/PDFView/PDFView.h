@@ -28,6 +28,7 @@
 
 #import "Edition.h"
 
+
 @interface PDFView : UIView <PDFVInnerDel>
 {
     PDFDoc *m_doc;
@@ -82,6 +83,16 @@
     int m_swipe_dy;
     NSMutableArray* m_arrayTouch;
     id<PDFVDelegate> m_delegate;
+    
+     
+    enum ZOOMLEVEL{
+        Half = 0,
+        Full = 1,
+        Original = 2
+    };
+    
+    enum ZOOMLEVEL zoomLvl;
+    UITapGestureRecognizer *doubleTapListener;
 }
 
 @property (strong, nonatomic) Edition* edition;
@@ -123,5 +134,8 @@
 -(void)vFindEnd;
 -(void)vAddTextAnnot :(int)x :(int)y :(NSString *)text;
 -(NSString *)vGetTextAnnot :(int)x :(int)y;
+-(void)vParentVCDidRotate;
+- (int) vGetCurrentPage;
+
 @end
 

@@ -17,7 +17,7 @@ struct PDFV_POS
 };
 
 @interface PDFV : NSObject
-{
+{ 
 	int m_x;
 	int m_y;
 	int m_docw;
@@ -31,9 +31,12 @@ struct PDFV_POS
 	int m_hold_vy;
 	int m_hold_x;
 	int m_hold_y;
+    int m_currentPage;
 	float m_scale;
 	float m_scale_min;
+	float m_scale_min_dual;
 	float m_scale_max;
+	float m_scale_max_dual;
 	float m_zoom_scale;
 	PDFDoc *m_doc;
 	NSMutableArray *m_pages;
@@ -70,7 +73,12 @@ struct PDFV_POS
 -(int)vGetDocW;
 -(int)vGetDocH;
 -(void)vRenderPage:(int)pageno;
--(void)vLayout:(int)page; 
+-(void)vLayout:(int)page;
+
+//ADDITION
+-(void)vSetZoomScale:(float) scale page:(int)pageno;
+- (void) vLayoutOnZoom;
+
 @end
 
 @interface PDFVVert: PDFV

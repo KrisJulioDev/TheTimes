@@ -13,6 +13,7 @@
 #import "HeaderView.h" 
 #import "SectionPopUpVC.h"
 #import "SemiModalAnimatedTransition.h"
+#import "TheTimesAppDelegate.h"
 
 @interface RDPDFViewController ()
 
@@ -20,6 +21,9 @@
 
 
 @implementation RDPDFViewController
+{
+    float thumbHeight;
+}
 
 @synthesize pageNumLabel;
 @synthesize pagenow;
@@ -106,7 +110,7 @@
 -(void)PDFThumbNailinit:(int)pageno
 { 
     CGRect boundsc = [[UIScreen mainScreen]bounds];
-    if ( boundsc.size.width < boundsc.size.height) {
+    if (![self isPortrait] && boundsc.size.width < boundsc.size.height) {
         float height = boundsc.size.height;
         boundsc.size.height = boundsc.size.width;
         boundsc.size.width = height;
@@ -116,7 +120,7 @@
     int cheight = boundsc.size.height;
     
     float hi            = self.navigationController.navigationBar.bounds.size.height;
-    float thumbHeight   = [self isPortrait] ? -100 : 150;
+    thumbHeight         = 200;
     
     CGRect rect;
     rect = [[UIApplication sharedApplication] statusBarFrame];
@@ -125,7 +129,7 @@
     
     if([[iosversion substringToIndex:1] isEqualToString:@"7"])
     {
-        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight - thumbHeight, cwidth, 100)];
+        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight - thumbHeight, cwidth , 150)];
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20+hi+1, 65, 30)];
         
     } else {
@@ -133,10 +137,9 @@
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 65, 30)];
     }
     
-    
     [m_Thumbview vOpenThumb:m_doc];
     //[m_Thumbview setFrame:CGRectMake(0, boundsc.size.height - 150, cwidth, 100)];
-    [m_Thumbview sizeThatFits:CGRectMake(0, cheight-50, cwidth, 100).size];
+    [m_Thumbview sizeThatFits:CGRectMake(0, cheight - thumbHeight, cwidth, 150).size];
     
     m_Thumbview.backgroundColor = [UIColor clearColor];
     
@@ -163,11 +166,13 @@
     //pageNumLabel.setNeedsDisplay;
     [m_Thumbview vSetDelegate:self];
     [pageNumLabel setHidden:NO];
+    
 }
 
 -(void)PDFVThumbOnPageClicked:(int)pageno
 {
     [m_view vGoto:pageno];
+    [self quickNavPressed];
 }
 
 -(void)PDFVGotoSection:(int)sectionpage
@@ -184,6 +189,11 @@
         m_view = NULL;
     }
     m_doc = NULL;
+}
+
+- (IBAction)backToEditions:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark BOTTOM NAVIGATION CALLBACKS
@@ -222,8 +232,16 @@
 }
 
 #pragma mark ROTATE METHOD
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
+    TheTimesAppDelegate *appD = [UIApplication sharedApplication].delegate;
+    [appD.bookShelfVC willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    
     CGRect rect = [[UIScreen mainScreen]bounds];
     float h     = self.navigationController.navigationBar.bounds.size.height;
     int cwidth  = rect.size.width;
@@ -252,10 +270,11 @@
     
     
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
+    
     if([[iosversion substringToIndex:1] isEqualToString:@"7"])
     {
-        [m_Thumbview setFrame:CGRectMake(0, rect.size.height - 100, cwidth, 100)];
-        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-50, cwidth, 100).size];
+        [m_Thumbview setFrame:CGRectMake(0, rect.size.height - 140, cwidth, 150)];
+        [m_Thumbview sizeThatFits:CGRectMake(0, cheight-thumbHeight, cwidth, 150).size];
         //[m_searchBar setFrame:CGRectMake(0,hi+20,cwidth,41)];
     }
     else
@@ -264,6 +283,10 @@
         [m_Thumbview sizeThatFits:CGRectMake(0, cheight-h-50-20, cwidth, 50).size];
         //[m_searchBar setFrame:CGRectMake(0, 0, cwidth, 41)];
     }
+    
+    //[m_view vParentDidRotate];
+     
+    [m_view vGoto:[m_view vGetCurrentPage]];
     [m_Thumbview refresh];
 }
 

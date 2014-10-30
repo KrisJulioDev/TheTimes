@@ -101,8 +101,7 @@
         else{
             [paperThumb setImage:[UIImage imageNamed:@"paper-error.jpg"]];
         }
-        
-        
+         
         
 		[thumbBackground addSubview:paperThumb];
 

@@ -58,6 +58,7 @@
 -(id) init;
 - (void) startDownload:(Edition *)theEdition isAutomated:(BOOL)isAutomated;
 -(void) pauseDownload;
+-(void) clearDownloadOnDelete;
 -(void) resumeDownload:(double)fromBytes;
 
 @end

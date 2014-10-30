@@ -90,6 +90,15 @@
     [self closeSectionPopup:self];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)closeSectionPopup:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 } 

@@ -10,7 +10,7 @@
 #import "TheTimesBaseViewController.h"
 #import "SPDownloader.h"
 
-@interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate, UIAlertViewDelegate>
+@interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate, UIAlertViewDelegate, UIWebViewDelegate>
 { 
     NSString *m_pdfName;
     NSString *m_pdfPath;
@@ -20,6 +20,10 @@
     
     BOOL showingInfo;
     NSString *lastRegionSelected;
+    
+    UIWebView   *webView;
+    UIButton    *webViewCloseBtn;
+    UIActivityIndicatorView *webSpinner;
     
     IBOutlet UIButton *portraitDoneButton;
     IBOutlet UIButton *landscapeDoneButton;
@@ -39,6 +43,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *m_landscapeView;
 @property (weak, nonatomic) IBOutlet UIView *m_portraitView;
+@property (strong, nonatomic) IBOutlet UIView *splashScreen;
+
 
 @property (atomic) BOOL isDeleting;
 
@@ -46,5 +52,9 @@
 - (void) displayBooks;
 - (void) refreshEditionViews;
 - (void) openPDF:(Edition*)edition;
+- (void) fetchTimesData;
+- (void) closeSettingPopUP;
+- (void) openSettingsWebView:(NSString*)url;
+- (void) closeSettingWebView;
 
 @end

@@ -13,75 +13,75 @@
 		12756C8511F729BE0045B9C1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12756C8411F729BE0045B9C1 /* SystemConfiguration.framework */; };
 		12756C8711F729CE0045B9C1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12756C8611F729CE0045B9C1 /* CFNetwork.framework */; };
 		49D32B4011B908470007813E /* LogicTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49D32B3F11B908470007813E /* LogicTests.m */; };
-		793A4F171192D680000914EF /* NIFilesystemIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F151192D680000914EF /* NIFilesystemIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		793A4F171192D680000914EF /* NIFilesystemIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F151192D680000914EF /* NIFilesystemIO.h */; };
 		793A4F181192D680000914EF /* NIFilesystemIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A4F161192D680000914EF /* NIFilesystemIO.m */; };
-		793A4F251192D9B1000914EF /* NIFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F241192D9B1000914EF /* NIFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		793A4F281192DA86000914EF /* NIFilesystemPaths.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F261192DA86000914EF /* NIFilesystemPaths.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		793A4F251192D9B1000914EF /* NIFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F241192D9B1000914EF /* NIFilesystem.h */; };
+		793A4F281192DA86000914EF /* NIFilesystemPaths.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F261192DA86000914EF /* NIFilesystemPaths.h */; };
 		793A4F291192DA86000914EF /* NIFilesystemPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A4F271192DA86000914EF /* NIFilesystemPaths.m */; };
-		793A4F2E1192DB06000914EF /* NIConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F2D1192DB06000914EF /* NIConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		793A513211944CD7000914EF /* NINetworkingConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A512E11944CD7000914EF /* NINetworkingConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		793A4F2E1192DB06000914EF /* NIConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A4F2D1192DB06000914EF /* NIConfiguration.h */; };
+		793A513211944CD7000914EF /* NINetworkingConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A512E11944CD7000914EF /* NINetworkingConnection.h */; };
 		793A513311944CD7000914EF /* NINetworkingConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A512F11944CD7000914EF /* NINetworkingConnection.m */; };
-		793A513411944CD7000914EF /* NINetworkingReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A513011944CD7000914EF /* NINetworkingReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		793A513411944CD7000914EF /* NINetworkingReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A513011944CD7000914EF /* NINetworkingReachability.h */; };
 		793A513511944CD7000914EF /* NINetworkingReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A513111944CD7000914EF /* NINetworkingReachability.m */; };
-		793A5180119450BB000914EF /* NIUIAlertsConnectionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A517E119450BB000914EF /* NIUIAlertsConnectionController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		793A5180119450BB000914EF /* NIUIAlertsConnectionController.h in Headers */ = {isa = PBXBuildFile; fileRef = 793A517E119450BB000914EF /* NIUIAlertsConnectionController.h */; };
 		793A5181119450BB000914EF /* NIUIAlertsConnectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 793A517F119450BB000914EF /* NIUIAlertsConnectionController.m */; };
-		79434F9311AC059E000FE549 /* NIBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 79434F9111AC059E000FE549 /* NIBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		79434F9711AC05AF000FE549 /* NIBundleImages.h in Headers */ = {isa = PBXBuildFile; fileRef = 79434F9511AC05AF000FE549 /* NIBundleImages.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		79434F9311AC059E000FE549 /* NIBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 79434F9111AC059E000FE549 /* NIBundle.h */; };
+		79434F9711AC05AF000FE549 /* NIBundleImages.h in Headers */ = {isa = PBXBuildFile; fileRef = 79434F9511AC05AF000FE549 /* NIBundleImages.h */; };
 		79434F9811AC05AF000FE549 /* NIBundleImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 79434F9611AC05AF000FE549 /* NIBundleImages.m */; };
-		7961D2BD11AAB5F6008E1E50 /* NIDeviceOrientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D2BB11AAB5F6008E1E50 /* NIDeviceOrientation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7961D2BD11AAB5F6008E1E50 /* NIDeviceOrientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D2BB11AAB5F6008E1E50 /* NIDeviceOrientation.h */; };
 		7961D2BE11AAB5F6008E1E50 /* NIDeviceOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7961D2BC11AAB5F6008E1E50 /* NIDeviceOrientation.m */; };
-		7961D35011AAE15B008E1E50 /* IGSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34B11AAE15B008E1E50 /* IGSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7961D35111AAE15B008E1E50 /* IGSettingsUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34C11AAE15B008E1E50 /* IGSettingsUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7961D35011AAE15B008E1E50 /* IGSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34B11AAE15B008E1E50 /* IGSettings.h */; };
+		7961D35111AAE15B008E1E50 /* IGSettingsUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34C11AAE15B008E1E50 /* IGSettingsUser.h */; };
 		7961D35211AAE15B008E1E50 /* IGSettingsUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7961D34D11AAE15B008E1E50 /* IGSettingsUser.m */; };
-		7961D35311AAE15B008E1E50 /* IGSettingsCustom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34E11AAE15B008E1E50 /* IGSettingsCustom.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7961D35311AAE15B008E1E50 /* IGSettingsCustom.h in Headers */ = {isa = PBXBuildFile; fileRef = 7961D34E11AAE15B008E1E50 /* IGSettingsCustom.h */; };
 		7961D35411AAE15B008E1E50 /* IGSettingsCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 7961D34F11AAE15B008E1E50 /* IGSettingsCustom.m */; };
-		797885AC11CB961B006D64D9 /* NIPreloaderRotating.h in Headers */ = {isa = PBXBuildFile; fileRef = 797885AA11CB961B006D64D9 /* NIPreloaderRotating.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		797885AC11CB961B006D64D9 /* NIPreloaderRotating.h in Headers */ = {isa = PBXBuildFile; fileRef = 797885AA11CB961B006D64D9 /* NIPreloaderRotating.h */; };
 		797885AD11CB961B006D64D9 /* NIPreloaderRotating.m in Sources */ = {isa = PBXBuildFile; fileRef = 797885AB11CB961B006D64D9 /* NIPreloaderRotating.m */; };
-		7982E17511997A5600C8E33D /* IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16B11997A5600C8E33D /* IGJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E17511997A5600C8E33D /* IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16B11997A5600C8E33D /* IGJson.h */; };
 		7982E17611997A5600C8E33D /* IGJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E16C11997A5600C8E33D /* IGJson.m */; };
-		7982E17711997A5600C8E33D /* IGJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16D11997A5600C8E33D /* IGJsonBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E17711997A5600C8E33D /* IGJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16D11997A5600C8E33D /* IGJsonBase.h */; };
 		7982E17811997A5600C8E33D /* IGJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E16E11997A5600C8E33D /* IGJsonBase.m */; };
-		7982E17911997A5600C8E33D /* IGJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16F11997A5600C8E33D /* IGJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E17911997A5600C8E33D /* IGJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E16F11997A5600C8E33D /* IGJsonParser.h */; };
 		7982E17A11997A5600C8E33D /* IGJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E17011997A5600C8E33D /* IGJsonParser.m */; };
-		7982E17B11997A5600C8E33D /* IGJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E17111997A5600C8E33D /* IGJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E17B11997A5600C8E33D /* IGJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E17111997A5600C8E33D /* IGJsonWriter.h */; };
 		7982E17C11997A5600C8E33D /* IGJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E17211997A5600C8E33D /* IGJsonWriter.m */; };
-		7982E17D11997A5600C8E33D /* IGJsonData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E17311997A5600C8E33D /* IGJsonData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E17D11997A5600C8E33D /* IGJsonData.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E17311997A5600C8E33D /* IGJsonData.h */; };
 		7982E17E11997A5600C8E33D /* IGJsonData.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E17411997A5600C8E33D /* IGJsonData.m */; };
-		7982E19811997B4500C8E33D /* UIImage-Tools.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18911997B4500C8E33D /* UIImage-Tools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E19811997B4500C8E33D /* UIImage-Tools.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18911997B4500C8E33D /* UIImage-Tools.h */; };
 		7982E19911997B4500C8E33D /* UIImage-Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E18A11997B4500C8E33D /* UIImage-Tools.m */; };
-		7982E19A11997B4500C8E33D /* NSString+URL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18C11997B4500C8E33D /* NSString+URL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E19A11997B4500C8E33D /* NSString+URL.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18C11997B4500C8E33D /* NSString+URL.h */; };
 		7982E19B11997B4500C8E33D /* NSString+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E18D11997B4500C8E33D /* NSString+URL.m */; };
-		7982E19C11997B4500C8E33D /* NSString+Ereg.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18E11997B4500C8E33D /* NSString+Ereg.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E19C11997B4500C8E33D /* NSString+Ereg.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E18E11997B4500C8E33D /* NSString+Ereg.h */; };
 		7982E19D11997B4500C8E33D /* NSString+Ereg.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E18F11997B4500C8E33D /* NSString+Ereg.m */; };
-		7982E19E11997B4500C8E33D /* NSDate+NIMisc.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19111997B4500C8E33D /* NSDate+NIMisc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E19E11997B4500C8E33D /* NSDate+NIMisc.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19111997B4500C8E33D /* NSDate+NIMisc.h */; };
 		7982E19F11997B4500C8E33D /* NSDate+NIMisc.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E19211997B4500C8E33D /* NSDate+NIMisc.m */; };
-		7982E1A011997B4500C8E33D /* NSObject+IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19411997B4500C8E33D /* NSObject+IGJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E1A011997B4500C8E33D /* NSObject+IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19411997B4500C8E33D /* NSObject+IGJson.h */; };
 		7982E1A111997B4500C8E33D /* NSObject+IGJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E19511997B4500C8E33D /* NSObject+IGJson.m */; };
-		7982E1A211997B4500C8E33D /* NSString+IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19611997B4500C8E33D /* NSString+IGJson.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7982E1A211997B4500C8E33D /* NSString+IGJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 7982E19611997B4500C8E33D /* NSString+IGJson.h */; };
 		7982E1A311997B4500C8E33D /* NSString+IGJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982E19711997B4500C8E33D /* NSString+IGJson.m */; };
-		7994A454119DA2FD00C5AE7B /* IGCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A450119DA2FD00C5AE7B /* IGCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A454119DA2FD00C5AE7B /* IGCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A450119DA2FD00C5AE7B /* IGCache.h */; };
 		7994A455119DA2FD00C5AE7B /* IGCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A451119DA2FD00C5AE7B /* IGCache.m */; };
-		7994A456119DA2FD00C5AE7B /* IGCacheImages.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A452119DA2FD00C5AE7B /* IGCacheImages.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A456119DA2FD00C5AE7B /* IGCacheImages.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A452119DA2FD00C5AE7B /* IGCacheImages.h */; };
 		7994A457119DA2FD00C5AE7B /* IGCacheImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A453119DA2FD00C5AE7B /* IGCacheImages.m */; };
-		7994A46A119DA32100C5AE7B /* IGTextEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A466119DA32100C5AE7B /* IGTextEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A46A119DA32100C5AE7B /* IGTextEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A466119DA32100C5AE7B /* IGTextEncoding.h */; };
 		7994A46B119DA32100C5AE7B /* IGTextEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A467119DA32100C5AE7B /* IGTextEncoding.m */; };
-		7994A46C119DA32100C5AE7B /* IGText.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A468119DA32100C5AE7B /* IGText.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A46C119DA32100C5AE7B /* IGText.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A468119DA32100C5AE7B /* IGText.h */; };
 		7994A46D119DA32100C5AE7B /* IGText.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A469119DA32100C5AE7B /* IGText.m */; };
-		7994A476119DA33100C5AE7B /* IGFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A471119DA33100C5AE7B /* IGFilesystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7994A477119DA33100C5AE7B /* IGFilesystemPaths.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A472119DA33100C5AE7B /* IGFilesystemPaths.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A476119DA33100C5AE7B /* IGFilesystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A471119DA33100C5AE7B /* IGFilesystem.h */; };
+		7994A477119DA33100C5AE7B /* IGFilesystemPaths.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A472119DA33100C5AE7B /* IGFilesystemPaths.h */; };
 		7994A478119DA33100C5AE7B /* IGFilesystemPaths.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A473119DA33100C5AE7B /* IGFilesystemPaths.m */; };
-		7994A479119DA33100C5AE7B /* IGFilesystemIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A474119DA33100C5AE7B /* IGFilesystemIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A479119DA33100C5AE7B /* IGFilesystemIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A474119DA33100C5AE7B /* IGFilesystemIO.h */; };
 		7994A47A119DA33100C5AE7B /* IGFilesystemIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A475119DA33100C5AE7B /* IGFilesystemIO.m */; };
-		7994A484119DA34800C5AE7B /* IGValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A47E119DA34800C5AE7B /* IGValidation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A484119DA34800C5AE7B /* IGValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A47E119DA34800C5AE7B /* IGValidation.h */; };
 		7994A485119DA34800C5AE7B /* IGValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A47F119DA34800C5AE7B /* IGValidation.m */; };
-		7994A486119DA34800C5AE7B /* IGValidationText.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A480119DA34800C5AE7B /* IGValidationText.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A486119DA34800C5AE7B /* IGValidationText.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A480119DA34800C5AE7B /* IGValidationText.h */; };
 		7994A487119DA34800C5AE7B /* IGValidationText.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A481119DA34800C5AE7B /* IGValidationText.m */; };
-		7994A488119DA34800C5AE7B /* IGValidationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A482119DA34800C5AE7B /* IGValidationNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A488119DA34800C5AE7B /* IGValidationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A482119DA34800C5AE7B /* IGValidationNumber.h */; };
 		7994A489119DA34800C5AE7B /* IGValidationNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A483119DA34800C5AE7B /* IGValidationNumber.m */; };
-		7994A48F119DA35900C5AE7B /* IGImagesTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A48D119DA35900C5AE7B /* IGImagesTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A48F119DA35900C5AE7B /* IGImagesTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A48D119DA35900C5AE7B /* IGImagesTools.h */; };
 		7994A490119DA35900C5AE7B /* IGImagesTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 7994A48E119DA35900C5AE7B /* IGImagesTools.m */; };
-		7994A495119DA36900C5AE7B /* IGConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A494119DA36900C5AE7B /* IGConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA747D9F0F9514B9006C5449 /* NILibrary_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* NILibrary_Prefix.pch */; settings = {ATTRIBUTES = (Public, ); }; };
+		7994A495119DA36900C5AE7B /* IGConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 7994A494119DA36900C5AE7B /* IGConfiguration.h */; };
+		AA747D9F0F9514B9006C5449 /* NILibrary_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* NILibrary_Prefix.pch */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -591,7 +591,9 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "NILibrary" */;
+			attributes = {
+			};
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "nilibrary" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -731,6 +733,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -744,6 +747,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -817,7 +821,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "NILibrary" */ = {
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "nilibrary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,

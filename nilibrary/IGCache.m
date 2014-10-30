@@ -39,7 +39,11 @@
  @param date NSDate Limit date
  */
 + (void)deleteCacheFilesOlderThan:(NSDate *)date {
-	[IGFilesystemIO deleteFilesOlderThan:date inDirectory:[IGFilesystemPaths getCacheDirectoryPath]];
+    
+    NSString *documentsPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    
+    documentsPath = [NSString stringWithFormat:@"%@/papers/ireland/", documentsPath];
+	[IGFilesystemIO deleteFilesOlderThan:date inDirectory:documentsPath];
 }
 
 - (void)dealloc {

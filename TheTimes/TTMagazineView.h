@@ -10,12 +10,26 @@
 #import "AsyncImageView.h"
 #import "Edition.h"
 #import "SPDownloader.h"
+#import "trackingClass.h"
 
 static int DOWNLOAD_FAILED_POPUP_TAG = 2;
 static int DELETE_POPUP_TAG = 3;
+static int CONNECTION_TYPE_POPUP = 4;
+static int DELETE_INTERRUPT_POPUP_TAG = 5;
 
-@interface TTMagazineView : UIView <SPDownloaderDelegate>
-
+@interface TTMagazineView : UIView <SPDownloaderDelegate, UIAlertViewDelegate>
+{
+    enum Status {
+        stopped,
+        paused,
+        playing,
+        downloaded
+    };
+    
+    enum Status magazineStatus;
+    
+    id<GAITracker> appTracker;
+}
 @property (weak, nonatomic) IBOutlet AsyncImageView *iv_frontPage;
 @property (nonatomic, strong) Edition *edition;
 @property (atomic) BOOL isMainEdition;
@@ -37,7 +51,14 @@ static int DELETE_POPUP_TAG = 3;
 @property (nonatomic, strong) IBOutlet UIImageView *progressBottom;
 @property (nonatomic, strong) IBOutlet UIImageView *progressTop;
 
+//PLAYPAUSE BTNS
+@property (strong, nonatomic) IBOutlet UIButton *playPauseBtn;
+@property (strong, nonatomic) IBOutlet UIButton *deleteBtn;
+
+
 //METHODS
 - (void) setUpMagazine: (Edition*) edition;
 - (IBAction) downloadThisEdition : ( id ) sender;
+- (IBAction) playPauseDownload:(id)sender;
+- (IBAction) deleteInterruptedDownload:(id)sender;
 @end

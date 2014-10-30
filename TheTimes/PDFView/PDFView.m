@@ -33,6 +33,7 @@ extern NSMutableString *pdfPath;
     if( m_delegate )
         [m_delegate OnFound:([finder find_get_page] < 0)];
 }
+
 -(void)OnPageDisplayed :(CGContextRef)ctx : (PDFVPage *)page
 {
     //uncomment these lines to get information of PDF page.
@@ -46,7 +47,10 @@ extern NSMutableString *pdfPath;
     //int h = [page GetHeight];
     //float logich = h/m_scale;
     //bool finished = [page IsFinished];
+    
+    //NSLog(@"X : %i BOUNDSX", [page IsCrossed:x :y :w :h]);
 }
+
 -(void)vOpen:(PDFDoc *)doc :(id<PDFVDelegate>)delegate
 {
     //GEAR
@@ -132,9 +136,12 @@ extern NSMutableString *pdfPath;
 
     pos.pageno = pageno;
     PDFVPage *vpage = [m_view vGetPage:pos.pageno];
-    
+    [m_view vSetZoomScale:0.1 page:pageno];
     [m_view vSetPos:&pos :0 :0];
-    [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+   
+    if ([m_doc pageCount] - 1 != pageno) {
+        [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+    }
     
     [self refresh];
 }
@@ -214,6 +221,7 @@ extern NSMutableString *pdfPath;
         if( m_delegate )
             [m_delegate OnPageChanged:m_cur_page];
     }
+    
 
     if( m_status == sta_ink && m_ink )
     {
@@ -368,7 +376,7 @@ extern NSMutableString *pdfPath;
             else speedy = -sqrtl(-m_swipe_dy<<2);
         }
         m_swipe_dy -= speedy;
-
+        
         [m_view vMoveDelta:speedx :speedy];
         [self refresh];
     }
@@ -392,9 +400,37 @@ extern NSMutableString *pdfPath;
         self.multipleTouchEnabled = YES;
         [self resignFirstResponder];
         m_swipe_dx = 0;
-        m_swipe_dy = 0;
+        m_swipe_dy = 0; 
     }
     return self;
+}
+
+/* TOUCH ENDED CALL IF VIEWER HAS TAPPED 2 TIMES
+ * ZOOM BY 2 4 AND NORMAL SCALE
+*/
+- (void) zoomOnDTap
+{
+    switch (zoomLvl) {
+        case Half:
+            [m_view vSetZoomScale:2 page:m_cur_page];
+            break;
+        case Full:
+            [m_view vSetZoomScale:4 page:m_cur_page];
+            break;
+        case Original:
+            [m_view vSetZoomScale:0.5f page:m_cur_page];
+            break;
+        default:
+            break;
+    }
+    
+    [m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y ];
+    [self refresh];
+    
+    if (zoomLvl == Original) {
+        zoomLvl = 0;
+    }else
+        zoomLvl++;
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -405,15 +441,16 @@ extern NSMutableString *pdfPath;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
-{
+{ 
     struct PDFV_POS pos;
-    [m_view vGetPos:&pos :m_w :m_h ];
+    [m_view vGetPos:&pos :m_w :m_h ]; 
     m_w = size.width * m_scale;
     m_h = size.height * m_scale;
     [m_view vResize:m_w :m_h];
     [m_view vSetScale:0.1f];//set scale to min
     [m_view vSetPos:&pos :m_w :m_h];
     [self refresh];
+    
     return size;
 }
 
@@ -471,6 +508,7 @@ extern NSMutableString *pdfPath;
     m_tstamp_swipe[5] = m_tstamp_swipe[6];
     m_tstamp_swipe[6] = m_tstamp_swipe[7];
     m_tstamp_swipe[7] = ts;
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -479,80 +517,88 @@ extern NSMutableString *pdfPath;
     m_swipe_dy = 0;
     NSSet *allTouches = [event allTouches];
     int cnt = [allTouches count];
+    
     if( cnt == 1 )
     {
         UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
         CGPoint point=[touch locationInView:[touch view]];
-        if( m_status == sta_none )
-        {
-            [m_view vOnTouchDown:point.x * m_scale: point.y * m_scale];
-            m_tstamp = touch.timestamp;
-            m_tstamp_tap = m_tstamp;
-            m_tx = point.x * m_scale;
-            m_ty = point.y * m_scale;
-            m_px = m_tx;
-            m_py = m_ty;
-            [self swipe_init:m_tx :m_ty :m_tstamp];
-            m_status = sta_hold;
-           
-            if( m_delegate )
-                [m_delegate OnTouchDown: m_tx :m_ty];
+        
+        if (touch.tapCount == 2) { 
+            m_zoom_x = point.x * m_scale;
+            m_zoom_y = point.y * m_scale;
+            [m_view vGetPos:&m_zoom_pos :m_zoom_x :m_zoom_y];
         }
-        if( m_status == sta_sel )
-        {
-            m_tx = point.x * m_scale;
-            m_ty = point.y * m_scale;
-            if( m_delegate )
-                [m_delegate OnTouchDown: m_tx :m_ty];
-        }
-        if( m_status == sta_ink )
-        {
-            if( !m_ink )
+        
+            if( m_status == sta_none )
             {
-                //(宽度，颜色)
+                [m_view vOnTouchDown:point.x * m_scale: point.y * m_scale];
+                m_tstamp = touch.timestamp;
+                m_tstamp_tap = m_tstamp;
                 m_tx = point.x * m_scale;
                 m_ty = point.y * m_scale;
-                m_ink = [[PDFInk alloc] init:g_Ink_Width * m_scale: g_ink_color];
+                m_px = m_tx;
+                m_py = m_ty;
+                [self swipe_init:m_tx :m_ty :m_tstamp];
+                m_status = sta_hold;
+                
+                if( m_delegate )
+                    [m_delegate OnTouchDown: m_tx :m_ty];
             }
-            [m_ink onDown:point.x * m_scale: point.y * m_scale];
-        }
-        if( m_status == sta_rect )
-        {
-            if( m_rects_cnt >= m_rects_max )
+            if( m_status == sta_sel )
             {
-                m_rects_max += 8;
-                m_rects = (PDF_POINT *)realloc(m_rects, (m_rects_max<<1) * sizeof(PDF_POINT));
+                m_tx = point.x * m_scale;
+                m_ty = point.y * m_scale;
+                if( m_delegate )
+                    [m_delegate OnTouchDown: m_tx :m_ty];
             }
-            m_tx = point.x * m_scale;
-            m_ty = point.y * m_scale;
-            PDF_POINT *pt_cur = &m_rects[m_rects_cnt<<1];
-            pt_cur->x = m_tx;
-            pt_cur->y = m_ty;
-            pt_cur[1].x = m_tx;
-            pt_cur[1].y = m_ty;
-            m_rects_drawing = true;
-        }
-        //**ellipse
-        if( m_status == sta_ellipse )
-        {
-            if( m_ellipse_cnt >= m_ellipse_max )
+            if( m_status == sta_ink )
             {
-                m_ellipse_max += 8;
-                m_ellipse = (PDF_POINT *)realloc(m_ellipse, (m_ellipse_max<<1) * sizeof(PDF_POINT));
+                if( !m_ink )
+                {
+                    //(宽度，颜色)
+                    m_tx = point.x * m_scale;
+                    m_ty = point.y * m_scale;
+                    m_ink = [[PDFInk alloc] init:g_Ink_Width * m_scale: g_ink_color];
+                }
+                [m_ink onDown:point.x * m_scale: point.y * m_scale];
             }
-            m_tx = point.x * m_scale;
-            m_ty = point.y * m_scale;
-            PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt<<1];
-            pt_cur->x = m_tx;
-            pt_cur->y = m_ty;
-            pt_cur[1].x = m_tx;
-            pt_cur[1].y = m_ty;
-            m_ellipse_drawing = true;
-        }
-        if( m_status == sta_zoom )
-        {
-            m_status = sta_none;
-        }
+            if( m_status == sta_rect )
+            {
+                if( m_rects_cnt >= m_rects_max )
+                {
+                    m_rects_max += 8;
+                    m_rects = (PDF_POINT *)realloc(m_rects, (m_rects_max<<1) * sizeof(PDF_POINT));
+                }
+                m_tx = point.x * m_scale;
+                m_ty = point.y * m_scale;
+                PDF_POINT *pt_cur = &m_rects[m_rects_cnt<<1];
+                pt_cur->x = m_tx;
+                pt_cur->y = m_ty;
+                pt_cur[1].x = m_tx;
+                pt_cur[1].y = m_ty;
+                m_rects_drawing = true;
+            }
+            //**ellipse
+            if( m_status == sta_ellipse )
+            {
+                if( m_ellipse_cnt >= m_ellipse_max )
+                {
+                    m_ellipse_max += 8;
+                    m_ellipse = (PDF_POINT *)realloc(m_ellipse, (m_ellipse_max<<1) * sizeof(PDF_POINT));
+                }
+                m_tx = point.x * m_scale;
+                m_ty = point.y * m_scale;
+                PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt<<1];
+                pt_cur->x = m_tx;
+                pt_cur->y = m_ty;
+                pt_cur[1].x = m_tx;
+                pt_cur[1].y = m_ty;
+                m_ellipse_drawing = true;
+            }
+            if( m_status == sta_zoom )
+            {
+                m_status = sta_none;
+            }
     }
     else if( cnt == 2 )
     {
@@ -589,6 +635,7 @@ extern NSMutableString *pdfPath;
     {
         UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
         CGPoint point=[touch locationInView:[touch view]];
+        
         if( m_status == sta_hold )
         {
             [m_view vOnTouchMove:point.x * m_scale: point.y * m_scale];
@@ -652,7 +699,7 @@ extern NSMutableString *pdfPath;
         CGPoint point2 = [touch2 locationInView:[touch2 view]];
         float dis = sqrt((point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y) * (point1.y-point2.y)) * m_scale;
         
-        [m_view vSetScale:m_zoom_ratio * dis / m_zoom_dis];
+        [m_view vSetZoomScale:m_zoom_ratio * dis / m_zoom_dis page:m_cur_page];
         [m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y];
         [self refresh];
     }
@@ -671,109 +718,119 @@ extern NSMutableString *pdfPath;
     {
         UITouch *touch = [[allTouches allObjects] objectAtIndex:0];
         CGPoint point=[touch locationInView:[touch view]];
-        switch (m_status)
-        {
-            case sta_hold:
+        
+            switch (m_status)
             {
-                m_status = sta_none;
-                NSTimeInterval del = touch.timestamp - m_tstamp;
-                float dx = point.x * m_scale - m_tx;
-                float dy = point.y * m_scale - m_ty;
-                float vx = 0;
-                float vy = 0;
-                if( del > 0 )//fling?
+                case sta_hold:
                 {
-                    vx = dx/del;
-                    vy = dy/del;
-                }
-                
-                dx = 0;
-                dy = 0;
-                
-                if( vx > 400 || vx < -400 ) dx = vx;
-                if( vy > 400 || vy < -400 ) dy = vy;
-                
-                float sdel = m_tstamp_swipe[7] - m_tstamp_swipe[0];
-                float sdx = (m_swx[7] - m_swx[0])/(del * m_scale);
-                float sdy = (m_swy[7] - m_swy[0])/(del * m_scale);
-                
-                int threshold = 1500;
-                if (    (vx > threshold || vx < -threshold)
-                    ||  (vy > threshold || vy < -threshold) )
-                {
-                    // if( m_long_pressed )
-                    //    [self vSelEnd];
-                    if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
-                        [self onSwipe: sdx :sdy];
-                    else if( touch.timestamp - m_tstamp_tap < 0.15 )//single tap
+                    m_status = sta_none;
+                    NSTimeInterval del = touch.timestamp - m_tstamp;
+                    float dx = point.x * m_scale - m_tx;
+                    float dy = point.y * m_scale - m_ty;
+                    float vx = 0;
+                    float vy = 0;
+                    if( del > 0 )//fling?
                     {
-                        bool single_tap = true;
-                        if( dx > 5 || dx < -5 )
-                            single_tap = false;
-                        if( dy > 5 || dy < -5 )
-                            single_tap = false;
-                        if( single_tap )
-                            [self onSingleTap:point.x * m_scale :point.y * m_scale:nil];
+                        vx = dx/del;
+                        vy = dy/del;
                     }
-                    else
+                    
+                    dx = 0;
+                    dy = 0;
+                    
+                    if( vx > 400 || vx < -400 ) dx = vx;
+                    if( vy > 400 || vy < -400 ) dy = vy;
+                    
+                    float sdel = m_tstamp_swipe[7] - m_tstamp_swipe[0];
+                    float sdx = (m_swx[7] - m_swx[0])/(del * m_scale);
+                    float sdy = (m_swy[7] - m_swy[0])/(del * m_scale);
+                    
+                    int threshold = 1500;
+                    if (    (vx > threshold || vx < -threshold)
+                        ||  (vy > threshold || vy < -threshold) )
                     {
-                        if( m_type == 3 || m_type == 4 )
+                        // if( m_long_pressed )
+                        //    [self vSelEnd];
+                        if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
+                            [self onSwipe: sdx :sdy];
+                        else if( touch.timestamp - m_tstamp_tap < 0.15 )//single tap
                         {
-                            struct PDFV_POS pos;
-                            [m_view vGetPos:&pos :m_w/2 :m_h/2];
-                            
-                            if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
-                                [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+                            bool single_tap = true;
+                            if( dx > 5 || dx < -5 )
+                                single_tap = false;
+                            if( dy > 5 || dy < -5 )
+                                single_tap = false;
+                            if( single_tap )
+                                [self onSingleTap:point.x * m_scale :point.y * m_scale:nil];
                         }
-                        if( m_delegate )
+                        else
                         {
-                            //[m_view vGetPos:&pos: m_tx: m_ty];
-                            [m_delegate OnTouchUp:point.x * m_scale :point.y * m_scale ];
+                            if( m_type == 3 || m_type == 4 )
+                            {
+                                struct PDFV_POS pos;
+                                [m_view vGetPos:&pos :m_w/2 :m_h/2];
+                                
+                                if( sdel < 0.8 && (sdx > 20 || sdx < -20 || dy > 20 || sdy < -20) )//swipe
+                                    [m_view vGetDeltaToCenterPage:pos.pageno :&m_swipe_dx :&m_swipe_dy];
+                            }
+                            if( m_delegate )
+                            {
+                                //[m_view vGetPos:&pos: m_tx: m_ty];
+                                [m_delegate OnTouchUp:point.x * m_scale :point.y * m_scale ];
+                            }
                         }
                     }
+                    break;
                 }
-                break;
-            }
-            case sta_sel:
-            {
-                [m_view vSetSel:m_tx: m_ty: point.x * m_scale: point.y * m_scale];
-                if( m_delegate )
-                    [m_delegate OnSelEnd:m_tx: m_ty:point.x * m_scale :point.y * m_scale];
-                break;
-            }
-            case sta_ink:
-                [m_ink onUp:point.x * m_scale: point.y * m_scale];
-                break;
-            case sta_rect:
-            {
-                PDF_POINT *pt_cur = &m_rects[m_rects_cnt<<1];
-                pt_cur[1].x = point.x * m_scale;
-                pt_cur[1].y = point.y * m_scale;
-                m_rects_cnt++;
-                if( m_rects_drawing )
+                case sta_sel:
                 {
-                    m_rects_drawing = false;
-                    [self refresh];
+                    [m_view vSetSel:m_tx: m_ty: point.x * m_scale: point.y * m_scale];
+                    if( m_delegate )
+                        [m_delegate OnSelEnd:m_tx: m_ty:point.x * m_scale :point.y * m_scale];
+                    break;
                 }
-                break;
-            }
-            case sta_ellipse:
-            {
-                PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt<<1];
-                pt_cur[1].x = point.x * m_scale;
-                pt_cur[1].y = point.y * m_scale;
-                m_ellipse_cnt++;
-                if( m_ellipse_drawing )
+                case sta_ink:
+                    [m_ink onUp:point.x * m_scale: point.y * m_scale];
+                    break;
+                case sta_rect:
                 {
-                    m_ellipse_drawing = false;
-                    [self refresh];
+                    PDF_POINT *pt_cur = &m_rects[m_rects_cnt<<1];
+                    pt_cur[1].x = point.x * m_scale;
+                    pt_cur[1].y = point.y * m_scale;
+                    m_rects_cnt++;
+                    if( m_rects_drawing )
+                    {
+                        m_rects_drawing = false;
+                        [self refresh];
+                    }
+                    break;
+                }
+                case sta_ellipse:
+                {
+                    PDF_POINT *pt_cur = &m_ellipse[m_ellipse_cnt<<1];
+                    pt_cur[1].x = point.x * m_scale;
+                    pt_cur[1].y = point.y * m_scale;
+                    m_ellipse_cnt++;
+                    if( m_ellipse_drawing )
+                    {
+                        m_ellipse_drawing = false;
+                        [self refresh];
+                    }
+                    break;
+                }
+                default:
+                {
+                    
                 }
                 break;
-            }
-            default:
-            {
-            }
-                break;
+        }
+        
+        if (touch.tapCount == 2) {
+            m_zoom_x = point.x * m_scale;
+            m_zoom_y = point.y * m_scale;
+            [m_view vGetPos:&m_zoom_pos :m_zoom_x :m_zoom_y];
+            
+            [self zoomOnDTap];
         }
     }
     else if( cnt == 2 && m_status == sta_zoom )
@@ -797,10 +854,38 @@ extern NSMutableString *pdfPath;
         {
             if( m_type == 3 )
             {
-                if( dx > 0 && pos.pageno > 0 )
+                float scaleThreshold = 0.7f;
+                
+                // code for Portrait orientation
+                if (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+                {
+                    scaleThreshold = .95f;
+                }
+                
+                if( dx > 0 && pos.pageno > 0 ){
+                    if ([m_view vGetScale] > scaleThreshold) {
+                        [m_view vSetZoomScale:0.1f page:pos.pageno - 1];
+                        [self vGoto:pos.pageno - 1];
+                    }
+                    
                     [m_view vGetDeltaToCenterPage:pos.pageno - 1 :&m_swipe_dx :&m_swipe_dy];
-                else if( dx < 0 && pos.pageno < [m_doc pageCount] - 1)
-                    [m_view vGetDeltaToCenterPage:pos.pageno + 1 :&m_swipe_dx :&m_swipe_dy];
+                }
+                else if( dx < 0 && pos.pageno < [m_doc pageCount] - 1){
+                    int pageNo = pos.pageno;
+                    if ([m_view vGetScale] > scaleThreshold) {
+                        if (pos.pageno+1 == [m_doc pageCount] - 1) {
+                            [m_view vSetZoomScale:0.1f page:pageNo];
+                        } else {
+                            pageNo = pageNo + 1;
+                            [m_view vSetZoomScale:0.1f page:pageNo];
+                        }
+                        
+                        [self vGoto:pageNo];
+                        [m_view vGetDeltaToCenterPage:pageNo :&m_swipe_dx :&m_swipe_dy];
+                        
+                        }
+                    
+                    }
                 else
                 {
                     m_swipe_dx = -dx * m_scale / 2;
@@ -837,10 +922,12 @@ extern NSMutableString *pdfPath;
     if( m_status == sta_none )
         m_status = sta_sel;
 }
+
 -(void)vGetPos:(struct PDFV_POS*)pos
 {
     [m_view vGetPos:pos :0 :0];
 }
+
 -(void)vSelEnd
 {
     if( m_status == sta_sel )
@@ -901,6 +988,7 @@ extern NSMutableString *pdfPath;
         if( m_delegate ) [m_delegate OnFound:false];
     [self refresh];
 }
+
 -(void)vFindEnd
 {
     [m_view vFindEnd];
@@ -1278,6 +1366,7 @@ extern NSMutableString *pdfPath;
         }
     }
 }
+
 -(NSString *)vGetTextAnnot :(int)x :(int)y
 {
     struct PDFV_POS pos;
@@ -1293,5 +1382,10 @@ extern NSMutableString *pdfPath;
         return ns;
     }
     return nil;
+}
+
+- (int) vGetCurrentPage
+{
+    return m_cur_page;
 }
 @end

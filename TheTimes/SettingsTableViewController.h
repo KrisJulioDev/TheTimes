@@ -11,5 +11,6 @@
 @interface SettingsTableViewController : UITableViewController
 {
     NSMutableArray *settingsItem;
+    NSMutableArray *settingsURL;
 }
 @end

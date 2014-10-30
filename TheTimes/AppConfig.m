@@ -148,12 +148,12 @@ static AppConfig *sharedInstance;
 
 - (NSString *) getAirshipDevKey
 {
-    return [self getString:@"AIRSHIP_DEV_KEY" defaultValue:@"Le7Np6ouRAOCz1Kw_U_LmA"];
+    return [self getString:@"AIRSHIP_DEV_KEY" defaultValue:@"WttMRaIAQ3eSvnbmpkJoiQ"];
 }
 
 - (NSString *) getAirshipDevSecret
 {
-    return [self getString:@"AIRSHIP_DEV_SECRET" defaultValue:@"jX4q0jVdSpK4-J3OAZBr-Q"];
+    return [self getString:@"AIRSHIP_DEV_SECRET" defaultValue:@"IXJvnDN6R6a42Vjt4eqpUA"];
 }
 
 - (NSString *) getAirshipProductionKey

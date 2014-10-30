@@ -238,8 +238,6 @@
         NSError* error;
 		currentFileAttributes = [fileManager attributesOfItemAtPath:path error:&error];
         
-        
-        
 		currentFileDate = [currentFileAttributes objectForKey:NSFileModificationDate];
 		if([currentFileDate compare:date] == NSOrderedAscending) [self deleteFile:path];
 	}

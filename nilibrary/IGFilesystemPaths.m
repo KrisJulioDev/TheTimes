@@ -21,6 +21,7 @@
 + (NSString *)getDocumentsDirectoryPath {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	return [paths objectAtIndex:0];
+    
 }
 
 
@@ -31,6 +32,7 @@
  */
 + (NSString *)getRootDirectoryPath {
 	NSString *p = [NSString stringWithFormat:@"%@/%@/", [self getDocumentsDirectoryPath], kIGFilesystemPathsFolder];
+    
 	[IGFilesystemIO makeFolderPath:p];
 	return p;
 }
@@ -63,7 +65,7 @@
  @return NSString Path
  */
 + (NSString *)getCacheDirectoryPath {
-	NSString *p = [NSString stringWithFormat:@"%@/%@/", [self getRootDirectoryPath], @"cache"];
+	NSString *p = [NSString stringWithFormat:@"%@%@/", [self getRootDirectoryPath], @"cache"];
 	[IGFilesystemIO makeFolderPath:p];
 	return p;
 }

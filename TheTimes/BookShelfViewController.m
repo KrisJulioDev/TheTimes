@@ -31,12 +31,15 @@
 
 #import "CJSONDeserializer.h"
 #import "TrackingUtil.h"
+#import "IGCache.h"
+#import "NSDate+NIMisc.h"
+#import "HelperUtility.h"
 
 @interface BookShelfViewController ()
 
 @end
 
-@implementation BookShelfViewController
+@implementation BookShelfViewController 
 {
 	NSString *parsingError;
 	NSManagedObjectContext *context;
@@ -49,6 +52,7 @@
 	UIActivityIndicatorView *activityIndicator;
 	BOOL hasDownloadedJSON;
 	NSTimer *globalJSONTimer;
+    id<GAITracker> appTracker;
     
     SettingsTableViewController *settingsVC;
 }
@@ -102,32 +106,92 @@ static int portraitVGap = 70;
     TheTimesAppDelegate *appDel = (TheTimesAppDelegate*)[UIApplication sharedApplication].delegate;
     appDel.bookShelfVC = self;
     
-    [self loadSettingsWithDefaults];
-    
+    /* Set region to Ireland since i dont know the default region, this doesnt cause anything on the app, just default value */
     [[NSUserDefaults standardUserDefaults] setObject:REGION_IRELAND forKey:PAPER_REGION_KEY];
-    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
- 
-    [self showLoginScreen];
     
-}
+    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
+    
+    [self loadSettingsWithDefaults];
+} 
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    [self refreshEditionViews];
-    [paperBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
-    [paperBtn.layer setBorderWidth:2];
+   [self.view setNeedsDisplay];
     
-    [settingsBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
-    [settingsBtn.layer setBorderWidth:2];
-    
-    if ( [SubscriptionHandler checkLoginValid]  == YES ) {
-        
-        static dispatch_once_t predicate;
-        dispatch_once(&predicate, ^{
-            [self loadEditionPapers];
-        });
+    if(![NI_reachabilityService isNetworkAvailable] || [NI_reachabilityService isNetworkAvailable] == NO) {
+         [_splashScreen removeFromSuperview];
     }
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0) , ^ {
+        [self fetchTimesData];
+    });
+}
+
+- (void) fetchTimesData
+{
+    
+    /* 
+     * Check for network, if there isn't get the last saved username and password to access the app offline
+     * else if there is connection check the subscription if isn't expired yet, show login otherwise
+     */
+    if(![NI_reachabilityService isNetworkAvailable] || [NI_reachabilityService isNetworkAvailable] == NO){
+        NSString *userName = [SubscriptionHandler returnUserName];
+        NSString *password = [SubscriptionHandler returnPassword];
+        
+        if(userName.length>0 && password.length>0){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self displayMagazines];
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self showLoginScreen];
+            });
+        }
+    }else{
+        
+        NSString *userName = [SubscriptionHandler returnUserName];
+        NSString *password = [SubscriptionHandler returnPassword];
+        
+        if(!STORE_USER_DETAILS){
+            [SubscriptionHandler storeUserDetails:@"" password:@""];
+        }
+        if(userName.length>0 && password.length >0){
+            __block bool subsCheck;
+            
+            subsCheck= [SubscriptionHandler checkLoginValid:userName password:password];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(subsCheck){
+                    
+                }
+                else{
+                    [self showLoginScreen];
+                }
+            });
+        }
+        
+        /*
+         * If connected Online, delete the previous editions 7days older
+         */
+		[IGCache deleteCacheFilesOlderThan:[[NSDate date] dateByAddingDays:(kDeleteCacheFilesAfter * -1)]];
+        
+        [self displayMagazines];
+    }
+}
+
+
+/* Display thumbnails of magazines and default image if thumbnail failed to load */
+- (void) displayMagazines
+{
+    dispatch_queue_t backgroundQueue = dispatch_queue_create("loadEditionQueue", 0);
+    
+    dispatch_async(backgroundQueue, ^{
+        
+            [self loadEditionPapers];
+            [self refreshEditionViews];
+            
+            [_splashScreen removeFromSuperview];
+    });
 }
 
 /* INITIALIZE RADAE SETTINGS */
@@ -171,6 +235,13 @@ static int portraitVGap = 70;
     {
         annotHighlightColor =0xFFFFFF00;
     }
+    
+    if (!appTracker) {
+        appTracker = [HelperUtility trackingClass];
+    }
+    
+    [paperBtn.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [paperBtn.layer setBorderWidth:2];
 }
 
 // download latest automatically.
@@ -290,9 +361,79 @@ static int portraitVGap = 70;
     }
     else
     {
-        [settingsVC.view removeFromSuperview];
-        settingsVC = nil;
+        [self closeSettingPopUP];
     }
+}
+
+- (void) closeSettingWebView
+{
+    [webView removeFromSuperview];
+    [webViewCloseBtn removeFromSuperview];
+    
+    webView = nil;
+    webViewCloseBtn = nil;
+}
+
+- (void) closeSettingPopUP
+{
+    [settingsVC.view removeFromSuperview];
+    settingsVC = nil;
+}
+
+#pragma mark SETTINGS WEBVIEW
+- (void) openSettingsWebView:(NSString*)url
+{
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    float x,y, w, h, squareFrame;
+    
+    if ([self isPortrait]) {
+        w = bounds.size.width * 0.8f;
+        h = bounds.size.height * 0.8f;
+        x = (bounds.size.width / 2) - ( w / 2 );
+        y = (bounds.size.height / 2) - ( h / 2 );
+    } else {
+        w = bounds.size.height * 0.8f;
+        h = bounds.size.width * 0.8f;
+        y = (bounds.size.width / 2) - ( h / 2 );
+        x = (bounds.size.height / 2) - ( w / 2 );
+    }
+    
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(x, y, w, h)];
+    webView.layer.borderColor = [UIColor whiteColor].CGColor;
+    webView.delegate = self;
+    webView.layer.cornerRadius = 5;
+    
+    //add close btn
+    webViewCloseBtn = [[UIButton alloc] init];
+    squareFrame = 50;
+    [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
+    [webViewCloseBtn setImage:[UIImage imageNamed:@"btn_Delete_Pressed"] forState:UIControlStateNormal];
+    [webViewCloseBtn addTarget:self action:@selector(closeSettingWebView) forControlEvents:UIControlEventTouchUpInside];
+    
+    webSpinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
+    webSpinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [webSpinner setColor:[UIColor grayColor]];
+    webSpinner.hidesWhenStopped = YES;
+    [webSpinner stopAnimating];
+    
+    NSURL* nsUrl = [NSURL URLWithString:url];
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
+    [webView loadRequest:request];
+    
+    [webView sizeToFit];
+    
+    [webView addSubview:webSpinner];
+    [self.view addSubview:webView];
+    [self.view addSubview:webViewCloseBtn];
+}
+
+- (void) webViewDidStartLoad:(UIWebView *)webView{
+    [webSpinner startAnimating];
+}
+
+- (void) webViewDidFinishLoad:(UIWebView *)webView {
+    [webSpinner stopAnimating];
 }
 
 #pragma mark LOAD EDITIONS
@@ -347,8 +488,8 @@ static int portraitVGap = 70;
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection problem" message:@"Oops! Your device is offline and you have no available editions. Please connect to the internet E001"
                                                                        delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                        [[[trackingClass getInstance] returnInstance] sendEventWithCategory:@"Error Event" withAction:@"E001" withLabel:@"Error" withValue:0];
                         
+                        [appTracker sendEventWithCategory:@"Error Event" withAction:@"E001" withLabel:@"Error" withValue:0];
                         [alert show];
                     });
                 }
@@ -374,7 +515,7 @@ static int portraitVGap = 70;
 			}
 			else if(![parsingError isEqualToString:@"YES"]){
                 
-                [[[trackingClass getInstance] returnInstance] sendEventWithCategory:@"Error Event" withAction:@"E002" withLabel:@"Error" withValue:0];
+                [appTracker sendEventWithCategory:@"Error Event" withAction:@"E002" withLabel:@"Error" withValue:0];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection problem" message:@"Sorry, it looks like we have a system issue. Please try again later E002"
                                                                    delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -395,7 +536,6 @@ static int portraitVGap = 70;
 #pragma mark NSURLConnection interface
 #pragma mark -
 -(void) connection:(NSURLConnection *) connection didReceiveResponse: (NSURLResponse *)response {
-    
     
     // cast the response to NSHTTPURLResponse so we can look for 404 etc
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -443,7 +583,7 @@ static int portraitVGap = 70;
                 [self createPapersArrayFromJsonDic:jsonDic];
             }
             else if(!papersArray){
-                [[[trackingClass getInstance] returnInstance] sendEventWithCategory:@"Error Event" withAction:@"E007" withLabel:@"Error" withValue:0];
+                [appTracker sendEventWithCategory:@"Error Event" withAction:@"E007" withLabel:@"Error" withValue:0];
                 NSString *errorMessage = [NSString stringWithFormat:@"Sorry, The edition is not available at present. Please try again later E007"];
                 
                 
@@ -454,11 +594,10 @@ static int portraitVGap = 70;
                 alert.tag = 15;
                 [alert show];
             }
-            
         }
     }
     @catch (NSException *ex) {
-        [[[trackingClass getInstance] returnInstance] sendEventWithCategory:@"Error Event" withAction:@"E009" withLabel:@"Error" withValue:0];
+        [appTracker sendEventWithCategory:@"Error Event" withAction:@"E009" withLabel:@"Error" withValue:0];
         NSString *errorMessage = [NSString stringWithFormat:@"Sorry, it looks like we have a system issue. Please try again later E009"];
         
         
@@ -469,8 +608,6 @@ static int portraitVGap = 70;
         alert.tag = 15;
         [alert show];
     }
-    // [buildingView setHidden:YES];
-    
 }
 
 - (void)createPapersArrayFromJsonDic:(NSDictionary*)jsonDic
@@ -501,7 +638,7 @@ static int portraitVGap = 70;
     else if(!papersArray){
         parsingError =@"YES";
         
-        [[[trackingClass getInstance] returnInstance] sendEventWithCategory:@"Error Event" withAction:@"E006" withLabel:@"Error" withValue:0];
+        [appTracker sendEventWithCategory:@"Error Event" withAction:@"E006" withLabel:@"Error" withValue:0];
         NSString *errorMessage = [NSString stringWithFormat:@"Please Check your internet connection and try again E006"];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Download Failed"
                                                         message:errorMessage
@@ -540,17 +677,21 @@ static int portraitVGap = 70;
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
     {
         self.m_portraitView.hidden = YES;
         self.m_landscapeView.hidden = NO;
         //tooltipView.frame = CGRectMake(1024-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
+        
     }
     else
     {
         self.m_portraitView.hidden = NO;
         self.m_landscapeView.hidden = YES;
         //tooltipView.frame = CGRectMake(768-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
+        
     }
     
     [self setupInterface:toInterfaceOrientation];
@@ -564,6 +705,34 @@ static int portraitVGap = 70;
     
     //portraitInfoButton.selected = NO;
     //landscapeInfoButton.selected = NO;
+}
+
+/* Fix Objects size and position upon rotation */
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //SET UP WEB VIEW ON CHANGE ORIENTATION
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    float x,y, w, h, squareFrame;
+    
+    squareFrame = 50;
+    
+    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation))
+    {
+        w = bounds.size.width * 0.8f;
+        h = bounds.size.height * 0.8f;
+        x = (bounds.size.width / 2) - ( w / 2 );
+        y = (bounds.size.height / 2) - ( h / 2 );
+    } else
+    {
+        w = bounds.size.height * 0.8f;
+        h = bounds.size.width * 0.8f;
+        y = (bounds.size.width / 2) - ( h / 2 );
+        x = (bounds.size.height / 2) - ( w / 2 );
+    }
+    
+    [webView setFrame:CGRectMake(x, y, w, h)];
+    [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
+    [webSpinner setFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
 }
 
 #pragma mark ADD LONG PRESS GESTURE
@@ -612,7 +781,7 @@ static int portraitVGap = 70;
     }
     
     pdf.pageEdition = edition;
-    m_pdfName       = edition.paperUrl; //[NSMutableString stringWithFormat:@"pdf_"];
+    m_pdfName       = edition.paperUrl;
     m_pdfFullPath   = edition.fullPDFPath;
     
     int result = [pdf PDFOpen:m_pdfFullPath withPassword:@""];
@@ -624,17 +793,21 @@ static int portraitVGap = 70;
         int pageNo = 1;
         [pdf PDFThumbNailinit:pageNo];
     }
+    
+    //TRACKED EDITION OPENED with Label as date of the edition
+    [appTracker sendEventWithCategory:@"Edition Opened" withAction:@"PDF_OPEN" withLabel:edition.dateString withValue:0];
 }
 
 static int pageWidth = 675/2+42;
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
-    [self lockScrollView:scrollView];
+    //[self lockScrollView:scrollView];
 }
+
 
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self lockScrollView:scrollView];
+  [self lockScrollView:scrollView];
 }
 
 - (void) lockScrollView:(UIScrollView *)scrollView
@@ -652,6 +825,13 @@ static int pageWidth = 675/2+42;
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     [self lockScrollView:scrollView];
+}
+
+/* Check if isPortrait orientation */
+- (BOOL)isPortrait
+{
+    return ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait ||
+            [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown);
 }
 
 @end

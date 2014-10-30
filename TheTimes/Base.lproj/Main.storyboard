@@ -53,7 +53,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pq5-KC-EnO">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" directionalLockEnabled="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pq5-KC-EnO">
                                         <rect key="frame" x="0.0" y="56" width="1024" height="768"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <connections>
@@ -63,15 +63,16 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="asD-0G-vbb" userLabel="Settings">
+                            <button contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="asD-0G-vbb" userLabel="Settings">
                                 <rect key="frame" x="600" y="30" width="126" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="eFI-8d-037"/>
                                     <constraint firstAttribute="width" constant="126" id="wSB-Hw-Czi"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="SETTINGS">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <state key="normal" title="SETTINGS" backgroundImage="update_blank">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -79,7 +80,7 @@
                                     <action selector="showSettingsPanel:" destination="uY6-yR-kUi" eventType="touchUpInside" id="Ocs-jw-BHH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz1-ko-gDw" userLabel="Paper">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zz1-ko-gDw" userLabel="Paper">
                                 <rect key="frame" x="450" y="30" width="126" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -89,11 +90,20 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UqW-Rp-ERj" userLabel="Splash">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.25655691959999999" green="0.25655691959999999" blue="0.25655691959999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="UqW-Rp-ERj" secondAttribute="bottom" id="2L7-dw-ww7"/>
                             <constraint firstItem="asD-0G-vbb" firstAttribute="leading" secondItem="zz1-ko-gDw" secondAttribute="trailing" constant="24" id="DDv-5j-mlq"/>
+                            <constraint firstItem="UqW-Rp-ERj" firstAttribute="top" secondItem="r1K-le-a3F" secondAttribute="top" id="LdL-dB-FJA"/>
+                            <constraint firstItem="UqW-Rp-ERj" firstAttribute="leading" secondItem="r1K-le-a3F" secondAttribute="leading" id="Obz-Ke-LoJ"/>
                             <constraint firstAttribute="trailing" secondItem="asD-0G-vbb" secondAttribute="trailing" constant="42" id="hPi-Sh-rpQ"/>
+                            <constraint firstAttribute="trailing" secondItem="UqW-Rp-ERj" secondAttribute="trailing" id="oo1-iJ-Gzx"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -108,9 +118,10 @@
                         <outlet property="m_portraitView" destination="LHM-q6-mKi" id="4QJ-1M-qdT"/>
                         <outlet property="paperBtn" destination="zz1-ko-gDw" id="p2s-oX-4lX"/>
                         <outlet property="settingsBtn" destination="asD-0G-vbb" id="vcG-LW-dGl"/>
+                        <outlet property="splashScreen" destination="UqW-Rp-ERj" id="aFf-Z5-oPR"/>
                         <outlet property="sv_landscapeScrollView" destination="pq5-KC-EnO" id="tEx-uE-U8b"/>
                         <outlet property="sv_portraitScrollView" destination="TAC-qQ-fy7" id="av1-vN-MRd"/>
-                        <segue destination="yny-yd-nlH" kind="modal" identifier="LoginScreen" id="C0k-tW-QJQ"/>
+                        <segue destination="yny-yd-nlH" kind="modal" identifier="LoginScreen" animates="NO" id="C0k-tW-QJQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wR5-At-7Gm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -297,6 +308,7 @@ member, please login</string>
         <image name="Greenbutton_large_ontap" width="229" height="60"/>
         <image name="MasterLogo" width="416" height="86"/>
         <image name="subscription_background" width="540" height="51"/>
+        <image name="update_blank" width="309" height="71"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -3,16 +3,11 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "Icon-76.png"
+      "filename" : "dl_delete.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "Icon-76@2x.png"
-    },
-    {
-      "idiom" : "universal",
-      "unassigned" : true
+      "scale" : "2x"
     }
   ],
   "info" : {

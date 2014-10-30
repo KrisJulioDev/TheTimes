@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "GAITrackedViewController.h"
 
-@interface TTLoginViewController : GAITrackedViewController <UIWebViewDelegate>
+@interface TTLoginViewController : GAITrackedViewController <UIWebViewDelegate, UITextFieldDelegate>
 {
     IBOutlet UITextField *passwordEntry, *userNameEntry;
     IBOutlet UIActivityIndicatorView *spinner;
@@ -18,6 +18,9 @@
     IBOutlet UIView *mScreenBarrierView;
     BOOL loginInProcess;
     
+    
+    CGRect originalFrame;
+    BOOL textFieldIsUp;
 }
 
 extern NSString *const SIGNIN_SCHEME;
