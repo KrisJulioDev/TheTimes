@@ -871,17 +871,35 @@ extern NSMutableString *pdfPath;
                     [m_view vGetDeltaToCenterPage:pos.pageno - 1 :&m_swipe_dx :&m_swipe_dy];
                 }
                 else if( dx < 0 && pos.pageno < [m_doc pageCount] - 1){
+                    
                     int pageNo = pos.pageno;
+                    BOOL isLandscape = UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+                    
                     if ([m_view vGetScale] > scaleThreshold) {
                         if (pos.pageno+1 == [m_doc pageCount] - 1) {
-                            [m_view vSetZoomScale:0.1f page:pageNo];
+                            if (isLandscape) {
+                                pageNo = pageNo;
+                                [m_view vSetZoomScale:0.1f page:pageNo];
+                                [self vGoto:pageNo];
+                                
+                                [m_view vGetDeltaToCenterPage:pageNo + 1  :&m_swipe_dx :&m_swipe_dy];
+                            }
+                            else{
+                                pageNo = pageNo + 1 ;
+                                [m_view vSetZoomScale:0.1f page:pageNo];
+                                [self vGoto:pageNo];
+                                
+                                [m_view vGetDeltaToCenterPage:pageNo + 1  :&m_swipe_dx :&m_swipe_dy];
+                            }
+                            
                         } else {
                             pageNo = pageNo + 1;
                             [m_view vSetZoomScale:0.1f page:pageNo];
+                            [self vGoto:pageNo];
+                            
+                            [m_view vGetDeltaToCenterPage:pageNo  :&m_swipe_dx :&m_swipe_dy];
                         }
                         
-                        [self vGoto:pageNo];
-                        [m_view vGetDeltaToCenterPage:pageNo :&m_swipe_dx :&m_swipe_dy];
                         
                         }
                     

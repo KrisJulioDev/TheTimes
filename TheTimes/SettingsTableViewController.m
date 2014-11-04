@@ -24,14 +24,14 @@
     [settingsItem addObject:@"FAQ"];
     [settingsItem addObject:@"LEGALS"];
     [settingsItem addObject:@"CONTACT"];
-    [settingsItem addObject:@"CREDITS"];
+    //[settingsItem addObject:@"CREDITS"];
     
     settingsURL = [NSMutableArray new];
     [settingsURL addObject:@"http://help.thetimes.co.uk/"];
     [settingsURL addObject:@"https://login.thetimes.co.uk/links/faq"];
     [settingsURL addObject:@"https://login.thetimes.co.uk/links/terms"];
     [settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
-    [settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
+    //[settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
     
 }
 

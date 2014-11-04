@@ -61,4 +61,5 @@ static int DELETE_INTERRUPT_POPUP_TAG = 5;
 - (IBAction) downloadThisEdition : ( id ) sender;
 - (IBAction) playPauseDownload:(id)sender;
 - (IBAction) deleteInterruptedDownload:(id)sender;
+- (void) downloadError:(Edition *)edition;
 @end

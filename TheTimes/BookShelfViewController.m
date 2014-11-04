@@ -129,7 +129,6 @@ static int portraitVGap = 70;
 
 - (void) fetchTimesData
 {
-    
     /* 
      * Check for network, if there isn't get the last saved username and password to access the app offline
      * else if there is connection check the subscription if isn't expired yet, show login otherwise
@@ -141,6 +140,7 @@ static int portraitVGap = 70;
         if(userName.length>0 && password.length>0){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self displayMagazines];
+
             });
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -162,7 +162,7 @@ static int portraitVGap = 70;
             subsCheck= [SubscriptionHandler checkLoginValid:userName password:password];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if(subsCheck){
-                    
+                   // [self.barrier setHidden:YES];
                 }
                 else{
                     [self showLoginScreen];
@@ -574,14 +574,14 @@ static int portraitVGap = 70;
             if (error == nil) {
                 hasDownloadedJSON = YES;
                 [self createPapersArrayFromJsonDic:papersDictionary];
-            }
+             }
         }
         else{
             parsingError = @"YES";
             if (!papersArray && [[NSUserDefaults standardUserDefaults] objectForKey:kCachedGlobalJSON]) {
                 NSDictionary *jsonDic = [[NSUserDefaults standardUserDefaults] objectForKey:kCachedGlobalJSON];
                 [self createPapersArrayFromJsonDic:jsonDic];
-            }
+             }
             else if(!papersArray){
                 [appTracker sendEventWithCategory:@"Error Event" withAction:@"E007" withLabel:@"Error" withValue:0];
                 NSString *errorMessage = [NSString stringWithFormat:@"Sorry, The edition is not available at present. Please try again later E007"];
@@ -615,6 +615,8 @@ static int portraitVGap = 70;
 	NSArray *availablePapers = [NSArray arrayWithArray:[jsonDic objectForKey:availablePapersKey]];
     [TTWebService sharedInstance].paper_editions = availablePapers;
     [[TTEditionManager sharedInstance] updateEditions];
+    
+    [self.barrier setHidden:YES];
     
 	NSMutableArray* mutablePapers = [NSMutableArray arrayWithCapacity:50];
 	for(NSDictionary* dicPaper in availablePapers)

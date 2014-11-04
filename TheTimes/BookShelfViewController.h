@@ -44,6 +44,7 @@
 @property (weak, nonatomic) IBOutlet UIView *m_landscapeView;
 @property (weak, nonatomic) IBOutlet UIView *m_portraitView;
 @property (strong, nonatomic) IBOutlet UIView *splashScreen;
+@property (strong, nonatomic) IBOutlet UIView *barrier;
 
 
 @property (atomic) BOOL isDeleting;

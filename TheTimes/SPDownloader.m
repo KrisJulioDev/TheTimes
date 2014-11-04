@@ -25,7 +25,7 @@
 NSString * const OVERRIDDEN_REGION_KEY = @"overriddenRegion";
 NSString * const PAPER_REGION_KEY = @"region";
 
-     @synthesize errorMessage, delegate, isDownloading, myURL, isShowingManager, isPauseDownloadedManually, willResign;
+@synthesize errorMessage, delegate, isDownloading, myURL, isShowingManager, isPauseDownloadedManually, willResign;
 @synthesize hasSpeedError, startDate;
 @synthesize edition;
 
@@ -89,7 +89,9 @@ NSString * const PAPER_REGION_KEY = @"region";
 -(void) pauseDownload
 {
     if (!isDownloading) return;
-        
+    
+    isPauseDownloadedManually = YES;
+    
     [theFile closeFile];
     self.startDate = nil;
 	//if(!isPauseDownloadedManually){
@@ -141,7 +143,8 @@ NSString * const PAPER_REGION_KEY = @"region";
     {
 		[delegate downloadStoppedForURL:self.myURL toPath:fileDirectory file:fileFullPath success:NO];
 	}
-	
+    
+	isPauseDownloadedManually = NO;
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
 }
@@ -163,6 +166,8 @@ NSString * const PAPER_REGION_KEY = @"region";
     [request addValue:@"bytes" forHTTPHeaderField:@"Accept-Ranges"];
 	[request addValue:[NSString stringWithFormat:@"bytes=%f-", fromBytes] forHTTPHeaderField:@"Range"];
 	myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    
+    isPauseDownloadedManually = NO;
 }
 
 - (void)checkData
@@ -171,7 +176,9 @@ NSString * const PAPER_REGION_KEY = @"region";
 	if (dataReceivedForThisConnection < kLowConnectionSpeedAmount && isDownloading) 
 	{
 		hasSpeedError = YES;
-		[self pauseDownload];
+        
+        //isDownloading = NO; 
+        
         if(checkIfDataReceived!=nil){
             checkIfDataReceived = nil;
            [checkIfDataReceived invalidate]; 
@@ -181,7 +188,7 @@ NSString * const PAPER_REGION_KEY = @"region";
 		dataReceivedForThisConnection = 0;
 		[NSTimer scheduledTimerWithTimeInterval:kLowConnectionSpeedTime target:self selector:@selector(checkData) userInfo:nil repeats:NO];
 	}
-	
+	 
 }
 
 #pragma mark NSURLConnection interface
@@ -320,7 +327,7 @@ NSString * const PAPER_REGION_KEY = @"region";
         
     if (error.code == kNetworkConnectionLostErrorCode)
     {
-        isPauseDownloadedManually = YES;
+        //[delegate downloadFailed:edition];
     }
     else
     {

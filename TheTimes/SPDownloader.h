@@ -69,5 +69,6 @@
 - (void) downloadStoppedForURL:(NSString*)url toPath:(NSString*)path file:(NSString*)fileFullPath success:(BOOL)isSuccess;
 - (void) downloadUpdatedProgress:(NSString*)url progress:(float)progress;
 - (void) downloadFailed:(Edition *)edition;
+- (void) downloadError:(Edition *)edition;
 
 @end

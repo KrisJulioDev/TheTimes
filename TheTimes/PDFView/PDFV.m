@@ -1154,7 +1154,7 @@
         m_scale_max = m_scale_min * zoomLevel;
         m_scale = m_scale_min;
         
-        int left = m_w/2;
+        int left = 0;
         int top = m_page_gap / 2;
         cur = 0;
         m_docw = 0;
@@ -1186,8 +1186,12 @@
                 left += [vpage GetWidth] + m_page_gap;
                 if( m_doch < [vpage GetHeight] ) m_doch = [vpage GetHeight];
                 cur++;
+                
+                UILabel *pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(left, m_scale, 40, 40)];
+                [pageLabel setText:@"page"];
+                
             }
-            m_docw = left + m_w/2;
+            m_docw = left ;
         }
     }
     else

@@ -45,22 +45,6 @@
             timestampString = "436271503.382038"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1237"
-            endingLineNumber = "1237"
-            landmarkName = "-vGetPos:::"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TheTimes/PDFView/PDFV.m"
-            timestampString = "436271503.382038"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "753"
             endingLineNumber = "753"
             landmarkName = "-vLayoutOnZoom"
@@ -122,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TheTimes/TTMagazineView.m"
-            timestampString = "436335059.201842"
+            timestampString = "436344477.241281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
-            landmarkName = "-continueDownload"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "-downloadThisEdition:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -137,29 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TheTimes/TTLoginViewController.m"
-            timestampString = "436262273.370429"
+            filePath = "TheTimes/BookShelfViewController.m"
+            timestampString = "436430214.094472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
-            landmarkName = "-textFieldDidBeginEditing:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TheTimes/TTLoginViewController.m"
-            timestampString = "436262274.266433"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "-textFieldDidEndEditing:"
+            startingLineNumber = "657"
+            endingLineNumber = "657"
+            landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -169,13 +137,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TheTimes/PDFView/PDFView.m"
-            timestampString = "436270816.83311"
+            filePath = "TheTimes/PDFView/PDFV.m"
+            timestampString = "436353797.985753"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "855"
-            endingLineNumber = "855"
-            landmarkName = "-onSwipe::"
+            startingLineNumber = "1185"
+            endingLineNumber = "1185"
+            landmarkName = "-vLayout"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

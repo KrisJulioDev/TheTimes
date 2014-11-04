@@ -18,6 +18,9 @@
 #import "TrackingUtil.h"
 #import "HelperUtility.h"
 
+#define DOWNLOAD_TAG 1000
+#define PLAYPAUSE_TAG 1001
+
 @implementation TTMagazineView
 
 - (id)initWithFrame:(CGRect)frame
@@ -297,32 +300,42 @@ static NSDateFormatter *dayFormatter;
     }
     else
     {
-        [self continueDownload];
+        UIButton *btn = (UIButton*)sender;
+        [self continueDownload:btn.tag];
     }
     
     //Track downloaded edition
     [appTracker sendEventWithCategory:@"Download Edition" withAction:@"Download" withLabel:self.edition.dateString withValue:0];
 }
 
-- (void) continueDownload
+- (void) continueDownload:(int)tag
 {
     if (![SPDownloader mySPDownloader].isDownloading)
     {
-        NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-        [dictionary setObject:@"edition download start" forKey:@"product_size"];
-        [dictionary setObject:@"download" forKey:@"product_sku"];
-        [dictionary setObject:_edition.dateString forKey:@"webview_url"];
-        
-        _progressView.progress = 0;
-        _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", 0];
-        
-        [self setProgress:0];
-        [SPDownloader mySPDownloader].delegate = self;
-        [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
-        
-        TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate.bookShelfVC refreshEditionViews];
-        [self trackDownload];
+        if (![SPDownloader mySPDownloader].isPauseDownloadedManually || tag == PLAYPAUSE_TAG)
+        {
+            NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+            [dictionary setObject:@"edition download start" forKey:@"product_size"];
+            [dictionary setObject:@"download" forKey:@"product_sku"];
+            [dictionary setObject:_edition.dateString forKey:@"webview_url"];
+            
+            _progressView.progress = 0;
+            _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", 0];
+            
+            [self setProgress:0];
+            [SPDownloader mySPDownloader].delegate = self;
+            [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
+            
+            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.bookShelfVC refreshEditionViews];
+            [self trackDownload];
+
+        }
+        else{
+            NSString *title = NSLocalizedString(@"Downloading", nil);
+            NSString *text = NSLocalizedString(@"SINGLE_DOWNLOAD_MESSAGE", nil);
+            [UserInterfaceUtils showPopupWithTitle:title text:text];
+        }
     }
     else
     {
@@ -394,6 +407,9 @@ static NSDateFormatter *dayFormatter;
         [appTracker sendEventWithCategory:@"Download Edition Success" withAction:@"Downloaded" withLabel:self.edition.dateString withValue:0];
 
     }
+    else if ( [SPDownloader mySPDownloader].isPauseDownloadedManually == YES ) {
+        NSLog(@"DOWNLOAD STOP FOR SOME REASON 111");
+    }
     
     // Refresh our view
     TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -417,11 +433,13 @@ static NSDateFormatter *dayFormatter;
     NSString *retry     = NSLocalizedString(@"Retry", nil);
     NSString *cancel    = NSLocalizedString(@"Cancel", nil);
     
+    [SPDownloader mySPDownloader].isPauseDownloadedManually = NO;
+    magazineStatus = stopped;
+    
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:cancel otherButtonTitles:retry, nil];
     alertView.tag = DOWNLOAD_FAILED_POPUP_TAG;
     [alertView show];
-    
-    
+     
     //Edition download failed
     [appTracker sendEventWithCategory:@"Download Edition Failed" withAction:@"Failed Download" withLabel:self.edition.dateString withValue:0];
 }
@@ -533,17 +551,21 @@ static NSDateFormatter *dayFormatter;
     {
         if (buttonIndex == 1)
         {
-            [self continueDownload];
+            [self continueDownload:DOWNLOAD_TAG];
         }
     }
     else if (alertView.tag == DELETE_INTERRUPT_POPUP_TAG)
     {
-        [[SPDownloader mySPDownloader] clearDownloadOnDelete];
-        magazineStatus = stopped;
-        
-        TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate.bookShelfVC refreshEditionViews];
+        if (buttonIndex == 1)
+        {
+            [[SPDownloader mySPDownloader] clearDownloadOnDelete];
+            magazineStatus = stopped;
+            
+            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate.bookShelfVC refreshEditionViews];
+        }
     }
+        
 }
 
 @end

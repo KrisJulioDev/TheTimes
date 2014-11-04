@@ -257,7 +257,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
 {
     [[TTEditionManager sharedInstance] updateEditions];
     
-    
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -268,6 +267,9 @@ NSString *const SIGNIN_SCHEME = @"signin";
     NSString *userName, *password;
     userName = userNameEntry.text;
     password = passwordEntry.text;
+    
+    [self hideKeyboard:self];
+    
     __block NSString *loginStatus;
     loginStatus = @"0";
     CGRect screenRect =CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);

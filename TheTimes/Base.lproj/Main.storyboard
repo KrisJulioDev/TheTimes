@@ -95,15 +95,38 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHs-z2-ZgU" userLabel="Barrier">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MasterLogo" translatesAutoresizingMaskIntoConstraints="NO" id="B58-pN-bmF">
+                                        <rect key="frame" x="160" y="260" width="448" height="86"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="86" id="SWe-2t-Jrn"/>
+                                            <constraint firstAttribute="width" constant="448" id="W7G-la-mjG"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="B58-pN-bmF" secondAttribute="centerX" id="FnB-q0-RfI"/>
+                                    <constraint firstItem="B58-pN-bmF" firstAttribute="top" secondItem="tHs-z2-ZgU" secondAttribute="top" constant="260" id="NWI-My-O0C"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.25655691959999999" green="0.25655691959999999" blue="0.25655691959999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="UqW-Rp-ERj" secondAttribute="bottom" id="2L7-dw-ww7"/>
+                            <constraint firstItem="tHs-z2-ZgU" firstAttribute="top" secondItem="r1K-le-a3F" secondAttribute="top" id="8H7-lH-KZF"/>
                             <constraint firstItem="asD-0G-vbb" firstAttribute="leading" secondItem="zz1-ko-gDw" secondAttribute="trailing" constant="24" id="DDv-5j-mlq"/>
+                            <constraint firstAttribute="trailing" secondItem="tHs-z2-ZgU" secondAttribute="trailing" id="JrM-HP-9V7"/>
                             <constraint firstItem="UqW-Rp-ERj" firstAttribute="top" secondItem="r1K-le-a3F" secondAttribute="top" id="LdL-dB-FJA"/>
                             <constraint firstItem="UqW-Rp-ERj" firstAttribute="leading" secondItem="r1K-le-a3F" secondAttribute="leading" id="Obz-Ke-LoJ"/>
+                            <constraint firstAttribute="bottom" secondItem="tHs-z2-ZgU" secondAttribute="bottom" id="gr3-ij-WNT"/>
                             <constraint firstAttribute="trailing" secondItem="asD-0G-vbb" secondAttribute="trailing" constant="42" id="hPi-Sh-rpQ"/>
                             <constraint firstAttribute="trailing" secondItem="UqW-Rp-ERj" secondAttribute="trailing" id="oo1-iJ-Gzx"/>
+                            <constraint firstItem="tHs-z2-ZgU" firstAttribute="leading" secondItem="r1K-le-a3F" secondAttribute="leading" id="vZc-Uz-OLV"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -114,6 +137,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="768" height="1024"/>
                     <connections>
+                        <outlet property="barrier" destination="tHs-z2-ZgU" id="KgO-a7-AA8"/>
                         <outlet property="m_landscapeView" destination="wyb-xz-9p4" id="Ge6-LP-Fgi"/>
                         <outlet property="m_portraitView" destination="LHM-q6-mKi" id="4QJ-1M-qdT"/>
                         <outlet property="paperBtn" destination="zz1-ko-gDw" id="p2s-oX-4lX"/>

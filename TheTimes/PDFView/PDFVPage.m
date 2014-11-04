@@ -427,6 +427,8 @@
         [canvas FillRect: CGRectMake(m_x - scrollx, m_y - scrolly, m_w, m_h): 0xFFFFFFFF];
     if( m_sel != nil )
         [m_sel DrawSel:canvas: m_scale: [m_doc pageHeight:m_pageno]: m_x - scrollx: m_y - scrolly];
+    
+    
 }
 
 -(bool)NeedBmp
