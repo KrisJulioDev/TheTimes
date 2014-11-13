@@ -17,6 +17,8 @@
 
 @interface RDPDFViewController ()
 
+@property (nonatomic, strong) SectionPopUpVC *transition;
+
 @end
 
 
@@ -34,7 +36,10 @@
 {
    //ADD THUMB NAVIGATION
     NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"HeaderView" owner:self options:nil];
-    HeaderView *headerView = [topLevelObjects objectAtIndex:0];
+    HeaderView *headerView   = [topLevelObjects objectAtIndex:0];
+    
+    
+    self.transition = [SectionPopUpVC new];
     
     [self.view addSubview:headerView];
 }
@@ -46,15 +51,17 @@
     
     pageno++;
     NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pageno];
-    pagestr = [pagestr stringByAppendingFormat:@"%d",pagecount];
+    pagestr           = [pagestr stringByAppendingFormat:@"%d",pagecount];
     pageNumLabel.text = pagestr;
 }
 
 - (void)OnLongPressed:(float)x :(float)y{}
-- (void)OnSingleTapped:(float)x :(float)y :(NSString *)text{}
-- (void)OnTouchDown: (float)x :(float)y{}
-- (void)OnTouchUp:(float)x :(float)y{}
-- (void)OnSelEnd:(float)x1 :(float)y1 :(float)x2 :(float)y2{}
+- (void)OnSingleTapped:(float)x :(float)y :(NSString *)text{ }
+- (void)OnTouchDown: (float)x :(float)y{
+    [m_Thumbview setHidden:YES];
+}
+- (void)OnTouchUp:(float)x :(float)y{ }
+- (void)OnSelEnd:(float)x1 :(float)y1 :(float)x2 :(float)y2{ }
 - (void)OnOpenURL:(NSString*)url{}
 - (void)OnFound:(bool)found{}
 - (void)OnMovie:(NSString *)fileName{}
@@ -84,11 +91,12 @@
     CGRect rect = [[UIScreen mainScreen]bounds];
     //GEAR
     if (![self isPortrait] && rect.size.width < rect.size.height) {
-        float height = rect.size.height;
+        float height     = rect.size.height;
         rect.size.height = rect.size.width;
-        rect.size.width = height;
+        rect.size.width  = height;
     }
     //END
+    
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     if([iosversion integerValue]>=7)
     {
@@ -106,6 +114,7 @@
     
     return 1;
 }
+
 
 -(void)PDFThumbNailinit:(int)pageno
 { 
@@ -127,18 +136,17 @@
     
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     
-    if([[iosversion substringToIndex:1] isEqualToString:@"7"])
+    if([[iosversion substringToIndex:1] isEqualToString:@"7"] || [[iosversion substringToIndex:1] isEqualToString:@"8"])
     {
-        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight - thumbHeight, cwidth , 150)];
+        m_Thumbview  = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight - thumbHeight - 30, cwidth , 180)];
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 20+hi+1, 65, 30)];
-        
+
     } else {
-        m_Thumbview = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight-hi-50-20, cwidth, 100)];
+        m_Thumbview  = [[PDFVThumb alloc] initWithFrame:CGRectMake(0, cheight-hi-50-20, cwidth, 100)];
         pageNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 65, 30)];
     }
     
     [m_Thumbview vOpenThumb:m_doc];
-    //[m_Thumbview setFrame:CGRectMake(0, boundsc.size.height - 150, cwidth, 100)];
     [m_Thumbview sizeThatFits:CGRectMake(0, cheight - thumbHeight, cwidth, 150).size];
     
     m_Thumbview.backgroundColor = [UIColor clearColor];
@@ -147,21 +155,21 @@
     [self.view addSubview:m_Thumbview];
     [m_Thumbview setHidden:YES];
     
-    NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pagecount];
-    pagenow = pageno;
-    
-    pageNumLabel.backgroundColor = [UIColor colorWithRed:1.5 green:1.5 blue:1.5 alpha:0.2];
-    
-    pageNumLabel.textColor = [UIColor whiteColor];
+    NSString *pagestr                      = [[NSString alloc]initWithFormat:@"%d/",pagecount];
+    pagenow                                = pageno;
+
+    pageNumLabel.backgroundColor           = [UIColor colorWithRed:1.5 green:1.5 blue:1.5 alpha:0.2];
+    pageNumLabel.textColor                 = [UIColor whiteColor];
     pageNumLabel.adjustsFontSizeToFitWidth = YES;
+    pageNumLabel.baselineAdjustment        = UIBaselineAdjustmentAlignCenters;
+    pageNumLabel.layer.cornerRadius        = 10;
+    pagestr                                = [pagestr stringByAppendingFormat:@"%d",pagecount];
+    pageNumLabel.text                      = pagestr;
+    pageNumLabel.font                      = [UIFont boldSystemFontOfSize:16];
+    pageNumLabel.shadowColor               = [UIColor grayColor];
+    pageNumLabel.shadowOffset              = CGSizeMake(1.0,1.0);
+    
     [pageNumLabel setTextAlignment:NSTextAlignmentCenter];
-    pageNumLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-    pageNumLabel.layer.cornerRadius = 10;
-    pagestr = [pagestr stringByAppendingFormat:@"%d",pagecount];
-    pageNumLabel.text = pagestr;
-    pageNumLabel.font = [UIFont boldSystemFontOfSize:16];
-    pageNumLabel.shadowColor = [UIColor grayColor];
-    pageNumLabel.shadowOffset = CGSizeMake(1.0,1.0);
     [self.view addSubview:pageNumLabel];
     //pageNumLabel.setNeedsDisplay;
     [m_Thumbview vSetDelegate:self];
@@ -172,13 +180,13 @@
 -(void)PDFVThumbOnPageClicked:(int)pageno
 {
     [m_view vGoto:pageno];
-    [self quickNavPressed];
 }
 
 -(void)PDFVGotoSection:(int)sectionpage
 {
     [m_view vGoto:sectionpage];
 }
+
 
 -(void)PDFClose
 {
@@ -201,16 +209,15 @@
     [m_Thumbview setHidden:!m_Thumbview.isHidden];
 }
 
+
 - (IBAction) showSection:(id)sender
 {
-    //[self removeFromParentViewController];
-    
     SectionPopUpVC *spu                 = [[SectionPopUpVC alloc] initWithNibName:@"SectionPopUpVC" bundle:nil];
     spu.rdDelegate                      = self;
+    spu.transitioningDelegate           = self.transition;
     spu.modalPresentationStyle          = UIModalPresentationCustom;
-    spu.view.backgroundColor            = [UIColor clearColor];
-    spu.view.superview.backgroundColor  = [UIColor clearColor];
-    spu.transitioningDelegate = self;
+//    spu.view.backgroundColor            = [UIColor clearColor];
+//    spu.view.superview.backgroundColor  = [UIColor clearColor];
     
     spu.edition = _pageEdition;
     
@@ -237,8 +244,10 @@
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
     TheTimesAppDelegate *appD = [UIApplication sharedApplication].delegate;
     [appD.bookShelfVC willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
+    
 }
-
+/* Fix Thumbnail and PDF View's Frame on orientation change
+ */
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     
@@ -247,22 +256,9 @@
     int cwidth  = rect.size.width;
     int cheight = rect.size.height;
     
-    if ([self isPortrait])
-    {
-        float height = rect.size.height - 20 - h;
-        rect.size.height = height;
-        rect.size.width = rect.size.width;
-    }
-    else
-    {
-        float height = rect.size.height;
-        
-        cwidth = cheight;
-        cheight = rect.size.width;
-        
-        rect.size.height = rect.size.width - 20 - h;
-        rect.size.width = height;
-    }
+    float height     = rect.size.height - 20 - h;
+    rect.size.height = height;
+    rect.size.width  = cwidth;
     
     [m_view setFrame:rect];
     [m_view sizeThatFits:rect.size];
@@ -271,9 +267,9 @@
     
     NSString *iosversion =[[UIDevice currentDevice]systemVersion];
     
-    if([[iosversion substringToIndex:1] isEqualToString:@"7"])
+    if([[iosversion substringToIndex:1] isEqualToString:@"7"] || [[iosversion substringToIndex:1] isEqualToString:@"8"])
     {
-        [m_Thumbview setFrame:CGRectMake(0, rect.size.height - 140, cwidth, 150)];
+        [m_Thumbview setFrame:CGRectMake(0, rect.size.height - 170, cwidth, 180)];
         [m_Thumbview sizeThatFits:CGRectMake(0, cheight-thumbHeight, cwidth, 150).size];
         //[m_searchBar setFrame:CGRectMake(0,hi+20,cwidth,41)];
     }
@@ -284,10 +280,9 @@
         //[m_searchBar setFrame:CGRectMake(0, 0, cwidth, 41)];
     }
     
-    //[m_view vParentDidRotate];
-     
     [m_view vGoto:[m_view vGetCurrentPage]];
     [m_Thumbview refresh];
+    
 }
 
 - (BOOL)isPortrait

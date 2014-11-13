@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  TheTimes
+
+  Created by KrisMraz on 11/6/14.
+  Copyright (c) 2014 TheCoapperative. All rights reserved.
+*/
+
+"SINGLE_DOWNLOAD_MESSAGE"   = "Editions can only be downloaded one at a time.";
+"CANCEL_DOWNLOAD_MESSAGE"   = "Are you sure you want to cancel all downloads?";
+"DOWNLOAD_PAUSED"           = "Download is paused";
+"3G_WARNING"                = "3G Connection Detected";
+"3G_MESSAGE"                = "You are using 3g Connection. Continue download?";
+"CONFIRM_DELETE"            = "Confirm deletion?";
+"CLEAR_DOWNLOAD"            = "Clear download?";
+"3G_MESSAGE"                = "3G Connection detected. Continue download?";
+"DOWNLOAD_FAILED"           = "Oops! Something went wrong. Please delete downloaded content for the edition and restart download.";
+"LOGOUT_ALERT"              = "Do you really want to logout?";

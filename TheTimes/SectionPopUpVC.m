@@ -7,9 +7,13 @@
 //
 
 #import "SectionPopUpVC.h"
+#import "SemiModalAnimatedTransition.h"
+#import "Constants.h"
 
 @interface SectionPopUpVC ()
 
+@property (nonatomic, assign) BOOL presenting;
+@property (nonatomic, retain) SemiModalAnimatedTransition *semiModalAnimatedTransition;
 @end
 
 @implementation SectionPopUpVC
@@ -27,9 +31,76 @@
 {
     [super viewDidLoad];
     
+    
     popUpView.layer.cornerRadius = 10;
     popUpView.layer.borderWidth = 5;
     popUpView.layer.borderColor = [UIColor whiteColor].CGColor;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented
+                                                                  presentingController:(UIViewController *)presenting
+                                                                      sourceController:(UIViewController *)source {
+    self.presenting = YES;
+    return self;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    self.presenting = NO;
+    return self;
+}
+
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    UIView *fromView = [transitionContext respondsToSelector:@selector(viewForKey:)] ? [transitionContext viewForKey:UITransitionContextFromViewKey] : fromViewController.view;
+    UIView *toView = [transitionContext respondsToSelector:@selector(viewForKey:)] ? [transitionContext viewForKey:UITransitionContextToViewKey] : toViewController.view;
+    
+    
+    if (self.presenting) {
+        [transitionContext.containerView addSubview:toView];
+        [transitionContext.containerView addSubview:fromView];
+        
+        [toViewController beginAppearanceTransition:YES animated:YES];
+        [fromViewController beginAppearanceTransition:NO animated:YES];
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
+            
+            
+            [toView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            
+        } completion:^(BOOL finished) {
+            [toViewController endAppearanceTransition];
+            [fromViewController endAppearanceTransition];
+            [transitionContext completeTransition:finished];
+        }];
+        
+    } else {
+        [transitionContext.containerView addSubview:fromView];
+        [transitionContext.containerView addSubview:toView];
+        
+        [toViewController beginAppearanceTransition:YES animated:YES];
+        [fromViewController beginAppearanceTransition:NO animated:YES];
+        CGRect frame = toView.frame;
+        frame.origin.x = -frame.size.width;
+        toView.frame = frame;
+        [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
+            CGRect frame = toView.frame;
+            frame.origin.x = 0;
+            toView.frame = frame;
+        } completion:^(BOOL finished) {
+            [toViewController endAppearanceTransition];
+            [fromViewController endAppearanceTransition];
+            [transitionContext completeTransition:finished];
+        }];
+    }
+
+}
+
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    return 0.3;
 }
 
 #pragma mark TABLEVIEW DELEGATE METHOD
@@ -91,17 +162,15 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
+     [self closeSectionPopup:self];
 }
 
 - (IBAction)closeSectionPopup:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-} 
+
+    if(self.presentingViewController){
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {

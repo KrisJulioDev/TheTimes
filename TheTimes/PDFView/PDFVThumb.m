@@ -20,8 +20,10 @@ extern uint g_rect_color;
 {
     [self refresh];
 }
+
 -(void)OnPageDisplayed :(CGContextRef)ctx : (PDFVPage *)page
 {
+    
 }
 
 -(void)OnFound:(PDFVFinder *)finder
@@ -41,7 +43,7 @@ extern uint g_rect_color;
     tback.OnPageRendered = @selector(OnPageRendered:);
     //tback.OnFound = @selector(OnFound:);
     self.backgroundColor = [UIColor whiteColor];
-    [m_view vOpen:doc :4 : self: &tback];
+    [m_view vOpen:doc :6 : self: &tback];
     [m_view vResize:m_w :m_h];
     
     m_timer = [NSTimer scheduledTimerWithTimeInterval:0.03

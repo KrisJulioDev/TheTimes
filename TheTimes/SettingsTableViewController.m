@@ -8,9 +8,12 @@
 
 #import "SettingsTableViewController.h"
 #import "TheTimesAppDelegate.h"
+#import "SubscriptionHandler.h"
 
-@interface SettingsTableViewController ()
-
+@interface SettingsTableViewController () <UIAlertViewDelegate>
+{
+    TheTimesAppDelegate *appdelegate;
+}
 @end
 
 @implementation SettingsTableViewController
@@ -18,6 +21,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.tableView.layer.cornerRadius = 15;
+    self.tableView.layer.borderWidth = 5;
     
     settingsItem = [NSMutableArray new];
     [settingsItem addObject:@"HELP"];
@@ -33,6 +39,7 @@
     [settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
     //[settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
     
+    appdelegate = [UIApplication sharedApplication].delegate;
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,7 +63,6 @@
     return [settingsItem count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *reusableID = @"SettingItem";
@@ -68,15 +74,36 @@
     
     cell.textLabel.text = [settingsItem objectAtIndex:indexPath.row];
     
+    [cell setBackgroundColor:[UIColor darkGrayColor]];
+    [cell.textLabel setTextColor:[UIColor whiteColor]];
+    [cell.textLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:13]];
+    
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    TheTimesAppDelegate *appdelegate = [UIApplication sharedApplication].delegate;
     [appdelegate.bookShelfVC closeSettingPopUP];
     [appdelegate.bookShelfVC closeSettingWebView];
-    
     [appdelegate.bookShelfVC openSettingsWebView:[settingsURL objectAtIndex:indexPath.row ]];
+}
+
+- (IBAction)logoutUser:(id)sender {
+    
+    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Logout" message:NSLocalizedString(@"LOGOUT_ALERT", nil) delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok"   , nil];
+    
+    [logoutAlert show];
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex == 1) {
+        [appdelegate.bookShelfVC closeSettingPopUP];
+        [appdelegate.bookShelfVC closeSettingWebView];
+        
+        [SubscriptionHandler storeUserDetails:@"" password:@""];
+        [appdelegate.bookShelfVC showLoginScreen];
+    }
+    
 }
 
 @end

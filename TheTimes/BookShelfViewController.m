@@ -49,7 +49,13 @@
 	NSMutableArray *dummyPapersArray;
     
     UIView *activityIndicatorView;
+    
+    /** Extraction Objects */
 	UIActivityIndicatorView *activityIndicator;
+    UIActivityIndicatorView *extractionIndicator;
+    UIView *indicatorBg;
+    UILabel *extractionLabel;
+    
 	BOOL hasDownloadedJSON;
 	NSTimer *globalJSONTimer;
     id<GAITracker> appTracker;
@@ -109,14 +115,14 @@ static int portraitVGap = 70;
     /* Set region to Ireland since i dont know the default region, this doesnt cause anything on the app, just default value */
     [[NSUserDefaults standardUserDefaults] setObject:REGION_IRELAND forKey:PAPER_REGION_KEY];
     
-    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
-    
+    /* initializer RADAEE Configurations */
     [self loadSettingsWithDefaults];
 } 
 
 - (void) viewDidAppear:(BOOL)animated
 {
-   [self.view setNeedsDisplay];
+    /* call method to fix UI elements */
+    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
     
     if(![NI_reachabilityService isNetworkAvailable] || [NI_reachabilityService isNetworkAvailable] == NO) {
          [_splashScreen removeFromSuperview];
@@ -125,7 +131,10 @@ static int portraitVGap = 70;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0) , ^ {
         [self fetchTimesData];
     });
+    
+    [self.view setNeedsDisplay];
 }
+
 
 - (void) fetchTimesData
 {
@@ -139,7 +148,7 @@ static int portraitVGap = 70;
         
         if(userName.length>0 && password.length>0){
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self displayMagazines];
+                                [self displayMagazines];
 
             });
         }else{
@@ -160,22 +169,25 @@ static int portraitVGap = 70;
             __block bool subsCheck;
             
             subsCheck= [SubscriptionHandler checkLoginValid:userName password:password];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(subsCheck){
-                   // [self.barrier setHidden:YES];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0) , ^ {
+                if(subsCheck){ 
+                    
+                    /*
+                     * If connected Online, delete the previous editions 7days older
+                     */
+                    [IGCache deleteCacheFilesOlderThan:[[NSDate date] dateByAddingDays:(kDeleteCacheFilesAfter * -1)]];
+                    [self displayMagazines];
+                    
                 }
                 else{
                     [self showLoginScreen];
                 }
+
             });
+        } else
+        {
+            [self showLoginScreen];
         }
-        
-        /*
-         * If connected Online, delete the previous editions 7days older
-         */
-		[IGCache deleteCacheFilesOlderThan:[[NSDate date] dateByAddingDays:(kDeleteCacheFilesAfter * -1)]];
-        
-        [self displayMagazines];
     }
 }
 
@@ -188,7 +200,7 @@ static int portraitVGap = 70;
     dispatch_async(backgroundQueue, ^{
         
             [self loadEditionPapers];
-            [self refreshEditionViews];
+            //[self refreshEditionViews];
             
             [_splashScreen removeFromSuperview];
     });
@@ -295,12 +307,20 @@ static int portraitVGap = 70;
                 {
                     magazineView = [[TTMagazineView alloc] initWithFrame:CGRectMake(i*(landscapePaperWidth+landscapeGap)+landscapeGap/2, landscapeVGap, landscapePaperWidth, landscapePaperHeight)];
                 }
-                magazineView.paperNumber = i;
-                [_sv_landscapeScrollView addSubview:magazineView];
-                [self addLongPressRecogniser:magazineView];
-                [magazineView setUpMagazine:edition];
-                [_landscapeEditionViews addObject:magazineView];
                 
+                if ([_portraitEditionViews count] > 0) {
+                    magazineView.magazineStatus = [(TTMagazineView*)_portraitEditionViews[i] magazineStatus];
+                    [magazineView.circularProgressView setProgress: [(TTMagazineView*)_portraitEditionViews[i] circularProgressView].progress];
+                }
+                
+                if (![_landscapeEditionViews containsObject:magazineView]) {
+                    magazineView.paperNumber = i;
+                    [_sv_landscapeScrollView addSubview:magazineView];
+                    [self addLongPressRecogniser:magazineView];
+                    [_landscapeEditionViews addObject:magazineView];
+                }
+                
+                [magazineView setUpMagazine:edition];
                 i++;
             }
             
@@ -323,19 +343,29 @@ static int portraitVGap = 70;
                 
                 TTMagazineView *magazineView = nil;
                 if ([_portraitEditionViews count] > i)
-                {      
-                    magazineView = [_portraitEditionViews objectAtIndex:i];
+                {
+                    TTMagazineView *mag = [_portraitEditionViews objectAtIndex:i];
+                    magazineView = mag;
+                    magazineView.magazineStatus = mag.magazineStatus;
                 }
                 else
                 {
                     magazineView = [[TTMagazineView alloc] initWithFrame:CGRectMake(column*(portraitPaperWidth+portraitHGap)+portraitHGap, row*(portraitPaperHeight+portraitVGap)+30, portraitPaperWidth, portraitPaperHeight)];
                 }
                 
-                magazineView.paperNumber = i;
-                [_sv_portraitScrollView addSubview:magazineView];
-                [self addLongPressRecogniser:magazineView];
+                if ([_landscapeEditionViews count] > 0) {
+                    magazineView.magazineStatus = [(TTMagazineView*)_landscapeEditionViews[i] magazineStatus];
+                    [magazineView.circularProgressView setProgress: [(TTMagazineView*)_landscapeEditionViews[i] circularProgressView].progress];
+                }
+                
+                if (![_portraitEditionViews containsObject:magazineView]) {
+                    magazineView.paperNumber = i;
+                    [_sv_portraitScrollView addSubview:magazineView];
+                    [self addLongPressRecogniser:magazineView];
+                    [_portraitEditionViews addObject:magazineView];
+                }
+                
                 [magazineView setUpMagazine:edition];
-                [_portraitEditionViews addObject:magazineView];
                 i++;
             }
             
@@ -353,9 +383,9 @@ static int portraitVGap = 70;
         BOOL isLandscape = UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
         
         settingsVC = [[SettingsTableViewController alloc] initWithNibName:@"SettingsTableViewController" bundle:nil];
-        float xPos = isLandscape ? rect.size.height - settingsVC.view.frame.size.width/2 : rect.size.width - settingsVC.view.frame.size.width/2;
+        float xPos =  SCREEN_WIDTH - settingsVC.view.frame.size.width/2 - 40; //isLandscape ? rect.size.height - settingsVC.view.frame.size.width/2 - 40: rect.size.width - settingsVC.view.frame.size.width/2 - 40;
         
-        [settingsVC.view setCenter:CGPointMake(xPos, settingsBtn.frame.origin.y+50 + settingsVC.view.frame.size.height/2)];
+        [settingsVC.view setCenter:CGPointMake(xPos, settingsBtn.frame.origin.y+40 + settingsVC.view.frame.size.height/2)];
         
         [self.view addSubview:settingsVC.view];
     }
@@ -386,17 +416,10 @@ static int portraitVGap = 70;
     CGRect bounds = [[UIScreen mainScreen] bounds];
     float x,y, w, h, squareFrame;
     
-    if ([self isPortrait]) {
-        w = bounds.size.width * 0.8f;
-        h = bounds.size.height * 0.8f;
-        x = (bounds.size.width / 2) - ( w / 2 );
-        y = (bounds.size.height / 2) - ( h / 2 );
-    } else {
-        w = bounds.size.height * 0.8f;
-        h = bounds.size.width * 0.8f;
-        y = (bounds.size.width / 2) - ( h / 2 );
-        x = (bounds.size.height / 2) - ( w / 2 );
-    }
+    w = SCREEN_WIDTH * 0.8f;
+    h = SCREEN_HEIGHT * 0.8f;
+    x = SCREEN_WIDTH / 2 - ( w / 2);
+    y = SCREEN_HEIGHT / 2 - ( h / 2 );
     
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(x, y, w, h)];
     webView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -639,6 +662,7 @@ static int portraitVGap = 70;
     
     else if(!papersArray){
         parsingError =@"YES";
+        [self.barrier setHidden:YES];
         
         [appTracker sendEventWithCategory:@"Error Event" withAction:@"E006" withLabel:@"Error" withValue:0];
         NSString *errorMessage = [NSString stringWithFormat:@"Please Check your internet connection and try again E006"];
@@ -663,9 +687,9 @@ static int portraitVGap = 70;
 	}
     else if (alertView.tag == 15) {
         [self performSelector:@selector(refreshPapers) withObject:nil afterDelay:5];
-        
 		
 	}
+
 }
 
 
@@ -705,8 +729,7 @@ static int portraitVGap = 70;
         settingsVC = nil;
     }
     
-    //portraitInfoButton.selected = NO;
-    //landscapeInfoButton.selected = NO;
+   
 }
 
 /* Fix Objects size and position upon rotation */
@@ -718,23 +741,17 @@ static int portraitVGap = 70;
     
     squareFrame = 50;
     
-    if (UIInterfaceOrientationIsLandscape(fromInterfaceOrientation))
-    {
-        w = bounds.size.width * 0.8f;
-        h = bounds.size.height * 0.8f;
-        x = (bounds.size.width / 2) - ( w / 2 );
-        y = (bounds.size.height / 2) - ( h / 2 );
-    } else
-    {
-        w = bounds.size.height * 0.8f;
-        h = bounds.size.width * 0.8f;
-        y = (bounds.size.width / 2) - ( h / 2 );
-        x = (bounds.size.height / 2) - ( w / 2 );
-    }
+    w = SCREEN_WIDTH * 0.8f;
+    h = SCREEN_HEIGHT * 0.8f;
+    x = SCREEN_WIDTH / 2 - ( w / 2);
+    y = SCREEN_HEIGHT / 2 - ( h / 2 );
     
     [webView setFrame:CGRectMake(x, y, w, h)];
     [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
     [webSpinner setFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
+    
+    //portraitInfoButton.selected = NO;
+    //landscapeInfoButton.selected = NO;
 }
 
 #pragma mark ADD LONG PRESS GESTURE
@@ -775,16 +792,20 @@ static int portraitVGap = 70;
 - (void) openPDF:(Edition*)edition
 {
     [self loadSettingsWithDefaults];
+    [self closeSettingPopUP];
     
-    RDPDFViewController *pdf;
+    RDPDFViewController *pdf; 
     if( pdf == nil )
     {
         pdf = [[RDPDFViewController alloc] initWithNibName:@"RDPDFViewController"bundle:nil];
     }
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *layOutPath=[NSString stringWithFormat:@"%@/mergepdf/pdf/%@",[paths objectAtIndex:0], edition.dateString];
+    
     pdf.pageEdition = edition;
     m_pdfName       = edition.paperUrl;
-    m_pdfFullPath   = edition.fullPDFPath;
+    m_pdfFullPath   = layOutPath;
     
     int result = [pdf PDFOpen:m_pdfFullPath withPassword:@""];
     if(result == 1)
@@ -829,11 +850,95 @@ static int pageWidth = 675/2+42;
     [self lockScrollView:scrollView];
 }
 
+- (void) stopAllMagazineDownload
+{
+    for (TTMagazineView *mag in self.landscapeEditionViews) {
+        mag.magazineStatus = stopped;
+        [mag.circularProgressView setProgress:0];
+    }
+    
+    for (TTMagazineView *mag in self.portraitEditionViews) {
+        mag.magazineStatus = stopped;
+        [mag.circularProgressView setProgress:0];
+    }
+}
+
+/* We have 2 arrays of TTMagazineView
+ * Landscape and Portrait array 
+ * So we need to change magazineStatus for both Containers
+ */
+- (void) changeStatusForMagazine:(TTMagazineView*)magz : (enum Status ) status
+{
+    
+    for (TTMagazineView *mag in self.landscapeEditionViews) {
+        
+        if (magz.edition.dateString == mag.edition.dateString) {
+            mag.magazineStatus = status;
+        }
+    }
+    
+    for (TTMagazineView *mag in self.portraitEditionViews) {
+        if (magz.edition.dateString == mag.edition.dateString) {
+            mag.magazineStatus = status;
+        }
+    }
+    
+    [self refreshEditionViews];
+}
+
 /* Check if isPortrait orientation */
 - (BOOL)isPortrait
 {
     return ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait ||
             [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (void) extractionOnProcess:(BOOL) isExtracting
+{
+    if ( extractionIndicator == nil) {
+        indicatorBg = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2 - 60,
+                                                              SCREEN_HEIGHT/2 - 60,
+                                                              120,
+                                                              120)];
+        [indicatorBg.layer setBorderWidth:3];
+        [indicatorBg.layer setCornerRadius:10];
+        [indicatorBg setBackgroundColor:[UIColor blackColor]];
+        [indicatorBg setAlpha:0.7f];
+        
+        extractionIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(indicatorBg.frame.size.width/2 - 50,
+                                                                                        indicatorBg.frame.size.height/2 - 50 ,
+                                                                                        100,
+                                                                                        50)];
+        extractionIndicator.hidesWhenStopped = YES;
+        [extractionIndicator setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        
+        extractionLabel = [[UILabel alloc] initWithFrame:CGRectMake(extractionIndicator.frame.origin.x,
+                                                                    extractionIndicator.frame.origin.y + 50 ,
+                                                                    100,
+                                                                    50)];
+        [extractionLabel setTextColor:[UIColor whiteColor]];
+        [extractionLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:16]];
+        
+        [self.view addSubview:indicatorBg];
+        [indicatorBg addSubview:extractionIndicator];
+        [indicatorBg addSubview:extractionLabel];
+    }
+    
+    if (isExtracting) {
+        
+        [extractionIndicator startAnimating];
+        [extractionLabel setText:@"Extracting..."];
+        [indicatorBg setHidden:NO]; 
+        [self.view setUserInteractionEnabled:NO];
+        
+    } else {
+        
+        [extractionIndicator stopAnimating];
+        [extractionLabel setText:@""];
+        [indicatorBg setHidden:YES];
+        [self.view setUserInteractionEnabled:YES];
+        
+    }
 }
 
 @end

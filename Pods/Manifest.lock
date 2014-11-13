@@ -1,10 +1,13 @@
 PODS:
+  - LLACircularProgressView (0.1.1)
   - UICKeyChainStore (1.0.5)
 
 DEPENDENCIES:
+  - LLACircularProgressView
   - UICKeyChainStore
 
 SPEC CHECKSUMS:
+  LLACircularProgressView: 97fb4c9f115367b50c67a1fbafc5c881e7d745ec
   UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
 
 COCOAPODS: 0.33.1

@@ -10,7 +10,8 @@
 }
 -(id)init:(CGContextRef)ctx :(float)scale;
 -(void)DrawBmp : (PDFDIB *)dib : (int)x :(int)y ;
--(void)DrawBmp : (PDFDIB *)dib : (int)x : (int)y : (int)w : (int)h;
+-(void)DrawBmp :(PDFDIB *)dib  :(int)x :(int)y :(int)page;
+-(void)DrawBmp:(PDFDIB *)dib :(int)x :(int)y :(int)w :(int)h  ;
 //-(void)Erase: (int) color;
 -(void)FillRect:(CGRect)rect : (int)color;
 -(CGContextRef)context;

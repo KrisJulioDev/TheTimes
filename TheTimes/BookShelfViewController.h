@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TheTimesBaseViewController.h"
 #import "SPDownloader.h"
+#import "TTMagazineView.h"
 
 @interface BookShelfViewController : TheTimesBaseViewController <UIScrollViewDelegate,SPDownloaderDelegate, UIAlertViewDelegate, UIWebViewDelegate>
 { 
@@ -57,5 +58,8 @@
 - (void) closeSettingPopUP;
 - (void) openSettingsWebView:(NSString*)url;
 - (void) closeSettingWebView;
-
+- (void) stopAllMagazineDownload;
+- (void) showLoginScreen;
+- (void) changeStatusForMagazine:(TTMagazineView*)magz : (enum Status ) status;
+- (void) extractionOnProcess:(BOOL) isExtracting;
 @end

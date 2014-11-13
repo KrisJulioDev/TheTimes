@@ -1,4 +1,5 @@
 pod 'UICKeyChainStore'
+pod 'LLACircularProgressView'
 
 post_install do |installer_representation|
   installer_representation.project.targets.each do |target|

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-LLACircularProgressView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-UICKeyChainStore.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>08E69A7A2DC449579582DFB2</key>
+		<key>5670F9D42A234734A078A457</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9E7FFB4A7F784404A0349B5E</key>
+		<key>D3786856380B45B2A59331C9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F7EDD33ABCE74D1EBB626733</key>
 		<dict>
 			<key>primary</key>
 			<true/>

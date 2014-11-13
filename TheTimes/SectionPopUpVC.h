@@ -10,7 +10,7 @@
 #import "Edition.h"
 #import "RDPDFViewController.h"
 
-@interface SectionPopUpVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SectionPopUpVC : UIViewController <UITableViewDataSource, UITableViewDelegate, UIViewControllerAnimatedTransitioning, UIViewControllerTransitioningDelegate>
 {
     IBOutlet UIView         *popUpView;
     IBOutlet UITableView    *popUpTable;

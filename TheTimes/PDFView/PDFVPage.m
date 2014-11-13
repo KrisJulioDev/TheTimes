@@ -393,11 +393,12 @@
     if( m_bmp != NULL )
         [canvas DrawBmp: m_bmp: m_x - scrollx: m_y - scrolly: m_w: m_h ];
     else if( m_cache != nil && [m_cache Bmp] != NULL )
-        [canvas DrawBmp: [m_cache Bmp]: m_x - scrollx: m_y - scrolly ];
+        [canvas DrawBmp:[m_cache Bmp] :m_x - scrollx :m_y - scrolly ];
     else
         [canvas FillRect: CGRectMake(m_x - scrollx, m_y - scrolly, m_w, m_h): 0xFFFFFFFF];
     if( m_sel != nil )
         [m_sel DrawSel:canvas: m_scale: [m_doc pageHeight:m_pageno]: m_x - scrollx: m_y - scrolly];
+    
 }
 
 -(int)ThumbPrepare
@@ -422,13 +423,11 @@
 -(void)DrawThumb:(PDFVCanvas *)canvas :(int) scrollx :(int) scrolly
 {
     if( m_thumb != nil && [m_thumb Bmp] != NULL )
-        [canvas DrawBmp: [m_thumb Bmp]: m_x - scrollx: m_y - scrolly ];
+        [canvas DrawBmp: [m_thumb Bmp]: m_x - scrollx: m_y - scrolly : m_pageno];
     else
         [canvas FillRect: CGRectMake(m_x - scrollx, m_y - scrolly, m_w, m_h): 0xFFFFFFFF];
     if( m_sel != nil )
         [m_sel DrawSel:canvas: m_scale: [m_doc pageHeight:m_pageno]: m_x - scrollx: m_y - scrolly];
-    
-    
 }
 
 -(bool)NeedBmp

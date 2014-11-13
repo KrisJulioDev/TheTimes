@@ -19,6 +19,7 @@
 		8413F6E419E7C87500D7E7D1 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8413F6E319E7C87500D7E7D1 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8416B7E919AD817C00981621 /* HeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8416B7E819AD817C00981621 /* HeaderView.m */; };
 		8416B7EB19AD818900981621 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8416B7EA19AD818900981621 /* HeaderView.xib */; };
+		8416F7431A0B4B460079ACA1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8416F7421A0B4B460079ACA1 /* Localizable.strings */; };
 		8430278219E3D9CC00F11754 /* SubscriptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8430278119E3D9CC00F11754 /* SubscriptionHandler.m */; };
 		8430278519E3DBB500F11754 /* configOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8430278419E3DBB500F11754 /* configOptions.m */; };
 		8430278819E3DC7900F11754 /* trackingClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8430278719E3DC7900F11754 /* trackingClass.m */; };
@@ -92,7 +93,6 @@
 		8460833419A46D2400D618FE /* PDFObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460833219A46D2400D618FE /* PDFObjc.m */; };
 		8460833719A46D5500D618FE /* RDPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460833619A46D5500D618FE /* RDPDFViewController.m */; };
 		8460833B19A46D9000D618FE /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 8460833A19A46D9000D618FE /* NSObject+PerformBlock.m */; };
-		8464091019EF9E4C004F9BC7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8464090F19EF9E4C004F9BC7 /* Images.xcassets */; };
 		848D4EFF19B473C300778C4E /* TTMagazineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 848D4EFE19B473C300778C4E /* TTMagazineView.m */; };
 		848D4F0119B473D400778C4E /* TTMagazineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848D4F0019B473D400778C4E /* TTMagazineView.xib */; };
 		848D4F0419B4770800778C4E /* TTEditionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 848D4F0319B4770800778C4E /* TTEditionManager.m */; };
@@ -163,6 +163,7 @@
 		848D4FED19B58F6E00778C4E /* UAPushSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848D4FB419B58F6E00778C4E /* UAPushSettingsView.xib */; };
 		848D4FEE19B5A5DE00778C4E /* libUAirship-iOS5-3.0.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848D4F5319B58F6E00778C4E /* libUAirship-iOS5-3.0.3.a */; };
 		848F4F4F19B70E54008AA3D2 /* TTPushHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 848F4F4E19B70E54008AA3D2 /* TTPushHandler.m */; };
+		8492317D1A0CA036007BAB8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8492317C1A0CA036007BAB8E /* Images.xcassets */; };
 		84BDB3D419EE615200037AEB /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BDB3D219EE615200037AEB /* SettingsTableViewController.m */; };
 		84BDB3D519EE615200037AEB /* SettingsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BDB3D319EE615200037AEB /* SettingsTableViewController.xib */; };
 		84CDEAFD19A47C6C006DFAAB /* RDPDFViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CDEAFC19A47C6C006DFAAB /* RDPDFViewController.xib */; };
@@ -244,6 +245,8 @@
 		8416B7E719AD817C00981621 /* HeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderView.h; sourceTree = "<group>"; };
 		8416B7E819AD817C00981621 /* HeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderView.m; sourceTree = "<group>"; };
 		8416B7EA19AD818900981621 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
+		8416F73F1A09D6DB0079ACA1 /* libPods-LLACircularProgressView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-LLACircularProgressView.a"; path = "Pods/build/Debug-iphoneos/libPods-LLACircularProgressView.a"; sourceTree = "<group>"; };
+		8416F7421A0B4B460079ACA1 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		8430278019E3D9CC00F11754 /* SubscriptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionHandler.h; sourceTree = "<group>"; };
 		8430278119E3D9CC00F11754 /* SubscriptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionHandler.m; sourceTree = "<group>"; };
 		8430278319E3DBB500F11754 /* configOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = configOptions.h; sourceTree = "<group>"; };
@@ -377,10 +380,9 @@
 		8460833619A46D5500D618FE /* RDPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDPDFViewController.m; sourceTree = "<group>"; };
 		8460833919A46D9000D618FE /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		8460833A19A46D9000D618FE /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
-		8464090F19EF9E4C004F9BC7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		84702DDC19BD8C9500AE1284 /* TrackingUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingUtil.h; sourceTree = "<group>"; };
 		848D4EFD19B473C300778C4E /* TTMagazineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTMagazineView.h; sourceTree = "<group>"; };
-		848D4EFE19B473C300778C4E /* TTMagazineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTMagazineView.m; sourceTree = "<group>"; };
+		848D4EFE19B473C300778C4E /* TTMagazineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTMagazineView.m; sourceTree = "<group>"; wrapsLines = 0; };
 		848D4F0019B473D400778C4E /* TTMagazineView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TTMagazineView.xib; sourceTree = "<group>"; };
 		848D4F0219B4770800778C4E /* TTEditionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTEditionManager.h; sourceTree = "<group>"; };
 		848D4F0319B4770800778C4E /* TTEditionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTEditionManager.m; sourceTree = "<group>"; };
@@ -529,6 +531,8 @@
 		848D4FB419B58F6E00778C4E /* UAPushSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UAPushSettingsView.xib; sourceTree = "<group>"; };
 		848F4F4D19B70E54008AA3D2 /* TTPushHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPushHandler.h; sourceTree = "<group>"; };
 		848F4F4E19B70E54008AA3D2 /* TTPushHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPushHandler.m; sourceTree = "<group>"; };
+		8492317C1A0CA036007BAB8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8493E66B1A10C3B700C62BBD /* libdispatch.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libdispatch.dylib; path = usr/lib/system/introspection/libdispatch.dylib; sourceTree = SDKROOT; };
 		84BDB3D119EE615200037AEB /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
 		84BDB3D219EE615200037AEB /* SettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTableViewController.m; sourceTree = "<group>"; };
 		84BDB3D319EE615200037AEB /* SettingsTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsTableViewController.xib; sourceTree = "<group>"; };
@@ -862,6 +866,8 @@
 		8460827319A4487900D618FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8493E66B1A10C3B700C62BBD /* libdispatch.dylib */,
+				8416F73F1A09D6DB0079ACA1 /* libPods-LLACircularProgressView.a */,
 				848D4F1A19B58B1000778C4E /* MapKit.framework */,
 				848D4F1819B58AF600778C4E /* MessageUI.framework */,
 				848D4F1619B58AD600778C4E /* libUAirship-3.0.3.a */,
@@ -910,7 +916,7 @@
 		8460827B19A4487900D618FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				8464090F19EF9E4C004F9BC7 /* Images.xcassets */,
+				8492317C1A0CA036007BAB8E /* Images.xcassets */,
 				848D4F1C19B58CAF00778C4E /* AirshipConfig.plist */,
 				8460827C19A4487900D618FE /* TheTimes-Info.plist */,
 				8454FA5119B4575F000200CA /* config-staging.plist */,
@@ -919,6 +925,7 @@
 				8460828019A4487900D618FE /* main.m */,
 				8460828219A4487900D618FE /* TheTimes-Prefix.pch */,
 				8430283619E4D05800F11754 /* TheTimes.xcdatamodeld */,
+				8416F7421A0B4B460079ACA1 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1481,6 +1488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				848D4FCF19B58F6E00778C4E /* up@2x.png in Resources */,
+				8492317D1A0CA036007BAB8E /* Images.xcassets in Resources */,
 				848D4FCE19B58F6E00778C4E /* up.png in Resources */,
 				848D4FC219B58F6E00778C4E /* check.png in Resources */,
 				840BB33A19EBBEE1002D4B8B /* iOSa_2.23.0.version in Resources */,
@@ -1507,7 +1515,6 @@
 				848D4FE319B58F6E00778C4E /* UALocationSettingsViewController.xib in Resources */,
 				848D4FE219B58F6E00778C4E /* top-detail@2x.png in Resources */,
 				848D4FC619B58F6E00778C4E /* overlayCloseBtn.png in Resources */,
-				8464091019EF9E4C004F9BC7 /* Images.xcassets in Resources */,
 				848D4FE619B58F6E00778C4E /* UAPushMoreSettingsView.xib in Resources */,
 				848D4FCB19B58F6E00778C4E /* UAInboxMessageViewController.xib in Resources */,
 				848D4FCD19B58F6E00778C4E /* uncheck@2x.png in Resources */,
@@ -1515,6 +1522,7 @@
 				848D4FE419B58F6E00778C4E /* UAMapPresentationViewController.xib in Resources */,
 				848D4FEA19B58F6E00778C4E /* UAPushSettingsTagsViewController.xib in Resources */,
 				848D4FE819B58F6E00778C4E /* UAPushSettingsAliasView.xib in Resources */,
+				8416F7431A0B4B460079ACA1 /* Localizable.strings in Resources */,
 				848D4FE519B58F6E00778C4E /* UAPushLocalization.bundle in Resources */,
 				848D4FC519B58F6E00778C4E /* down@2x.png in Resources */,
 				848D4FC419B58F6E00778C4E /* down.png in Resources */,
@@ -1819,7 +1827,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1846,6 +1854,8 @@
 					"\"$(SRCROOT)/libffmpeg/lib/x86_64\"",
 					"$(PROJECT_DIR)/airship",
 					"$(PROJECT_DIR)/TheTimes",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+					"$(SDKROOT)/usr/lib/system/introspection",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1853,7 +1863,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "93e17068-7e97-4f0f-855c-389e07224f96";
+				PROVISIONING_PROFILE = "75ba5739-88e8-4f13-adea-e9661ae7f102";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -1868,7 +1878,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1895,6 +1905,8 @@
 					"\"$(SRCROOT)/libffmpeg/lib/x86_64\"",
 					"$(PROJECT_DIR)/airship",
 					"$(PROJECT_DIR)/TheTimes",
+					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
+					"$(SDKROOT)/usr/lib/system/introspection",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -1902,7 +1914,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "93e17068-7e97-4f0f-855c-389e07224f96";
+				PROVISIONING_PROFILE = "75ba5739-88e8-4f13-adea-e9661ae7f102";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;

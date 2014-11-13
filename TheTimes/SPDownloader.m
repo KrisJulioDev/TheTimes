@@ -43,6 +43,11 @@ NSString * const PAPER_REGION_KEY = @"region";
 	return self;
 } 
 
+/* startDownload - calls when user tap the download button from edition
+ * params theEdition - edition to be downloaded
+ * params isAutomated - will be use for future implementation
+ * the method will check if there is saved state to resume, else it downloads from the beginning
+ */
 - (void) startDownload:(Edition *)theEdition isAutomated:(BOOL)isAutomated
 {
 	theFile = nil;
@@ -125,14 +130,19 @@ NSString * const PAPER_REGION_KEY = @"region";
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
--(void) clearDownloadOnDelete {
+-(void) clearDownloadOnDelete:(NSMutableArray*) latestEditions {
     
-    NSMutableDictionary *bytesForFiles = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict(edition.dateString)]];
+    NSMutableDictionary *bytesForFiles;
 	 
-	if (bytesForFiles && totalDataReceived > 0) {
-		[bytesForFiles removeObjectForKey:kSizeByFileDict(edition.dateString)];
-	}
-	 
+    for (Edition *e in latestEditions) {
+        bytesForFiles  = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:kSizeByFileDict(e.dateString)]];
+        
+        if ( [bytesForFiles objectForKey:e.paperUrl] ) {
+            [bytesForFiles removeObjectForKey:e.paperUrl];
+            [[NSUserDefaults standardUserDefaults] setObject:bytesForFiles forKey:kSizeByFileDict(e.dateString)];
+        }
+    }
+    
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	
 	[myConnection cancel];
@@ -170,6 +180,8 @@ NSString * const PAPER_REGION_KEY = @"region";
     isPauseDownloadedManually = NO;
 }
 
+/* Periodically check for connection speed
+ */
 - (void)checkData
 {
 	// if no more than 512 Kb in 20 seconds, the connection is very poor, we pause it
@@ -278,11 +290,14 @@ NSString * const PAPER_REGION_KEY = @"region";
 	}
 }
 
+/* Return downloaded edition directory with PAPER_REGION_KEY = ireland as default
+ */
 + (NSString *) getPapersPath
 {
     return [NSString stringWithFormat:@"papers/%@/", [[NSUserDefaults standardUserDefaults] objectForKey:PAPER_REGION_KEY]];
 }
 
+#pragma mark WEB VIEW METHOD DELEGATES
 -(void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	if (theFile) {
         
@@ -293,7 +308,10 @@ NSString * const PAPER_REGION_KEY = @"region";
 		[theFile writeData:data];
 		
 		double progress = totalDataReceived/fileSizeExpected;
-		[delegate downloadUpdatedProgress:myURL progress:progress];
+        
+        if ([delegate respondsToSelector:@selector(downloadUpdatedProgress:progress:)]) {
+            [delegate downloadUpdatedProgress:myURL progress:progress];
+        }
 	}
 }
 

@@ -29,8 +29,8 @@
 	return self;
 }
 
-- (BOOL) unzipFile:(NSString*)fileFullPath inDirectory:(NSString*)directoryPath {	
-	__block BOOL returnValue = NO;
+- (BOOL) unzipFile:(NSString*)fileFullPath inDirectory:(NSString*)directoryPath {
+    __block BOOL returnValue = NO;
     dispatch_queue_t _queue = dispatch_queue_create("extracting", NULL);
     dispatch_sync(_queue, ^{
         NSError *error = nil;
@@ -77,15 +77,13 @@
             returnValue = NO;
         }
         
-
+        
         //dispatch_release(_queue);
     });
     return returnValue;
     
-    
-    
-  
 }
+
 
 - (void) dealloc {
 	[super dealloc];

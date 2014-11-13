@@ -36,7 +36,42 @@
     CGContextRestoreGState(m_ctx);
     CGImageRelease(img);
 }
--(void)DrawBmp:(PDFDIB *)dib :(int)x :(int)y :(int)w :(int)h
+
+-(void)DrawBmp:(PDFDIB *)dib :(int)x :(int)y :(int)page
+{
+	Byte *data = (Byte *)[dib data];
+	int w = [dib width];
+	int h = [dib height];
+    CGDataProviderRef provider = CGDataProviderCreateWithData( NULL, data, w * h * 4, NULL );
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
+    CGImageRef img = CGImageCreate( w, h, 8, 32, w<<2, cs, kCGBitmapByteOrder32Little|kCGImageAlphaNoneSkipFirst, provider, NULL, FALSE, kCGRenderingIntentDefault );
+    CGColorSpaceRelease(cs);
+    CGDataProviderRelease(provider);
+    
+    CGContextSaveGState(m_ctx);
+    CGContextTranslateCTM(m_ctx, x/m_scale, (y + h)/m_scale);
+    CGContextScaleCTM(m_ctx, 1/m_scale, -1/m_scale);
+    CGContextDrawImage(m_ctx, CGRectMake(0, 0, w, h), img);
+    CGContextRestoreGState(m_ctx);
+    CGImageRelease(img);
+    
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"DIN Alternate" size:22], NSFontAttributeName,[UIColor blackColor], NSForegroundColorAttributeName, nil];
+    NSAttributedString * currentText;
+    
+    currentText=[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%i", page + 1] attributes: attributes];
+    
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        [currentText drawAtPoint:CGPointMake(x/2 + ( w / 4 ),  y + (( h / 2 ) - 5) )]; // RETINA
+    } else {
+        [currentText drawAtPoint:CGPointMake(x + (w / 2) - 5,  y + (h - 5) )]; // NON RETINA
+    }
+
+    
+}
+
+
+-(void)DrawBmp:(PDFDIB *)dib :(int)x :(int)y :(int)w :(int)h 
 {
 	Byte *data = (Byte *)[dib data];
 	int dw = [dib width];

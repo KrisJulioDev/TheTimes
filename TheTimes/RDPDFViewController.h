@@ -37,5 +37,6 @@
 - (int)PDFOpen:(NSString *)path withPassword:(NSString *)pwd;
 - (void)PDFThumbNailinit:(int)pageno;
 - (void)PDFVGotoSection:(int)sectionpage;
+- (void) closeSectionPopUP;
 //END
 @end

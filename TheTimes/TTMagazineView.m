@@ -17,12 +17,16 @@
 #import "UIImageView+AFNetworking.h"
 #import "TrackingUtil.h"
 #import "HelperUtility.h"
+#import "Constants.h"
 
 #define DOWNLOAD_TAG 1000
 #define PLAYPAUSE_TAG 1001
+#define CANCEL_ALL 1002
 
 @implementation TTMagazineView
-
+{
+    TheTimesAppDelegate *appDelegate;
+}
 - (id)initWithFrame:(CGRect)frame
 {
     UINib *nib = [UINib nibWithNibName:@"TTMagazineView" bundle:nil];
@@ -31,16 +35,25 @@
     
     magazineView.frame = frame; 
     
+    //Fit object frame to magazineView's frame
     _iv_frontPage.frame     = [magazineView bounds];
     _viewButton.frame       = [magazineView bounds];
     _downloadButton.frame   = [magazineView bounds];
     
+    //Set up edition image
     _iv_frontPage.layer.masksToBounds = NO;
     _iv_frontPage.layer.cornerRadius = 8;
     _iv_frontPage.layer.shadowOffset = CGSizeMake(5, 5);
     _iv_frontPage.layer.shadowRadius = 15;
     _iv_frontPage.layer.shadowOpacity = 0.7;
     _iv_frontPage.layer.shadowPath = [UIBezierPath bezierPathWithRect:_iv_frontPage.bounds].CGPath;
+    
+    //Setup Circular progress bar on each magazine
+    _circularProgressView.frame = CGRectMake(0, 0, 80, 80);
+    _circularProgressView.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+    [_circularProgressView setTag: PLAYPAUSE_TAG];
+    [_circularProgressView setBackgroundColor:[UIColor clearColor]];
+    [_circularProgressView setTintColor:[UIColor whiteColor]];
     
     [_progressView setProgressImage:[[UIImage imageNamed:@"downloadbar_Top.png"] resizableImageWithCapInsets:UIEdgeInsetsZero]];
     [_progressView setTrackImage:[[UIImage imageNamed:@"downloadbar_Base.png"] resizableImageWithCapInsets:UIEdgeInsetsZero] ];
@@ -60,13 +73,16 @@
     
     [self setupCustomProgress];
     
-      
+    appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     return magazineView;
 }
 
 /* SETUP PROGRESS BAR */
 - (void) setupCustomProgress
 {
+    
+    
     //Style the progress to match the designs.
     [self.progressView setTransform:CGAffineTransformMakeScale(1.0, 10.0)];
 }
@@ -83,6 +99,7 @@ static NSDateFormatter *dayFormatter;
 /** SETUP MAGAZINE VIEW DATA**/
 - (void) setUpMagazine: (Edition*) newEdition
 {
+    
     if (dateFormatter == nil)
     {
         dateFormatter = [[NSDateFormatter alloc] init];
@@ -102,8 +119,8 @@ static NSDateFormatter *dayFormatter;
         [self setThumbImageFromURL];
     });
 
-    
-    TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    appDelegate = [UIApplication sharedApplication].delegate;
     if (appDelegate.bookShelfVC.isDeleting)
     {
         if ([[TTEditionManager sharedInstance] downloadedEdition:_edition])
@@ -123,44 +140,76 @@ static NSDateFormatter *dayFormatter;
     _viewButton.hidden = YES;
     if ([[TTEditionManager sharedInstance] downloadedEdition:_edition])
     {
+        
+        /*
+         _playPauseBtn.hidden = YES;
+         _deleteBtn.hidden = YES;
+         */
+        
         //Already downloaded
-        _viewButton.hidden = NO;
-        _playPauseBtn.hidden = YES;
-        _deleteBtn.hidden = YES;
-        _iv_frontPage.alpha = 1.0;
-        _downloadButton.hidden = YES;
-        _cornerImage.hidden = YES;
-        _downloadingView.hidden = YES;
-        _buyButton.hidden = YES;
+        _viewButton.hidden              = NO;
+        _circularProgressView.hidden    = YES;
+        _circularProgressView.isPlaying = NO;
+
+        _downloadingView.hidden         = YES;
+        _iv_frontPage.alpha             = 1.0;
+        _downloadButton.hidden          = YES;
+        _cornerImage.hidden             = YES;
+        _downloadingView.hidden         = YES;
+        _buyButton.hidden               = YES;
+        
     }
     else
     {
         _iv_frontPage.alpha = 0.5;
         if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
         {
+            
+            /*
+             _playPauseBtn.hidden = NO;
+             _deleteBtn.hidden = NO;
+             */
+            
             //Currently downloading
-            _viewButton.hidden = YES;
-            _playPauseBtn.hidden = NO;
-            _deleteBtn.hidden = NO;
+            _viewButton.hidden                     = YES;
+            _circularProgressView.hidden           = NO;
+            _circularProgressView.isPlaying        = YES;
+            _downloadButton.hidden                 = YES;
             [SPDownloader mySPDownloader].delegate = self;
-            _downloadingView.hidden = NO;
-            _downloadButton.hidden = YES;
-            _cornerImage.hidden = YES;
+            _downloadingView.hidden                = NO;
+
+            _cornerImage.hidden                    = YES;
         }
         else 
         {
+            /*
+             _playPauseBtn.hidden    = _magazineStatus    == paused ? NO : YES;
+             _deleteBtn.hidden       = _magazineStatus    
+              
+                      == paused ? NO : YES;
+             */
+            
             //Not downloading or downloaded
-            _progressView.progress = 0;
+            
+            _progressView.progress       = 0;
             [self setProgress:0];
-            _downloadingView.hidden = magazineStatus    == paused ? NO : YES;
-            _playPauseBtn.hidden    = magazineStatus    == paused ? NO : YES;
-            _deleteBtn.hidden       = magazineStatus    == paused ? NO : YES;;
-            _downloadButton.hidden  = magazineStatus    == stopped ? NO : YES;
-            [_playPauseBtn setSelected: magazineStatus  == paused ? YES: NO ];
-            _cornerImage.hidden = NO;
-            _buyButton.hidden = YES;
+            _downloadingView.hidden      = _magazineStatus      == paused ? NO : YES;
+            _circularProgressView.hidden = _magazineStatus      == paused ? NO : YES ;
+            _downloadButton.hidden       = _magazineStatus      == stopped ? NO : YES;
+            [_playPauseBtn setSelected: _magazineStatus         == paused ? YES: NO ];
+            _cornerImage.hidden          = NO;
+            _buyButton.hidden            = YES;
+             
+            _circularProgressView.isPlaying = NO;
         }
     }
+    
+    [_circularProgressView setNeedsDisplay];
+    
+    _playPauseBtn.hidden = YES;
+    _deleteBtn.hidden = YES;
+    _downloadingView.hidden = YES;
+    
 }
 
 /* FETCH AND SET THE THUMB IMAGE OF THE MAGAZINE */
@@ -217,9 +266,9 @@ static NSDateFormatter *dayFormatter;
 {
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
     
+    
     if (downloadedEdition != nil)
     {
-        TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
         NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
         [trackingDict setObject:@"navigation" forKey:@"event_navigation_action"];
         [trackingDict setObject:@"click" forKey:@"event_navigation_browsing_method"];
@@ -248,9 +297,10 @@ static NSDateFormatter *dayFormatter;
 - (IBAction)playPauseDownload:(id)sender {
     UIButton *btnSender = (UIButton*)sender;
     
+    /*
     if ([btnSender isSelected]) {
         //PLAY
-        magazineStatus = playing;
+        _magazineStatus = playing;
         [btnSender setSelected:NO];
 
         [self downloadThisEdition:sender];
@@ -260,28 +310,41 @@ static NSDateFormatter *dayFormatter;
         
     }else  {
         //PAUSE
-        if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
-        {
-            magazineStatus = paused;
-            [btnSender setSelected:YES];
-            
-            [[SPDownloader mySPDownloader] pauseDownload];
-            
-            NSString *title = NSLocalizedString(@"Download", nil);
-            NSString *text = NSLocalizedString(@"DOWNLOAD_PAUSED", nil);
-            [UserInterfaceUtils showPopupWithTitle:title text:text];
-            
-            NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
-            [trackingDict setObject:@"engagement" forKey:@"event_engagement_action"];
-            [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@:download:abort", [_edition getTrackingDateString]] forKey:@"event_engagement_name"];
-            [trackingDict setObject:@"click" forKey:@"event_engagement_browsing_method"];
-            
-        }
+            }
+    */
+    
+    if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
+    {
+        [btnSender setSelected:YES];
+        
+        [[SPDownloader mySPDownloader] pauseDownload];
+        
+        NSString *title = NSLocalizedString(@"Download", nil);
+        NSString *text = NSLocalizedString(@"DOWNLOAD_PAUSED", nil);
+        [UserInterfaceUtils showPopupWithTitle:title text:text];
+        
+        NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+        [trackingDict setObject:@"engagement" forKey:@"event_engagement_action"];
+        [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@:download:abort", [_edition getTrackingDateString]] forKey:@"event_engagement_name"];
+        [trackingDict setObject:@"click" forKey:@"event_engagement_browsing_method"];
+        
+        //PAUSE
+        [self setStatus:paused];
         
         //Track paused edition
         [appTracker sendEventWithCategory:@"Pause Edition" withAction:@"Pause" withLabel:self.edition.dateString withValue:0];
+        
+    } else {
+        //PLAY
+        [self setStatus:playing];
+        [btnSender setSelected:NO];
+        
+        [self downloadThisEdition:sender];
+        
+        //Track unpaused edition
+        [appTracker sendEventWithCategory:@"Unpause Edition" withAction:@"Unpause" withLabel:self.edition.dateString withValue:0];
+        
     }
-
 }
 
 
@@ -303,7 +366,7 @@ static NSDateFormatter *dayFormatter;
         UIButton *btn = (UIButton*)sender;
         [self continueDownload:btn.tag];
     }
-    
+  
     //Track downloaded edition
     [appTracker sendEventWithCategory:@"Download Edition" withAction:@"Download" withLabel:self.edition.dateString withValue:0];
 }
@@ -311,7 +374,7 @@ static NSDateFormatter *dayFormatter;
 - (void) continueDownload:(int)tag
 {
     if (![SPDownloader mySPDownloader].isDownloading)
-    {
+     {
         if (![SPDownloader mySPDownloader].isPauseDownloadedManually || tag == PLAYPAUSE_TAG)
         {
             NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
@@ -326,17 +389,19 @@ static NSDateFormatter *dayFormatter;
             [SPDownloader mySPDownloader].delegate = self;
             [[SPDownloader mySPDownloader] startDownload:_edition isAutomated:NO];
             
-            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
             [appDelegate.bookShelfVC refreshEditionViews];
             [self trackDownload];
 
         }
         else{
             NSString *title = NSLocalizedString(@"Downloading", nil);
-            NSString *text = NSLocalizedString(@"SINGLE_DOWNLOAD_MESSAGE", nil);
-            [UserInterfaceUtils showPopupWithTitle:title text:text];
+            NSString *text = NSLocalizedString(@"CANCEL_DOWNLOAD_MESSAGE", nil);
+            [self setStatus:stopped];
+            UIAlertView *alertV = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Clear", nil];
+            alertV.tag = CANCEL_ALL;
+            [alertV show];
         }
-    }
+        }
     else
     {
         NSString *title = NSLocalizedString(@"Downloading", nil);
@@ -357,7 +422,6 @@ static NSDateFormatter *dayFormatter;
         if ([[SPUnzipper mySPUnzipper] unzipFile:fileFullPath inDirectory:path])
         {
             // Parse the JSON
-            NSMutableArray *listOfPath = [NSMutableArray new];
             NSString *jsonPath = [_edition getConfigFile];
             NSString *jsonString = [NSString stringWithContentsOfFile:jsonPath encoding:NSUTF8StringEncoding error:nil];
             NSDictionary *infoDict = [jsonString objectFromJSONString];
@@ -371,6 +435,8 @@ static NSDateFormatter *dayFormatter;
             newEdition.paperUrl = _edition.paperUrl;
             newEdition.pages = [[NSMutableArray alloc] init];
             newEdition.sections = [[NSMutableArray alloc] init];
+            
+            NSMutableArray *listOfPath = [[NSMutableArray alloc] init];
             
             NSArray *pages = [infoDict objectForKey:@"paperPages"];
             for (NSDictionary *page in pages)
@@ -394,26 +460,43 @@ static NSDateFormatter *dayFormatter;
                 [newEdition.sections addObject:newSection];
             }
             
-            //Merge all pdf's
-            newEdition.fullPDFPath = [UserInterfaceUtils joinPDF:listOfPath withName:newEdition.dateString];
+            // Stop all interaction when extracting
+            [appDelegate.bookShelfVC extractionOnProcess:YES];
             
-            // Add the edition to our cache and save
-            [[TTEditionManager sharedInstance].downloadedEditions addObject:newEdition];
-            [[TTEditionManager sharedInstance] snapshot];
-            
+            dispatch_queue_t myQueue = dispatch_queue_create("extraction",NULL);
+            dispatch_async(myQueue, ^{
+
+                NSLog(@"Perform long running process");
+                
+                //Merge all pdf's
+                newEdition.fullPDFPath = [UserInterfaceUtils joinPDF:listOfPath withName:newEdition.dateString];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    NSLog(@"Update the UI, bring back the interaction");
+                    [appDelegate.bookShelfVC extractionOnProcess:NO];
+                    
+                    [self setMagazineStatus:stopped];
+                    
+                    [[TTEditionManager sharedInstance].downloadedEditions addObject:newEdition];
+                    [[TTEditionManager sharedInstance] snapshot];
+                    
+                    // Refresh our view
+                    [appDelegate.bookShelfVC refreshEditionViews];
+                });
+            });
         }
         
         //Edition download successful
         [appTracker sendEventWithCategory:@"Download Edition Success" withAction:@"Downloaded" withLabel:self.edition.dateString withValue:0];
-
+        
     }
     else if ( [SPDownloader mySPDownloader].isPauseDownloadedManually == YES ) {
         NSLog(@"DOWNLOAD STOP FOR SOME REASON 111");
+        // Refresh our view
+        [appDelegate.bookShelfVC refreshEditionViews];
     }
     
-    // Refresh our view
-    TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate.bookShelfVC refreshEditionViews];
 }
 
 - (void) downloadUpdatedProgress:(NSString*)url progress:(float)progress
@@ -424,7 +507,12 @@ static NSDateFormatter *dayFormatter;
     int progressValue = (int)(progress*100) >= 100 ? 100 : (int)(progress*100);
     
     _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", progressValue];
+    
+//    float cprogress = _circularProgressView.progress;
+    [_circularProgressView setProgress:progress animated:YES];
+    
 }
+
 
 - (void) downloadFailed:(Edition *)edition
 {
@@ -434,7 +522,7 @@ static NSDateFormatter *dayFormatter;
     NSString *cancel    = NSLocalizedString(@"Cancel", nil);
     
     [SPDownloader mySPDownloader].isPauseDownloadedManually = NO;
-    magazineStatus = stopped;
+    [self setStatus:stopped];
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:cancel otherButtonTitles:retry, nil];
     alertView.tag = DOWNLOAD_FAILED_POPUP_TAG;
@@ -456,49 +544,50 @@ static NSDateFormatter *dayFormatter;
 #pragma mark DELETING METHODS
 // For the option to delete an edition.
 - (void) startWobbling
-{
-    // This delay is required to allow multiple UIView animations to take place at once
-    [UIView setAnimationDelay:0.05];
-    [UIView setAnimationDuration:0.3];
-    _deleteButton.hidden = NO;
-    _deleteButton.frame = CGRectMake(self.frame.size.width-_deleteButton.frame.size.width, 0, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
-    
-    [UIView commitAnimations];
-    
-    int randomnum = (int)random()%5;
-    float randomfloat = (float)randomnum/50.0;
-    
-    CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
-    CGAffineTransform swirl = CGAffineTransformRotate(scale, -M_PI/(300));
-    [self setTransform:swirl];
-    
-    [UIView beginAnimations:@"wobble" context:nil];
-    [UIView setAnimationRepeatCount:HUGE_VALF];
-    [UIView setAnimationRepeatAutoreverses:YES];
-    
-    [UIView setAnimationDuration:0.15+randomfloat];
-    
-    swirl = CGAffineTransformRotate(scale, M_PI/(300));
-    [self setTransform:swirl];
-    [UIView commitAnimations];
+{ 
+        // This delay is required to allow multiple UIView animations to take place at once
+        [UIView setAnimationDelay:0.05];
+        [UIView setAnimationDuration:0.3];
+        _deleteButton.hidden = NO;
+        _deleteButton.frame = CGRectMake(self.frame.size.width-_deleteButton.frame.size.width, 0, _deleteButton.frame.size.width, _deleteButton.frame.size.height);
+        
+        [UIView commitAnimations];
+        
+        int randomnum = (int)random()%5;
+        float randomfloat = (float)randomnum/50.0;
+        
+        CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
+        CGAffineTransform swirl = CGAffineTransformRotate(scale, -M_PI/(300));
+        [self setTransform:swirl];
+        
+        [UIView beginAnimations:@"wobble" context:nil];
+        [UIView setAnimationRepeatCount:HUGE_VALF];
+        [UIView setAnimationRepeatAutoreverses:YES];
+        
+        [UIView setAnimationDuration:0.15+randomfloat];
+        
+        swirl = CGAffineTransformRotate(scale, M_PI/(300));
+        [self setTransform:swirl];
+        [UIView commitAnimations]; 
+   
 }
 
 // Cancel and previous wobbling animations
 - (void) stopWobbling
 {
-	CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
+    CGAffineTransform scale = CGAffineTransformScale(CGAffineTransformIdentity, 1.0f, 1.0f);
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationBeginsFromCurrentState:YES];
 	[UIView setAnimationDuration:0.1];
-	self.transform = scale;
-	_deleteButton.hidden = YES;
+    self.transform          = scale;
+    _deleteButton.hidden    = YES;
 	[UIView commitAnimations];
 }
 
 - (IBAction) deleteEdition
 {
-    NSString *title = NSLocalizedString(@"Delete Edition", nil);
-    NSString *text = NSLocalizedString(@"CONFIRM_DELETE", nil);
+    NSString *title  = NSLocalizedString(@"Delete Edition", nil);
+    NSString *text   = NSLocalizedString(@"CONFIRM_DELETE", nil);
     NSString *delete = NSLocalizedString(@"Delete", nil);
     NSString *cancel = NSLocalizedString(@"Cancel", nil);
     
@@ -512,8 +601,8 @@ static NSDateFormatter *dayFormatter;
 
 - (IBAction) deleteInterruptedDownload:(id)sender
 {
-    NSString *title = NSLocalizedString(@"Delete Edition", nil);
-    NSString *text = NSLocalizedString(@"CLEAR_DOWNLOAD", nil);
+    NSString *title  = NSLocalizedString(@"Delete Edition", nil);
+    NSString *text   = NSLocalizedString(@"CLEAR_DOWNLOAD", nil);
     NSString *delete = NSLocalizedString(@"Delete", nil);
     NSString *cancel = NSLocalizedString(@"Cancel", nil);
     
@@ -537,7 +626,9 @@ static NSDateFormatter *dayFormatter;
         if (buttonIndex == 1)
         {
             [[TTEditionManager sharedInstance] deleteEdition:_edition];
-            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [[SPDownloader mySPDownloader] clearDownloadOnDelete:[TTEditionManager sharedInstance].LatestEditions];
+            [self setStatus:stopped];
+
             [appDelegate.bookShelfVC refreshEditionViews];
             
             NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
@@ -558,14 +649,27 @@ static NSDateFormatter *dayFormatter;
     {
         if (buttonIndex == 1)
         {
-            [[SPDownloader mySPDownloader] clearDownloadOnDelete];
-            magazineStatus = stopped;
-            
-            TheTimesAppDelegate *appDelegate = (TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [[SPDownloader mySPDownloader] clearDownloadOnDelete:[TTEditionManager sharedInstance].LatestEditions];
+            [self setStatus:stopped];
             [appDelegate.bookShelfVC refreshEditionViews];
         }
     }
+    else if (alertView.tag == CANCEL_ALL) {
         
+        if (buttonIndex == 1)
+        {
+            [SPDownloader mySPDownloader].isDownloading = NO;
+            [[SPDownloader mySPDownloader] clearDownloadOnDelete:[TTEditionManager sharedInstance].LatestEditions ];
+            
+            [appDelegate.bookShelfVC stopAllMagazineDownload];
+            [appDelegate.bookShelfVC refreshEditionViews];
+        }
+    }
+}
+
+- (void) setStatus:(enum Status)magazineStatus{
+
+    [appDelegate.bookShelfVC changeStatusForMagazine:self :magazineStatus ];
 }
 
 @end

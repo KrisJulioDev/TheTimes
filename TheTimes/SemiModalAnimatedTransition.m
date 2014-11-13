@@ -50,13 +50,7 @@
         fromViewController.view.frame = endFrame;
         [transitionContext completeTransition:YES];
         
-        /*
-        [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-            toViewController.view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
-            fromViewController.view.frame = endFrame;
-        } completion:^(BOOL finished) {
-            [transitionContext completeTransition:YES];
-        }];*/
+        
     }
 }
 

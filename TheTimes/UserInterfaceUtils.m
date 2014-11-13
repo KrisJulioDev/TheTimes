@@ -111,7 +111,7 @@
     NSInteger numberOfPages = 0;
     // Create the output context
     CGContextRef writeContext = CGPDFContextCreateWithURL(pdfURLOutput, NULL, NULL);
-    
+
     for (NSString *source in listOfPath) {
         //        CFURLRef pdfURL = (__bridge CFURLRef)[NSURL fileURLWithPath:source];
         

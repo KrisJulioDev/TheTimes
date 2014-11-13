@@ -8,6 +8,7 @@
 #import "PDFView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UserInterfaceUtils.h"
+#import "Constants.h"
 
 extern int g_PDF_ViewMode;
 extern float g_Ink_Width;
@@ -158,14 +159,13 @@ extern NSMutableString *pdfPath;
 
 -(void)vClose
 {
-   
     if( m_modified && m_doc != NULL )
     {
         [m_doc save];
     }
     if( m_view != nil )
     {
-        [m_view vClose];
+        [m_view vClose]; 
         m_view = nil;
         [m_timer invalidate];
         m_timer = NULL;
@@ -191,6 +191,7 @@ extern NSMutableString *pdfPath;
         m_ellipse_cnt = 0;
         m_ellipse_max = 0;
     }
+    
     m_cur_page = -1;
     m_delegate = nil;
     
@@ -738,6 +739,7 @@ extern NSMutableString *pdfPath;
                     dx = 0;
                     dy = 0;
                     
+                    NSLog(@"VXX %f", vx);
                     if( vx > 400 || vx < -400 ) dx = vx;
                     if( vy > 400 || vy < -400 ) dy = vy;
                     
@@ -745,7 +747,10 @@ extern NSMutableString *pdfPath;
                     float sdx = (m_swx[7] - m_swx[0])/(del * m_scale);
                     float sdy = (m_swy[7] - m_swy[0])/(del * m_scale);
                     
-                    int threshold = 1500;
+                    int threshold = 1500 + ( 200 * [m_view vGetScale]);
+                    
+                    NSLog(@"Threshold %i : VX %f", threshold, vx);
+                    
                     if (    (vx > threshold || vx < -threshold)
                         ||  (vy > threshold || vy < -threshold) )
                     {

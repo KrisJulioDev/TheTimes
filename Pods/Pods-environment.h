@@ -6,6 +6,12 @@
 // project.
 
 
+// LLACircularProgressView
+#define COCOAPODS_POD_AVAILABLE_LLACircularProgressView
+#define COCOAPODS_VERSION_MAJOR_LLACircularProgressView 0
+#define COCOAPODS_VERSION_MINOR_LLACircularProgressView 1
+#define COCOAPODS_VERSION_PATCH_LLACircularProgressView 1
+
 // UICKeyChainStore
 #define COCOAPODS_POD_AVAILABLE_UICKeyChainStore
 #define COCOAPODS_VERSION_MAJOR_UICKeyChainStore 1

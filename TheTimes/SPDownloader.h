@@ -57,8 +57,8 @@
 
 -(id) init;
 - (void) startDownload:(Edition *)theEdition isAutomated:(BOOL)isAutomated;
--(void) pauseDownload;
--(void) clearDownloadOnDelete;
+-(void) pauseDownload; 
+-(void) clearDownloadOnDelete:(NSMutableArray*) latestEditions;
 -(void) resumeDownload:(double)fromBytes;
 
 @end

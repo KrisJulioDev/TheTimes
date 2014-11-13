@@ -89,6 +89,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
         [passwordEntry setDelegate:self];
         [userNameEntry setDelegate:self];
         
+        //DEBUG - if FORCELOGIN IS SET TO 1
         if(FORCELOGIN==1){
             dispatch_async(dispatch_get_main_queue(), ^{
                 mScreenBarrier.hidden = NO;
@@ -100,11 +101,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
             NSString *password = [SubscriptionHandler returnPassword];
             
             if(userName.length>0 && password.length>0){
-                /*SPEditionManager *manager = [[[SPEditionManager alloc] initWithNibName:@"SPEditionsViewController"  bundle:nil] autorelease];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.navigationController setDelegate:self];
-                    [self.navigationController pushViewController:manager animated:YES];
-                });*/
                 
                 [tracker sendEventWithCategory:@"Login Event" withAction:@"Login Offline" withLabel:@"Offline Previous User" withValue:0];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -165,6 +161,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    
 }
 
 #pragma mark GET MAIN URL
@@ -203,10 +200,10 @@ NSString *const SIGNIN_SCHEME = @"signin";
 #pragma mark UITEXTFIELD DELEGATE
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    CGAffineTransform transform = CGAffineTransformMakeTranslation(originalFrame.origin.x, originalFrame.origin.y - 350);
+    CGAffineTransform transform = CGAffineTransformMakeTranslation(originalFrame.origin.x, originalFrame.origin.y - 200);
     
     if ( UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        [UIView animateWithDuration:0.5f
+        [UIView animateWithDuration:0.0f
                               delay:0
                             options: UIViewAnimationOptionTransitionNone
                          animations:^{
@@ -225,7 +222,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
     
     NSLog(@"Y :%f %f",self.view.frame.origin.y, originalFrame.origin.y);
     if ( UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) ) {
-        [UIView animateWithDuration:0.5f
+        [UIView animateWithDuration:0.0f
                               delay:0
                             options: UIViewAnimationOptionTransitionNone
                          animations:^{
@@ -322,6 +319,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
             [spinnerContainer removeFromSuperview];
             if([loginStatus isEqualToString:@"Login"]){
                 
+                [appDelegate.bookShelfVC fetchTimesData];
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             }
@@ -355,6 +353,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
                 
                 [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
                 
+                [appDelegate.bookShelfVC fetchTimesData];
                 [self dismissViewControllerAnimated:YES completion:nil];
 
                 mScreenBarrier.hidden = YES;
@@ -382,6 +381,9 @@ NSString *const SIGNIN_SCHEME = @"signin";
 #pragma mark ROTATION DELEGATE
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    TheTimesAppDelegate *appD = [UIApplication sharedApplication].delegate;
+    [appD.bookShelfVC willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
+ 
     [passwordEntry resignFirstResponder];
     [userNameEntry resignFirstResponder];
 }

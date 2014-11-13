@@ -36,17 +36,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    /* Initialize RADAEE settings configurations */
     APP_Init();
     
     //AirShip Configs
     [self setupUrbanAirship];
+    
+    //Load cache data for user if there is
     [self loadCachedConfigAndUserData];
-    [[TTEditionManager sharedInstance] updateEditions];
+    
+//    [[TTEditionManager sharedInstance] updateEditions];
+    
+    //Track application behaviour
     [TrackingUtil applicationDidFinishLaunching];
+    
+    
     [AsyncImageView loadCache];
     
     return YES;
 }
+
 
 - (void) setupUrbanAirship
 {
@@ -79,12 +88,10 @@
         [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_config] forKey:CONFIG_KEY];
         
     }
-    else
-    {
-        
-    }
 }
 
+/* Load last config and user data
+ */
 - (void) loadCachedConfigAndUserData
 {
     NSData *configData = [[NSUserDefaults standardUserDefaults] objectForKey:CONFIG_KEY];
@@ -99,6 +106,7 @@
         self.user = [NSKeyedUnarchiver unarchiveObjectWithData:userData];
     }
 }
+
 
 - (void) loginUser:(User *)newUser
 {

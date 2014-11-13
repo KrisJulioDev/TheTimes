@@ -1187,9 +1187,6 @@
                 if( m_doch < [vpage GetHeight] ) m_doch = [vpage GetHeight];
                 cur++;
                 
-                UILabel *pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(left, m_scale, 40, 40)];
-                [pageLabel setText:@"page"];
-                
             }
             m_docw = left ;
         }
@@ -1304,7 +1301,7 @@
     int bottom = top + m_h;
     int cur = 0;
     int cnt = [m_doc pageCount];
-    
+   
     cur = 0;
     //NSTimeInterval time1 = [[NSDate date] timeIntervalSince1970]*1000;
     [canvas FillRect:CGRectMake(0, 0, m_w, m_h) :m_back_clr];
@@ -1328,6 +1325,9 @@
             if( disp_start >= 0 && disp_end < 0 ) disp_end = cur;
         }
         cur++;
+        
+        //note we are using the convenience method, so we don't need to autorelease the object
+ 
     }
     
     PDFVPage *vpage = m_pages[m_sel];

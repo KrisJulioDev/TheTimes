@@ -1,4 +1,4 @@
-//
+ //
 //  TTMagazineView.h
 //  TheTimes
 //
@@ -11,6 +11,7 @@
 #import "Edition.h"
 #import "SPDownloader.h"
 #import "trackingClass.h"
+#import "LLACircularProgressView.h" 
 
 static int DOWNLOAD_FAILED_POPUP_TAG = 2;
 static int DELETE_POPUP_TAG = 3;
@@ -19,6 +20,9 @@ static int DELETE_INTERRUPT_POPUP_TAG = 5;
 
 @interface TTMagazineView : UIView <SPDownloaderDelegate, UIAlertViewDelegate>
 {
+    id<GAITracker> appTracker;
+    
+    
     enum Status {
         stopped,
         paused,
@@ -26,14 +30,13 @@ static int DELETE_INTERRUPT_POPUP_TAG = 5;
         downloaded
     };
     
-    enum Status magazineStatus;
-    
-    id<GAITracker> appTracker;
 }
+
 @property (weak, nonatomic) IBOutlet AsyncImageView *iv_frontPage;
 @property (nonatomic, strong) Edition *edition;
 @property (atomic) BOOL isMainEdition;
 @property (nonatomic) NSInteger paperNumber;
+@property (nonatomic) enum Status magazineStatus;
 
 @property (nonatomic, strong) IBOutlet UIButton *viewButton;
 @property (nonatomic, strong) IBOutlet UIButton *deleteButton;
@@ -54,6 +57,7 @@ static int DELETE_INTERRUPT_POPUP_TAG = 5;
 //PLAYPAUSE BTNS
 @property (strong, nonatomic) IBOutlet UIButton *playPauseBtn;
 @property (strong, nonatomic) IBOutlet UIButton *deleteBtn;
+@property (strong, nonatomic) IBOutlet LLACircularProgressView *circularProgressView;
 
 
 //METHODS

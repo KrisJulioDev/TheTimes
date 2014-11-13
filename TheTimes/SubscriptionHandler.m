@@ -27,6 +27,11 @@
     
 }
 
+/* Check login if valid.
+ * params userName , password
+ * Debug BYPASS_PAYWALL if define, all entries will return 1
+ * Request POST with username and password, if success loginvalid = 1 else loginvalid = 0
+ */
 + (BOOL)checkLoginValid:(NSString*)userName password:(NSString*)password{
     if(BYPASS_PAYWALL){
         return 1;
@@ -80,9 +85,7 @@
         
         NSError* error = nil;
         NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:&error];
- 
-        NSLog(@"RESPONSE DATA %@", dict);
-        
+   
         NSString* success = [dict valueForKey:@"success"];
         NSString* type = [dict valueForKey:@"type"];
         NSString* returnCode = [dict valueForKey:@"return_code"];
@@ -107,6 +110,11 @@
     }
     return loginValid;
 };
+
+/* Store User Details upon succeful login
+ * Params Username and Password
+ * if both are not nil, it'll be saved in NSUserDefaults
+ */
 + (void)storeUserDetails:(NSString*)userName password:(NSString*)password{
   //   NSLog(@"Storing details length:, %d, %d",[userName length],[password length]);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -120,11 +128,17 @@
     [defaults setObject:password forKey:@"password"];
     [defaults synchronize];
 };
+
+/* Check if there's previously saved userName for login purposes
+ */
 + (NSString*)returnUserName{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *userName = [defaults objectForKey:@"userName"];
     return userName;
 };
+
+/* Check if there's previously saved password for login purposes
+ */
 + (NSString*)returnPassword{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *password = [defaults objectForKey:@"password"];

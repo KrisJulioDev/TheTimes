@@ -10,6 +10,7 @@
 #import "TTWebService.h"
 #import "Edition.h"
 #import "TheTimesAppDelegate.h"
+#import "SPDownloader.h"
 
 
 NSString * const LATEST_EDITIONS_KEY = @"latestEditions";
@@ -40,12 +41,19 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return self;
 }
 
+/* loadData
+ * load Data from nsuserdefaults using LATEST_EDITIONS_KEY key and DOWNLOADED_EDITIONS_KEY key
+ */
 - (void) loadData
 {
-    self.LatestEditions = [self loadFromDefaults:LATEST_EDITIONS_KEY defaultValue:[[NSMutableArray alloc] init]];
+    self.LatestEditions     = [self loadFromDefaults:LATEST_EDITIONS_KEY defaultValue:[[NSMutableArray alloc] init]];
     self.downloadedEditions = [self loadFromDefaults:DOWNLOADED_EDITIONS_KEY defaultValue:[[NSMutableArray alloc] init]];
 }
 
+/* loadFromDefaults:key:defaultValue
+ * get saved object from NSUSerDefaults using key parameter
+ * if there's no value. return defaultValue parameter
+ */
 - (id) loadFromDefaults:(NSString *)key defaultValue:(id)defaultValue
 {
     id result = nil;
@@ -65,13 +73,17 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     }
 }
 
+/* deleteEdition:edition
+ * delete edition. remove file from directory path and from downloadedEdition array. 
+ * snapshot to save it to nsuserdefaults
+ */
 - (BOOL) deleteEdition:(Edition *)edition
 {
     NSError *error = nil;
     BOOL success = [[NSFileManager defaultManager] removeItemAtPath:[edition getBaseDirectory] error:&error];
     
     if (success)
-    {
+    {  
         [_downloadedEditions removeObject:edition];
         [self snapshot];
     }
@@ -79,16 +91,18 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return success;
 }
 
-- (BOOL) clearEditionDownload:(Edition*) edition
-{
-    
-}
-
+/* updateEditions
+ * perform updatedEditionsInMainThread at the background
+ */
 - (void) updateEditions
 {
-    [self performSelectorInBackground:@selector(updateEditionsInBackground) withObject:nil];
+    [self performSelectorInBackground:@selector(updateEditionsInMainThread) withObject:nil];
 }
 
+/* getDownloadedEdition:edition
+ * param - edition
+ * return edition if exists in downloadEditions; otherwise return nil
+ */
 - (Edition *) getDownloadedEdition:(Edition *)edition
 {
     for (Edition *thisEdition in _downloadedEditions)
@@ -101,6 +115,11 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return nil;
 }
 
+
+/* downloadedEdition:edition
+ * param - edition 
+ * check if edition 's path exists
+ */
 - (BOOL) downloadedEdition:(Edition *)edition
 {
     for (Edition *thisEdition in _downloadedEditions)
@@ -115,8 +134,9 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     return NO;
 }
 
-
-- (void) updateEditionsInBackground
+/* Fetch new editions and download
+ */
+- (void) updateEditionsInMainThread
 {
     @autoreleasepool
     {
@@ -125,6 +145,9 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     }
 }
 
+/* CompleteUpdateEditions
+ * params newEditions ; if nil download latest editions and refreshEditionsViews
+ */
 - (void) completeUpdateEditions:(NSMutableArray *)newEditions
 {
     if (newEditions != nil && [newEditions count] > 0)
@@ -137,6 +160,8 @@ NSString * const DOWNLOADED_EDITIONS_KEY = @"downloadedEditions";
     }
 }
 
+/* Save latest editions and downloaded editions to the device.
+ */
 - (void) snapshot
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_LatestEditions] forKey:LATEST_EDITIONS_KEY];
