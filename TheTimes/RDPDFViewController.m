@@ -14,6 +14,7 @@
 #import "SectionPopUpVC.h"
 #import "SemiModalAnimatedTransition.h"
 #import "TheTimesAppDelegate.h"
+#import "Constants.h"
 
 @interface RDPDFViewController ()
 
@@ -222,26 +223,13 @@
     spu.edition = _pageEdition;
     
     [self presentViewController:spu animated:YES completion:nil];
-}
-
-#pragma TRANSITIONING DELEGATES
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
-{
-    SemiModalAnimatedTransition *semiModalAnimatedTransition = [[SemiModalAnimatedTransition alloc] init];
-    semiModalAnimatedTransition.presenting = YES;
-    return semiModalAnimatedTransition;
-}
-
-- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
-{
-    SemiModalAnimatedTransition *semiModalAnimatedTransition = [[SemiModalAnimatedTransition alloc] init];
-    return semiModalAnimatedTransition;
-}
+} 
 
 #pragma mark ROTATE METHOD
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
+    
     TheTimesAppDelegate *appD = [UIApplication sharedApplication].delegate;
     [appD.bookShelfVC willRotateToInterfaceOrientation:toInterfaceOrientation duration:0];
     
@@ -253,10 +241,10 @@
     
     CGRect rect = [[UIScreen mainScreen]bounds];
     float h     = self.navigationController.navigationBar.bounds.size.height;
-    int cwidth  = rect.size.width;
-    int cheight = rect.size.height;
+    int cwidth  = SCREEN_WIDTH;
+    int cheight = SCREEN_HEIGHT;
     
-    float height     = rect.size.height - 20 - h;
+    float height     = SCREEN_HEIGHT - 20 - h;
     rect.size.height = height;
     rect.size.width  = cwidth;
     

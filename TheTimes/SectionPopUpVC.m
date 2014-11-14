@@ -63,12 +63,16 @@
         [transitionContext.containerView addSubview:toView];
         [transitionContext.containerView addSubview:fromView];
         
+        [transitionContext.containerView bringSubviewToFront:toView];
+        
         [toViewController beginAppearanceTransition:YES animated:YES];
         [fromViewController beginAppearanceTransition:NO animated:YES];
         [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
             
-            
-            [toView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            if (IOS_VERSION_LOWER_THAN_8 && !IS_PORTRAIT) {
+                [toView setFrame:CGRectMake(0, 0, SCREEN_HEIGHT, SCREEN_WIDTH)];
+            } else
+                [toView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
             
         } completion:^(BOOL finished) {
             [toViewController endAppearanceTransition];
@@ -100,7 +104,7 @@
 
 - (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
 {
-    return 0.3;
+    return 0;
 }
 
 #pragma mark TABLEVIEW DELEGATE METHOD

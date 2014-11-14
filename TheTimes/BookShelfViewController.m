@@ -115,14 +115,19 @@ static int portraitVGap = 70;
     /* Set region to Ireland since i dont know the default region, this doesnt cause anything on the app, just default value */
     [[NSUserDefaults standardUserDefaults] setObject:REGION_IRELAND forKey:PAPER_REGION_KEY];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0) , ^ {
+        [self fetchTimesData];
+    });
+    
     /* initializer RADAEE Configurations */
     [self loadSettingsWithDefaults];
 } 
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    
     /* call method to fix UI elements */
-    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
+    /*[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
     
     if(![NI_reachabilityService isNetworkAvailable] || [NI_reachabilityService isNetworkAvailable] == NO) {
          [_splashScreen removeFromSuperview];
@@ -133,8 +138,8 @@ static int portraitVGap = 70;
     });
     
     [self.view setNeedsDisplay];
+    */
 }
-
 
 - (void) fetchTimesData
 {
@@ -700,59 +705,6 @@ static int portraitVGap = 70;
 }
 
 
-- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
-    
-    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-    {
-        self.m_portraitView.hidden = YES;
-        self.m_landscapeView.hidden = NO;
-        //tooltipView.frame = CGRectMake(1024-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
-        
-    }
-    else
-    {
-        self.m_portraitView.hidden = NO;
-        self.m_landscapeView.hidden = YES;
-        //tooltipView.frame = CGRectMake(768-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
-        
-    }
-    
-    [self setupInterface:toInterfaceOrientation];
-    
-    showingInfo = NO;
-    
-    if (settingsVC) {
-        [settingsVC.view removeFromSuperview];
-        settingsVC = nil;
-    }
-    
-   
-}
-
-/* Fix Objects size and position upon rotation */
-- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    //SET UP WEB VIEW ON CHANGE ORIENTATION
-    CGRect bounds = [[UIScreen mainScreen] bounds];
-    float x,y, w, h, squareFrame;
-    
-    squareFrame = 50;
-    
-    w = SCREEN_WIDTH * 0.8f;
-    h = SCREEN_HEIGHT * 0.8f;
-    x = SCREEN_WIDTH / 2 - ( w / 2);
-    y = SCREEN_HEIGHT / 2 - ( h / 2 );
-    
-    [webView setFrame:CGRectMake(x, y, w, h)];
-    [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
-    [webSpinner setFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
-    
-    //portraitInfoButton.selected = NO;
-    //landscapeInfoButton.selected = NO;
-}
 
 #pragma mark ADD LONG PRESS GESTURE
 - (void) addLongPressRecogniser:(UIView *)thisView
@@ -939,6 +891,65 @@ static int pageWidth = 675/2+42;
         [self.view setUserInteractionEnabled:YES];
         
     }
+}
+
+- (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    
+    if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+    {
+        self.m_portraitView.hidden = YES;
+        self.m_landscapeView.hidden = NO;
+        //tooltipView.frame = CGRectMake(1024-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
+        
+    }
+    else
+    {
+        self.m_portraitView.hidden = NO;
+        self.m_landscapeView.hidden = YES;
+        //tooltipView.frame = CGRectMake(768-495, 340, tooltipView.frame.size.width, tooltipView.frame.size.height);
+        
+    }
+    
+    [self setupInterface:toInterfaceOrientation];
+    
+    showingInfo = NO;
+    
+    if (settingsVC) {
+        [settingsVC.view removeFromSuperview];
+        settingsVC = nil;
+    }
+    
+    
+}
+
+/* Fix Objects size and position upon rotation */
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //SET UP WEB VIEW ON CHANGE ORIENTATION
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    float x,y, w, h, squareFrame;
+    
+    squareFrame = 50;
+    
+    w = SCREEN_WIDTH * 0.8f;
+    h = SCREEN_HEIGHT * 0.8f;
+    x = SCREEN_WIDTH / 2 - ( w / 2);
+    y = SCREEN_HEIGHT / 2 - ( h / 2 );
+    
+    [webView setFrame:CGRectMake(x, y, w, h)];
+    [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
+    [webSpinner setFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
+    
+    [indicatorBg setFrame:CGRectMake(SCREEN_WIDTH/2 - 60,
+                                    SCREEN_HEIGHT/2 - 60,
+                                    120,
+                                    120)];
+    
+    //portraitInfoButton.selected = NO;
+    //landscapeInfoButton.selected = NO;
 }
 
 @end
