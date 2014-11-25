@@ -384,15 +384,14 @@ static int portraitVGap = 70;
 {
     if (settingsVC == nil) {
         
-        CGRect rect = [[UIScreen mainScreen] bounds];
-        BOOL isLandscape = UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
-        
         settingsVC = [[SettingsTableViewController alloc] initWithNibName:@"SettingsTableViewController" bundle:nil];
         float xPos =  SCREEN_WIDTH - settingsVC.view.frame.size.width/2 - 40; //isLandscape ? rect.size.height - settingsVC.view.frame.size.width/2 - 40: rect.size.width - settingsVC.view.frame.size.width/2 - 40;
         
         [settingsVC.view setCenter:CGPointMake(xPos, settingsBtn.frame.origin.y+40 + settingsVC.view.frame.size.height/2)];
         
         [self.view addSubview:settingsVC.view];
+        
+        [appTracker trackEventWithCategory:@"Top menu : settings" withAction:@"navigation" withLabel:@"click" withValue:0];
     }
     else
     {
@@ -433,7 +432,7 @@ static int portraitVGap = 70;
     
     //add close btn
     webViewCloseBtn = [[UIButton alloc] init];
-    squareFrame = 50;
+    squareFrame = 40;
     [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
     [webViewCloseBtn setImage:[UIImage imageNamed:@"btn_Delete_Pressed"] forState:UIControlStateNormal];
     [webViewCloseBtn addTarget:self action:@selector(closeSettingWebView) forControlEvents:UIControlEventTouchUpInside];
@@ -525,6 +524,7 @@ static int portraitVGap = 70;
         }
     });
 }
+
 
 - (void)checkIfJSONDownloaded {
     if (globalJSONTimer != nil) {
@@ -638,6 +638,9 @@ static int portraitVGap = 70;
     }
 }
 
+/**
+ *  Extract information from downloaded editions
+ */
 - (void)createPapersArrayFromJsonDic:(NSDictionary*)jsonDic
 {
 	NSArray *availablePapers = [NSArray arrayWithArray:[jsonDic objectForKey:availablePapersKey]];
@@ -741,6 +744,11 @@ static int portraitVGap = 70;
 }
 
 #pragma mark OPEN PDF CALLBACKS
+/**
+ *  Open PDF from edition parameter directory
+ *
+ *  @param edition Edition
+ */
 - (void) openPDF:(Edition*)edition
 {
     [self loadSettingsWithDefaults];
@@ -773,17 +781,13 @@ static int portraitVGap = 70;
     [appTracker sendEventWithCategory:@"Edition Opened" withAction:@"PDF_OPEN" withLabel:edition.dateString withValue:0];
 }
 
+#pragma mark SCROLL VIEW DELEGATES
 static int pageWidth = 675/2+42;
--(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
-{
-    //[self lockScrollView:scrollView];
-}
-
-
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
   [self lockScrollView:scrollView];
 }
+
 
 - (void) lockScrollView:(UIScrollView *)scrollView
 {
@@ -802,6 +806,10 @@ static int pageWidth = 675/2+42;
     [self lockScrollView:scrollView];
 }
 
+/**
+ *  Set stop state for all magazines, horizontal and vertical arrays
+ *  Reset progress to 0
+ */
 - (void) stopAllMagazineDownload
 {
     for (TTMagazineView *mag in self.landscapeEditionViews) {
@@ -893,6 +901,7 @@ static int pageWidth = 675/2+42;
     }
 }
 
+#pragma mark ROTATION CALLBACKS
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -921,7 +930,6 @@ static int pageWidth = 675/2+42;
         [settingsVC.view removeFromSuperview];
         settingsVC = nil;
     }
-    
     
 }
 

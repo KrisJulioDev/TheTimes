@@ -97,6 +97,15 @@
     return [UIImage imageNamed:image];
 }
 
+/**
+ *  Merge all pdf data, we downloaded seperate pdf pages but we need 1 whole pdf per edition 
+ *  for RADAEE
+ *
+ *  @param listOfPath array of PDF path to merge
+ *  @param pname      file name for the pdf
+ *
+ *  @return filepath for the merged pdf
+ */
 + (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname{
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -145,6 +154,16 @@
     return pdfPathOutput;
 }
 
+/**
+ *  Split pages for sections 
+ *  eg: page 1 must be single page because this will be the magazine cover. 
+ *  The first page of every section must be single page also and the last page of every section will sometimes be single page
+ *
+ *  @param firstPages         number of sections
+ *  @param totalNumberOfPages total number of pages in the pdf
+ *
+ *  @return array of booleans of first pages
+ */
 + (bool*) split :(NSMutableArray*)firstPages totalNumber:(int)totalNumberOfPages
 {
     NSMutableArray *splits = [NSMutableArray new];
@@ -226,6 +245,7 @@
     NSString *code = [UserInterfaceUtils getRegion];
     return [[code lowercaseString] isEqualToString:[currency lowercaseString]];
 }
+
 
 + (UIImageView *) getLoadingImage
 {

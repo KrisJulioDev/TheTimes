@@ -15,6 +15,7 @@
 #import "SemiModalAnimatedTransition.h"
 #import "TheTimesAppDelegate.h"
 #import "Constants.h"
+#import "TrackingUtil.h"
 
 @interface RDPDFViewController ()
 
@@ -180,11 +181,25 @@
 
 -(void)PDFVThumbOnPageClicked:(int)pageno
 {
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation : thumbnail"                                                       forKey:@"event_navigation_action"];
+    [trackingDict setObject:@"click"                                                            forKey:@"event_navigation_browsing_method"];
+    [trackingDict setObject:[NSString stringWithFormat:@"bottom nav: %i", pageno]        forKey:@"event_navigation_name"];
+    
+    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    
     [m_view vGoto:pageno];
 }
 
 -(void)PDFVGotoSection:(int)sectionpage
 {
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation"                                                       forKey:@"event_navigation_action"];
+    [trackingDict setObject:@"click"                                                            forKey:@"event_navigation_browsing_method"];
+    [trackingDict setObject:[NSString stringWithFormat:@"bottom nav: %i", sectionpage]        forKey:@"event_navigation_name"];
+    
+    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    
     [m_view vGoto:sectionpage];
 }
 
@@ -202,6 +217,13 @@
 
 - (IBAction)backToEditions:(id)sender
 {
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation"                           forKey:@"event_navigation_action"];
+    [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
+    [trackingDict setObject:@"back to edition selection"            forKey:@"event_navigation_name"];
+    
+    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+ 
     [self.navigationController popViewControllerAnimated:YES];
 }
 

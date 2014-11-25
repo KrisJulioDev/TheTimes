@@ -43,6 +43,12 @@ static ImageCache *sharedInstance;
     return self;
 }
 
+/**
+ *  Cache imageData to NSUserdefaults with url key
+ *
+ *  @param imageData Data to Cache
+ *  @param url       Url key for locating the data
+ */
 - (void) addFileToCache:(NSData *)imageData url:(NSString *)url
 {
     if (imageData != nil)
@@ -63,6 +69,13 @@ static ImageCache *sharedInstance;
     }
 }
 
+/**
+ *  FETCH IMAGE FROM PATH LOCATION
+ *
+ *  @param url location of image from device directory
+ *
+ *  @return UIImage data from filename
+ */
 - (UIImage *) getImage:(NSString *)url
 {
     NSString *filename = [_files objectForKey:url];
@@ -78,6 +91,7 @@ static ImageCache *sharedInstance;
     
     return nil;
 }
+
 
 - (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
 {

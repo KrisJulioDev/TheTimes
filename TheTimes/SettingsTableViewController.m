@@ -9,6 +9,7 @@
 #import "SettingsTableViewController.h"
 #import "TheTimesAppDelegate.h"
 #import "SubscriptionHandler.h"
+#import "TrackingUtil.h"
 
 @interface SettingsTableViewController () <UIAlertViewDelegate>
 {
@@ -85,6 +86,8 @@
     [appdelegate.bookShelfVC closeSettingPopUP];
     [appdelegate.bookShelfVC closeSettingWebView];
     [appdelegate.bookShelfVC openSettingsWebView:[settingsURL objectAtIndex:indexPath.row ]];
+    
+    [self trackSettingActions:indexPath.row];
 }
 
 - (IBAction)logoutUser:(id)sender {
@@ -92,6 +95,21 @@
     UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:@"Logout" message:NSLocalizedString(@"LOGOUT_ALERT", nil) delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok"   , nil];
     
     [logoutAlert show];
+}
+
+/**
+ *  Tealium tracking
+ *
+ *  @param actionID event_navigation_name depends on chosen action
+ */
+- (void) trackSettingActions:(int)actionID
+{
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation"                           forKey:@"event_navigation_action"];
+    [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
+    [trackingDict setObject:[settingsItem objectAtIndex:actionID]   forKey:@"event_navigation_name"];
+    
+    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -102,6 +120,13 @@
         
         [SubscriptionHandler storeUserDetails:@"" password:@""];
         [appdelegate.bookShelfVC showLoginScreen];
+        
+        NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+        [trackingDict setObject:@"navigation"                           forKey:@"event_navigation_action"];
+        [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
+        [trackingDict setObject:@"logout"                               forKey:@"event_navigation_name"];
+        
+        [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
     }
     
 }

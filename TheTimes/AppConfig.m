@@ -113,7 +113,7 @@ static AppConfig *sharedInstance;
 
 - (NSString *) getTealiumProfileName
 {
-    return [self getString:@"TEALIUM_PROFILE_NAME" defaultValue:@"irishtimes"];
+    return [self getString:@"TEALIUM_PROFILE_NAME" defaultValue:@"thetimes.ios.phone.lite"];
 }
 
 - (NSString *) getTealiumTarget

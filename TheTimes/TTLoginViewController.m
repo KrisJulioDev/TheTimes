@@ -139,7 +139,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
                         [self hideKeyboard:self];
                         
                         [self memberSignIn];
-                        
                         [tracker sendEventWithCategory:@"Login Event" withAction:@"Login Success" withLabel:@"Online Stored Details Login" withValue:0];
                     }
                     else{
