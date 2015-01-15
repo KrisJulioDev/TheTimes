@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Edition.h"
 
 @interface UserInterfaceUtils : NSObject
 
@@ -37,7 +38,7 @@ extern NSString * const PAPER_REGION_ENGLAND;
 
 + (void) setLogo:(UIImageView *)imageView;
 
-+ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname; 
++ (NSString *)joinPDF:(NSArray *)listOfPath withEdition:(Edition*) edition;
 
 + (bool*) split :(NSMutableArray*)firstPages totalNumber:(int)totalNumberOfPages;
 @end

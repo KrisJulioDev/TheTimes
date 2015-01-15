@@ -8,8 +8,15 @@
 
 #import "UserInterfaceUtils.h"
 #import "Constants.h"
+#import "Edition.h"
+
+#define kStyle          @"Style"
+#define kTheMagazine    @"The Magazine"
 
 @implementation UserInterfaceUtils
+{
+    
+}
 
 + (NSString *) getPaperRegion
 {
@@ -102,25 +109,51 @@
  *  for RADAEE
  *
  *  @param listOfPath array of PDF path to merge
- *  @param pname      file name for the pdf
+ *  @param edition      file name for the pdf
  *
  *  @return filepath for the merged pdf
  */
-+ (NSString *)joinPDF:(NSArray *)listOfPath withName:(NSString*) pname{
-    
++ (NSString *)joinPDF:(NSArray *)listOfPath withEdition:(Edition*) edition{
+  
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *layOutPath=[NSString stringWithFormat:@"%@/mergepdf/pdf",[paths objectAtIndex:0]];
     if(![[NSFileManager defaultManager] fileExistsAtPath:layOutPath]){
         [[NSFileManager defaultManager] createDirectoryAtPath:layOutPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     // File paths
-    NSString *fileName = pname;
+    NSString *fileName = edition.dateString;
     NSString *pdfPathOutput = [layOutPath stringByAppendingPathComponent:fileName];
     CFURLRef pdfURLOutput = (__bridge CFURLRef)[NSURL fileURLWithPath:pdfPathOutput];
     NSInteger numberOfPages = 0;
     // Create the output context
     CGContextRef writeContext = CGPDFContextCreateWithURL(pdfURLOutput, NULL, NULL);
 
+    //Special Handling for SundayTimes
+    int styleStartingPage = 0;
+    int theMagazineStartingPage = 0;
+    float styleAdjustment = 0;
+    float theMagazineAdjustment = 0;
+    float xSpace = 0;
+    float ySpace = 0;
+    int counter = 1;
+    
+    NSCalendar* calender = [NSCalendar currentCalendar];
+    NSDateComponents* component = [calender components:NSWeekdayCalendarUnit fromDate:[edition date]];
+    
+    for (EditionSection *section in edition.sections) {
+        if ([section.name isEqualToString:kStyle]) {
+            styleStartingPage = section.pageNumber;
+            styleAdjustment = 114;
+        }
+        
+        if ([section.name isEqualToString:kTheMagazine]) {
+            theMagazineStartingPage = section.pageNumber;
+            theMagazineAdjustment = 31;
+        }
+    }
+    
+//    EditionSection* section 
+    
     for (NSString *source in listOfPath) {
         //        CFURLRef pdfURL = (__bridge CFURLRef)[NSURL fileURLWithPath:source];
         
@@ -134,14 +167,106 @@
         CGPDFPageRef page;
         CGRect mediaBox;
         
+        
         // Read the first PDF and generate the output pages
         for (int i=1; i<=numberOfPages; i++) {
+           
             page = CGPDFDocumentGetPage(pdfRef, i);
             mediaBox = CGPDFPageGetBoxRect(page, kCGPDFMediaBox);
             CGContextBeginPage(writeContext, &mediaBox);
+            
+            if ([component weekday] == 1) {
+                
+                page = CGPDFDocumentGetPage(pdfRef, i);
+                mediaBox = CGPDFPageGetBoxRect(page, kCGPDFCropBox);
+                
+                CGAffineTransform pdfTransform;
+                CGSize newsize;
+                newsize = mediaBox.size;
+                
+                float percentage =  styleAdjustment / mediaBox.size.width;
+                
+                newsize.width += percentage * newsize.width;
+                newsize.height += percentage * newsize.height;
+                
+                ySpace = -(percentage * newsize.height / 2);
+                
+                if (counter >= theMagazineStartingPage) {
+                    xSpace = (counter % 2) == 1 ? theMagazineAdjustment : 85;
+                    
+                    pdfTransform = CGPDFPageGetDrawingTransform(page, kCGPDFMediaBox, CGRectMake(-xSpace, ySpace, newsize.width, newsize.height), 0, true);
+                    CGContextConcatCTM(writeContext, pdfTransform);
+                    
+                } else if (counter >= styleStartingPage) {
+                    xSpace = (counter % 2) == 0 ? styleAdjustment * 2 : 0;
+                    
+                    pdfTransform = CGPDFPageGetDrawingTransform(page, kCGPDFMediaBox, CGRectMake(-xSpace, ySpace, newsize.width, newsize.height), 0, true);
+                    CGContextConcatCTM(writeContext, pdfTransform);
+                }
+            }
+            
             CGContextDrawPDFPage(writeContext, page);
             CGContextEndPage(writeContext);
+            
+            /*
+            page = CGPDFDocumentGetPage(pdfRef, i);
+            mediaBox = CGPDFPageGetBoxRect(page, kCGPDFCropBox);
+            
+            CGSize newsize;
+            newsize = mediaBox.size;
+            
+            float percentage =  styleAdjustment / mediaBox.size.width;
+            
+            newsize.width += percentage * newsize.width;
+            newsize.height += percentage * newsize.height;
+            
+            ySpace = -(percentage * newsize.height / 2);
+            
+            CGContextBeginPage(writeContext, &mediaBox);
+            CGAffineTransform pdfTransform;
+            
+            
+            if (counter >= theMagazineStartingPage && [component weekday] == 1) {
+                xSpace = (counter % 2) == 1 ? theMagazineAdjustment : 85;
+                
+            } else if ( counter >= styleStartingPage && [component weekday] == 1) {
+                
+                xSpace = (counter % 2) == 0 ? styleAdjustment * 2 : 0;
+                
+            }
+            
+            pdfTransform = CGPDFPageGetDrawingTransform(page, kCGPDFMediaBox, CGRectMake(-xSpace, ySpace, newsize.width, newsize.height), 0, true);
+            CGContextConcatCTM(writeContext, pdfTransform);
+            
+            CGContextDrawPDFPage(writeContext, page);
+            CGContextEndPage(writeContext);
+            
+            /*
+            page = CGPDFDocumentGetPage(pdfRef, i);
+            mediaBox = CGPDFPageGetBoxRect(page, kCGPDFCropBox );
+            
+
+            //UIGraphicsBeginPDFPageWithInfo(styleCutLeft, nil);
+            CGContextBeginPage(writeContext, &mediaBox);
+            
+            
+            CGAffineTransform pdfTransform = CGPDFPageGetDrawingTransform(page, kCGPDFMediaBox, newrect, 0, true);
+            // And apply the transform.
+            CGContextConcatCTM(writeContext, pdfTransform);
+            
+//            CGContextClearRect(writeContext, CGRectMake(0, 0, 200, 300));
+            CGContextScaleCTM(writeContext, newsize.width / mediaBox.size.width, newsize.height / mediaBox.size.height);
+            
+            // Flip Context to render PDF correctly
+            CGContextTranslateCTM(writeContext, 0.0, mediaBox.size.height);
+            CGContextScaleCTM(writeContext, 1.0, 1.0);
+            
+            CGContextDrawPDFPage(writeContext, page);
+            
+            CGContextEndPage(writeContext);*/
         }
+        
+        counter++;
         
         CGPDFDocumentRelease(pdfRef);
         CFRelease(pdfURL);

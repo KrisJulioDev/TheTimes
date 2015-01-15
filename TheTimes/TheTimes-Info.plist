@@ -13,19 +13,19 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.TheCoapperative.$(PRODUCT_NAME:rfc1034identifier)New</string>
+	<string>com.newsinternational.thetimesereader.ios</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
+	<string>thetimesereader.ios</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0k</string>
+	<string>1.0m</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0k</string>
+	<string>1.0m</string>
 	<key>CONFIG_FILE</key>
 	<string>config-staging.plist</string>
 	<key>LSRequiresIPhoneOS</key>

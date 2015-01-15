@@ -170,7 +170,6 @@
 		84CEA69C19F0B945008BE4FE /* SectionPopUpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEA69A19F0B945008BE4FE /* SectionPopUpVC.m */; };
 		84CEA69D19F0B945008BE4FE /* SectionPopUpVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CEA69B19F0B945008BE4FE /* SectionPopUpVC.xib */; };
 		84CEA6A019F0EA2F008BE4FE /* SemiModalAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 84CEA69F19F0EA2F008BE4FE /* SemiModalAnimatedTransition.m */; };
-		84D2D1A619FA0534008B67C6 /* paper-error.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84D2D1A519FA0534008B67C6 /* paper-error.jpg */; };
 		84D2D1A819FA2551008B67C6 /* libNILibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8430281A19E3DD4000F11754 /* libNILibrary.a */; };
 		84F7A18019A6F2EF009D49E9 /* cmaps in Resources */ = {isa = PBXBuildFile; fileRef = 84F7A17E19A6F2EF009D49E9 /* cmaps */; };
 		84F7A18119A6F2EF009D49E9 /* fdat in Resources */ = {isa = PBXBuildFile; fileRef = 84F7A17F19A6F2EF009D49E9 /* fdat */; };
@@ -542,7 +541,6 @@
 		84CEA69B19F0B945008BE4FE /* SectionPopUpVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionPopUpVC.xib; sourceTree = "<group>"; };
 		84CEA69E19F0EA2F008BE4FE /* SemiModalAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SemiModalAnimatedTransition.h; sourceTree = "<group>"; };
 		84CEA69F19F0EA2F008BE4FE /* SemiModalAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SemiModalAnimatedTransition.m; sourceTree = "<group>"; };
-		84D2D1A519FA0534008B67C6 /* paper-error.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "paper-error.jpg"; sourceTree = "<group>"; };
 		84F7A17E19A6F2EF009D49E9 /* cmaps */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cmaps; path = ../LibrarieTP/cmaps; sourceTree = "<group>"; };
 		84F7A17F19A6F2EF009D49E9 /* fdat */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fdat; path = ../LibrarieTP/fdat; sourceTree = "<group>"; };
 		84F8DB2F19E50D2C000F838D /* CJSONDataSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CJSONDataSerializer.h; sourceTree = "<group>"; };
@@ -921,7 +919,6 @@
 				8460827C19A4487900D618FE /* TheTimes-Info.plist */,
 				8454FA5119B4575F000200CA /* config-staging.plist */,
 				8460827D19A4487900D618FE /* InfoPlist.strings */,
-				84D2D1A519FA0534008B67C6 /* paper-error.jpg */,
 				8460828019A4487900D618FE /* main.m */,
 				8460828219A4487900D618FE /* TheTimes-Prefix.pch */,
 				8430283619E4D05800F11754 /* TheTimes.xcdatamodeld */,
@@ -1400,7 +1397,7 @@
 				8430282C19E3F24400F11754 /* PBXTargetDependency */,
 			);
 			name = TheTimes;
-			productName = TheTimes;
+			productName = thetimesereader.ios;
 			productReference = 8460827119A4487900D618FE /* TheTimes.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -1499,7 +1496,6 @@
 				84CDEAFD19A47C6C006DFAAB /* RDPDFViewController.xib in Resources */,
 				84F7A18119A6F2EF009D49E9 /* fdat in Resources */,
 				8416B7EB19AD818900981621 /* HeaderView.xib in Resources */,
-				84D2D1A619FA0534008B67C6 /* paper-error.jpg in Resources */,
 				848D4FED19B58F6E00778C4E /* UAPushSettingsView.xib in Resources */,
 				848D4FEB19B58F6E00778C4E /* UAPushSettingsTokenView.xib in Resources */,
 				8454FA5E19B46034000200CA /* CHANGELOG.md in Resources */,
@@ -1827,7 +1823,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1842,7 +1838,7 @@
 					"\"$(SRCROOT)/nilibrary\"/**",
 				);
 				INFOPLIST_FILE = "TheTimes/TheTimes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TheTimes/PDFLib",
@@ -1863,7 +1859,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75ba5739-88e8-4f13-adea-e9661ae7f102";
+				PROVISIONING_PROFILE = "8f53edcc-722c-4f10-8851-017efbf85280";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -1878,7 +1874,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kris Julio Julio (F933YUEU6M)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1893,7 +1889,7 @@
 					"\"$(SRCROOT)/nilibrary\"/**",
 				);
 				INFOPLIST_FILE = "TheTimes/TheTimes-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TheTimes/PDFLib",
@@ -1914,7 +1910,7 @@
 					"-lstdc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "75ba5739-88e8-4f13-adea-e9661ae7f102";
+				PROVISIONING_PROFILE = "8f53edcc-722c-4f10-8851-017efbf85280";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;

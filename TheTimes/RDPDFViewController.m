@@ -54,7 +54,7 @@
     pageno++;
     NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pageno];
     pagestr           = [pagestr stringByAppendingFormat:@"%d",pagecount];
-    pageNumLabel.text = pagestr;
+    //pageNumLabel.text = pagestr;
 }
 
 - (void)OnLongPressed:(float)x :(float)y{}
@@ -166,7 +166,7 @@
     pageNumLabel.baselineAdjustment        = UIBaselineAdjustmentAlignCenters;
     pageNumLabel.layer.cornerRadius        = 10;
     pagestr                                = [pagestr stringByAppendingFormat:@"%d",pagecount];
-    pageNumLabel.text                      = pagestr;
+//    pageNumLabel.text                      = pagestr;
     pageNumLabel.font                      = [UIFont boldSystemFontOfSize:16];
     pageNumLabel.shadowColor               = [UIColor grayColor];
     pageNumLabel.shadowOffset              = CGSizeMake(1.0,1.0);

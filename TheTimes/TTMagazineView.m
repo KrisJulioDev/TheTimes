@@ -26,6 +26,7 @@
 @implementation TTMagazineView
 {
     TheTimesAppDelegate *appDelegate;
+    UIImage *paperErrorImage;
 }
 - (id)initWithFrame:(CGRect)frame
 {
@@ -81,8 +82,6 @@
 /* SETUP PROGRESS BAR */
 - (void) setupCustomProgress
 {
-    
-    
     //Style the progress to match the designs.
     [self.progressView setTransform:CGAffineTransformMakeScale(1.0, 10.0)];
 }
@@ -99,6 +98,7 @@ static NSDateFormatter *dayFormatter;
 /** SETUP MAGAZINE VIEW DATA**/
 - (void) setUpMagazine: (Edition*) newEdition
 {
+    paperErrorImage = [UIImage imageNamed:@"paper-error"];
     
     if (dateFormatter == nil)
     {
@@ -114,7 +114,9 @@ static NSDateFormatter *dayFormatter;
     self.edition = newEdition;
     _textLabel.text = [dayFormatter stringFromDate:_edition.date];
     _textLabel2.text = [dateFormatter stringFromDate:_edition.date];
- 
+    
+    [_iv_frontPage setImage:paperErrorImage];
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self setThumbImageFromURL];
     });
@@ -217,8 +219,6 @@ static NSDateFormatter *dayFormatter;
 {
     NSString *contentType = [NSString stringWithFormat:@"application/jpeg;"];
     
-    UIImage *paperErrorImage;
-    paperErrorImage = [UIImage imageNamed:@"paper-error.jpg"];
     
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
    
@@ -251,21 +251,23 @@ static NSDateFormatter *dayFormatter;
         [_iv_frontPage setImageWithURLRequest:request
                              placeholderImage:nil
                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                            [_iv_frontPage setImage:image];
+                                          [_iv_frontPage setImage:image];
                                       }
          
                                       failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                           
                                           [_iv_frontPage setImage:paperErrorImage];
                                       }];
-
+    }
+    
+    if (_iv_frontPage.image == nil) {
+        [_iv_frontPage setImage:paperErrorImage];
     }
 }
 
 - (IBAction) viewEdition
 {
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
-    
     
     if (downloadedEdition != nil)
     {
@@ -276,7 +278,6 @@ static NSDateFormatter *dayFormatter;
         
         [appDelegate.bookShelfVC openPDF:downloadedEdition];
     }
-    
     /*
     else if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
     {
@@ -292,6 +293,7 @@ static NSDateFormatter *dayFormatter;
         [trackingDict setObject:@"click" forKey:@"event_engagement_browsing_method"];
     }*/
 }
+
 
 #pragma mark PLAY PAUSE FUNCTIONALITY
 - (IBAction)playPauseDownload:(id)sender {
@@ -401,7 +403,7 @@ static NSDateFormatter *dayFormatter;
             alertV.tag = CANCEL_ALL;
             [alertV show];
         }
-        }
+    }
     else
     {
         NSString *title = NSLocalizedString(@"Downloading", nil);
@@ -450,6 +452,8 @@ static NSDateFormatter *dayFormatter;
                 [newEdition.pages addObject:newPage];
             }
             
+            [newEdition setPagesPath:listOfPath];
+            
             NSArray *sections = [infoDict objectForKey:@"paperMenu"];
             for (NSDictionary *section in sections)
             {
@@ -461,7 +465,7 @@ static NSDateFormatter *dayFormatter;
             }
             
             // Stop all interaction when extracting
-            [appDelegate.bookShelfVC extractionOnProcess:YES];
+            [appDelegate.bookShelfVC extractionOnProcess:self extracting:YES];
             
             dispatch_queue_t myQueue = dispatch_queue_create("extraction",NULL);
             dispatch_async(myQueue, ^{
@@ -469,12 +473,12 @@ static NSDateFormatter *dayFormatter;
                 NSLog(@"Perform long running process");
                 
                 //Merge all pdf's
-                newEdition.fullPDFPath = [UserInterfaceUtils joinPDF:listOfPath withName:newEdition.dateString];
+                newEdition.fullPDFPath = [UserInterfaceUtils joinPDF:listOfPath withEdition:newEdition];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
 
-                    NSLog(@"Update the UI, bring back the interaction");
-                    [appDelegate.bookShelfVC extractionOnProcess:NO];
+                    NSLog(@"Update the UI, bring back the interaction"); 
+                    [appDelegate.bookShelfVC extractionOnProcess:self extracting:NO];
                     
                     [self setMagazineStatus:stopped];
                     
@@ -664,6 +668,12 @@ static NSDateFormatter *dayFormatter;
             [appDelegate.bookShelfVC stopAllMagazineDownload];
             [appDelegate.bookShelfVC refreshEditionViews];
         }
+    }
+}
+
+- (void) fixPagesOffset:(NSString*)name {
+    if (name == @"Style" || name == @"The Magazine") {
+        
     }
 }
 

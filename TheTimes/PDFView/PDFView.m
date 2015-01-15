@@ -902,7 +902,7 @@ extern NSMutableString *pdfPath;
                             [m_view vSetZoomScale:0.1f page:pageNo];
                             [self vGoto:pageNo];
                             
-                            [m_view vGetDeltaToCenterPage:pageNo  :&m_swipe_dx :&m_swipe_dy];
+                            //[m_view vGetDeltaToCenterPage:pageNo  :&m_swipe_dx :&m_swipe_dy];
                         }
                         
                         

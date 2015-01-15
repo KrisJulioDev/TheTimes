@@ -3,20 +3,16 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "radio_btn_selected.png"
+      "filename" : "paper-error.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "radio_btn_selected@2x.png"
+      "filename" : "paper-error@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "universal",
-      "unassigned" : true
     }
   ],
   "info" : {

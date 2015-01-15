@@ -10,6 +10,10 @@
       "scale" : "2x"
     },
     {
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
       "idiom" : "ipad",
       "scale" : "1x"
     },

@@ -102,7 +102,7 @@ void APP_Init()
     NSFileManager *fileManager = [NSFileManager defaultManager];
     //Global_activeStandard("com.radaee.pdf.PDFViewer", "Radaee", "radaee_com@yahoo.cn", "3BQIA5-IW8GQM-H3CRUZ-WAJQ9H-FADG6Z-XEBCAO");
     //Global_activeProfession("com.radaee.pdf.PDFViewer", "Radaee", "radaee_com@yahoo.cn", "MP8SG1-7SPIWP-H3CRUZ-WAJQ9H-FADG6Z-XEBCAO");
-    Global_activePremium("com.radaee.pdf.PDFViewer", "Radaee", "radaee_com@yahoo.cn", "89WG9I-HCL62K-H3CRUZ-WAJQ9H-FADG6Z-XEBCAO");
+    Global_activePremium("com.newsinternational.thetimesereader.ios", "News UK", "dan.griffiths@news.co.uk", "U0RM7F-RECGSE-XLTRK7-62SXRP-BJO46U-8H583N");
     
     
     NSString *cmaps_path = [[NSBundle mainBundle] pathForResource:@"cmaps" ofType:@"dat" inDirectory:@"cmaps"];

@@ -909,7 +909,7 @@
                 cell->left = left;
                 cell->right = left + cw;
                 
-                [m_pages[pcur] SetRect:left + (cw - w)/2: (int)(m_doch - [m_doc pageHeight:pcur] * appliedScale) / 2: appliedScale];
+                [m_pages[pcur] SetRect:left + (cw - w) / 2: (int)(m_doch - [m_doc pageHeight:pcur] * appliedScale) / 2: appliedScale];
                 pcur++;
             }
             left += cw;
@@ -1089,6 +1089,7 @@
 {
     dx[0] += delta;
 }
+
 -(void)vGetDeltaToCenterPage:(int)pageno : (int *)dx : (int *)dy
 {
     if( m_pages == NULL || m_doc == NULL || m_w <= 0 || m_h <= 0 ) return;

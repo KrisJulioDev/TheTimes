@@ -119,6 +119,9 @@ static int portraitVGap = 70;
         [self fetchTimesData];
     });
     
+    blackScreen = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [blackScreen setHidden:YES];
+    
     /* initializer RADAEE Configurations */
     [self loadSettingsWithDefaults];
 } 
@@ -403,6 +406,7 @@ static int portraitVGap = 70;
 {
     [webView removeFromSuperview];
     [webViewCloseBtn removeFromSuperview];
+    [blackScreen setHidden:YES];
     
     webView = nil;
     webViewCloseBtn = nil;
@@ -449,6 +453,12 @@ static int portraitVGap = 70;
     [webView loadRequest:request];
     
     [webView sizeToFit];
+    
+    [blackScreen setHidden:NO];
+    
+    [blackScreen setBackgroundColor:[UIColor blackColor]];
+    [blackScreen.layer setOpacity:0.6f];
+    [self.view addSubview:blackScreen];
     
     [webView addSubview:webSpinner];
     [self.view addSubview:webView];
@@ -853,7 +863,7 @@ static int pageWidth = 675/2+42;
             [[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (void) extractionOnProcess:(BOOL) isExtracting
+- (void) extractionOnProcess:(UIView*)sender extracting:(BOOL) isExtracting
 {
     if ( extractionIndicator == nil) {
         indicatorBg = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2 - 60,
@@ -886,10 +896,14 @@ static int pageWidth = 675/2+42;
     
     if (isExtracting) {
         
+        
         [extractionIndicator startAnimating];
         [extractionLabel setText:@"Extracting..."];
-        [indicatorBg setHidden:NO]; 
+        [indicatorBg setHidden:NO];
+        [blackScreen setHidden:NO];
         [self.view setUserInteractionEnabled:NO];
+        
+//        [self.view bringSubviewToFront:indicatorBg];
         
     } else {
         
@@ -897,6 +911,10 @@ static int pageWidth = 675/2+42;
         [extractionLabel setText:@""];
         [indicatorBg setHidden:YES];
         [self.view setUserInteractionEnabled:YES];
+        
+        if (webView == nil) {
+            [blackScreen setHidden:YES];
+        }
         
     }
 }
@@ -955,6 +973,10 @@ static int pageWidth = 675/2+42;
                                     SCREEN_HEIGHT/2 - 60,
                                     120,
                                     120)];
+    
+    
+    
+    [blackScreen setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     
     //portraitInfoButton.selected = NO;
     //landscapeInfoButton.selected = NO;

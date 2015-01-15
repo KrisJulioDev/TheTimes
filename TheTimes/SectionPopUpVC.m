@@ -9,6 +9,7 @@
 #import "SectionPopUpVC.h"
 #import "SemiModalAnimatedTransition.h"
 #import "Constants.h"
+#import "TrackingUtil.h"
 
 @interface SectionPopUpVC ()
 
@@ -161,6 +162,13 @@
 {
     EditionSection *section = [_edition.sections objectAtIndex:indexPath.row];
     [_rdDelegate PDFVGotoSection:section.pageNumber - 1];
+    
+    //Track tealium
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation" forKey:@"event_navigation_action"];
+    [trackingDict setObject:section.name forKey:@"event_section_name"];
+    
+    [TrackingUtil trackEvent:@"section selection mode" fromView:self.view extraData:trackingDict];
     
     [self closeSectionPopup:self];
 }

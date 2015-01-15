@@ -31,6 +31,8 @@
     
     IBOutlet UIButton *settingsBtn;
     IBOutlet UIButton *paperBtn;
+    
+    UIView *blackScreen;
 }
 
 @property (nonatomic, retain) NSMutableArray        *portraitEditionViews;
@@ -61,5 +63,5 @@
 - (void) stopAllMagazineDownload;
 - (void) showLoginScreen;
 - (void) changeStatusForMagazine:(TTMagazineView*)magz : (enum Status ) status;
-- (void) extractionOnProcess:(BOOL) isExtracting;
+- (void) extractionOnProcess:(UIView*)sender extracting:(BOOL) isExtracting;
 @end
