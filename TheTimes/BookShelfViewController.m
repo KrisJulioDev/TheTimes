@@ -63,7 +63,9 @@
     SettingsTableViewController *settingsVC;
 }
 
+//------------------------------------------------------------
 #pragma mark RADAEE PROPERTIES
+//------------------------------------------------------------
 NSMutableString *pdfName;
 NSMutableString *pdfPath;
 NSString *pdfFullPath;
@@ -119,8 +121,6 @@ static int portraitVGap = 70;
         [self fetchTimesData];
     });
     
-    blackScreen = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    [blackScreen setHidden:YES];
     
     /* initializer RADAEE Configurations */
     [self loadSettingsWithDefaults];
@@ -142,8 +142,20 @@ static int portraitVGap = 70;
     
     [self.view setNeedsDisplay];
     */
+    
+    blackScreen = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    
+    [blackScreen setBackgroundColor:[UIColor blackColor]];
+    [blackScreen.layer setOpacity:0.6f ];
+    [blackScreen setHidden:YES];
+    
+    [self.view addSubview:blackScreen];
+    
 }
 
+/**
+ *  Called once app open.
+ */
 - (void) fetchTimesData
 {
     /* 
@@ -279,14 +291,16 @@ static int portraitVGap = 70;
     }
 }
 
+// refresh UI data of editions displayed
 - (void) refreshEditionViews
 {
     [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0];
     [self setupInterface:[UIApplication sharedApplication].statusBarOrientation];
 }
 
-
-#pragma mark SHOW ALL EDITIONS AVAILABLE 
+//------------------------------------------------------------
+#pragma mark SHOW ALL EDITIONS AVAILABLE
+//------------------------------------------------------------
 - (void) setupInterface:(UIInterfaceOrientation)toInterfaceOrientation
 {
     if (_landscapeEditionViews == nil)
@@ -402,6 +416,9 @@ static int portraitVGap = 70;
     }
 }
 
+/**
+ *  close webview setting popup
+ */
 - (void) closeSettingWebView
 {
     [webView removeFromSuperview];
@@ -411,6 +428,7 @@ static int portraitVGap = 70;
     webView = nil;
     webViewCloseBtn = nil;
 }
+
 
 - (void) closeSettingPopUP
 {
@@ -456,8 +474,6 @@ static int portraitVGap = 70;
     
     [blackScreen setHidden:NO];
     
-    [blackScreen setBackgroundColor:[UIColor blackColor]];
-    [blackScreen.layer setOpacity:0.6f];
     [self.view addSubview:blackScreen];
     
     [webView addSubview:webSpinner];
@@ -465,6 +481,9 @@ static int portraitVGap = 70;
     [self.view addSubview:webViewCloseBtn];
 }
 
+//------------------------------------------------------------
+#pragma mark WEBVIEW DELEGATE METHODS
+//------------------------------------------------------------
 - (void) webViewDidStartLoad:(UIWebView *)webView{
     [webSpinner startAnimating];
 }
@@ -473,7 +492,9 @@ static int portraitVGap = 70;
     [webSpinner stopAnimating];
 }
 
+//------------------------------------------------------------
 #pragma mark LOAD EDITIONS
+//------------------------------------------------------------
 - (void)loadEditionPapers {
     dispatch_queue_t downloadQueue = dispatch_queue_create("tracking", NULL);
     dispatch_async(downloadQueue, ^{
@@ -536,6 +557,9 @@ static int portraitVGap = 70;
 }
 
 
+//------------------------------------------------------------
+#pragma mark METHOD CALLED when JSON data is already downloaded
+//------------------------------------------------------------
 - (void)checkIfJSONDownloaded {
     if (globalJSONTimer != nil) {
         [globalJSONTimer invalidate];
@@ -563,6 +587,7 @@ static int portraitVGap = 70;
 		}
 	}
 }
+
 
 - (void)refreshPapers {
     [self performSelector:@selector(refreshPapers) withObject:nil afterDelay:3600];
@@ -719,7 +744,9 @@ static int portraitVGap = 70;
 
 
 
+//------------------------------------------------------------
 #pragma mark ADD LONG PRESS GESTURE
+//------------------------------------------------------------
 - (void) addLongPressRecogniser:(UIView *)thisView
 {
     UILongPressGestureRecognizer *gestureLong = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
@@ -791,7 +818,9 @@ static int portraitVGap = 70;
     [appTracker sendEventWithCategory:@"Edition Opened" withAction:@"PDF_OPEN" withLabel:edition.dateString withValue:0];
 }
 
+//------------------------------------------------------------
 #pragma mark SCROLL VIEW DELEGATES
+//------------------------------------------------------------
 static int pageWidth = 675/2+42;
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
@@ -896,14 +925,16 @@ static int pageWidth = 675/2+42;
     
     if (isExtracting) {
         
-        
+
         [extractionIndicator startAnimating];
         [extractionLabel setText:@"Extracting..."];
         [indicatorBg setHidden:NO];
         [blackScreen setHidden:NO];
         [self.view setUserInteractionEnabled:NO];
         
-//        [self.view bringSubviewToFront:indicatorBg];
+        [self closeSettingWebView];
+        [self.view bringSubviewToFront:blackScreen];
+        [self.view bringSubviewToFront:indicatorBg];
         
     } else {
         
@@ -911,15 +942,14 @@ static int pageWidth = 675/2+42;
         [extractionLabel setText:@""];
         [indicatorBg setHidden:YES];
         [self.view setUserInteractionEnabled:YES];
-        
-        if (webView == nil) {
-            [blackScreen setHidden:YES];
-        }
+        [blackScreen setHidden:YES];
         
     }
 }
 
+//------------------------------------------------------------
 #pragma mark ROTATION CALLBACKS
+//------------------------------------------------------------
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];

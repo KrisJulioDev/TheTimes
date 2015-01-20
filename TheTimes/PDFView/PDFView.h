@@ -84,11 +84,21 @@
     NSMutableArray* m_arrayTouch;
     id<PDFVDelegate> m_delegate;
     
-     
+    float scaleHolder;
+    float rightScale;
+    NSTimer *zoomtimer;
+    double frameTimeStamp;
+    CGPoint dTapPoint;
+    float x1;
+    float x2;
+    
+    double pinchZoomScale;
+    
+    CADisplayLink *displayLink;
+    
     enum ZOOMLEVEL{
-        Half = 0,
-        Full = 1,
-        Original = 2
+        Full = 0,
+        Original = 1
     };
     
     enum ZOOMLEVEL zoomLvl;

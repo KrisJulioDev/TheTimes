@@ -162,7 +162,6 @@
 		848D4FEC19B58F6E00778C4E /* UAPushSettingsUserInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848D4FB319B58F6E00778C4E /* UAPushSettingsUserInfoView.xib */; };
 		848D4FED19B58F6E00778C4E /* UAPushSettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848D4FB419B58F6E00778C4E /* UAPushSettingsView.xib */; };
 		848D4FEE19B5A5DE00778C4E /* libUAirship-iOS5-3.0.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 848D4F5319B58F6E00778C4E /* libUAirship-iOS5-3.0.3.a */; };
-		848F4F4F19B70E54008AA3D2 /* TTPushHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 848F4F4E19B70E54008AA3D2 /* TTPushHandler.m */; };
 		8492317D1A0CA036007BAB8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8492317C1A0CA036007BAB8E /* Images.xcassets */; };
 		84BDB3D419EE615200037AEB /* SettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BDB3D219EE615200037AEB /* SettingsTableViewController.m */; };
 		84BDB3D519EE615200037AEB /* SettingsTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84BDB3D319EE615200037AEB /* SettingsTableViewController.xib */; };
@@ -528,8 +527,6 @@
 		848D4FB219B58F6E00778C4E /* UAPushSettingsTokenView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UAPushSettingsTokenView.xib; sourceTree = "<group>"; };
 		848D4FB319B58F6E00778C4E /* UAPushSettingsUserInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UAPushSettingsUserInfoView.xib; sourceTree = "<group>"; };
 		848D4FB419B58F6E00778C4E /* UAPushSettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UAPushSettingsView.xib; sourceTree = "<group>"; };
-		848F4F4D19B70E54008AA3D2 /* TTPushHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTPushHandler.h; sourceTree = "<group>"; };
-		848F4F4E19B70E54008AA3D2 /* TTPushHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTPushHandler.m; sourceTree = "<group>"; };
 		8492317C1A0CA036007BAB8E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8493E66B1A10C3B700C62BBD /* libdispatch.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libdispatch.dylib; path = usr/lib/system/introspection/libdispatch.dylib; sourceTree = SDKROOT; };
 		84BDB3D119EE615200037AEB /* SettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableViewController.h; sourceTree = "<group>"; };
@@ -791,8 +788,6 @@
 			children = (
 				84702DDC19BD8C9500AE1284 /* TrackingUtil.h */,
 				840BB33219EBBCF9002D4B8B /* TrackingUtil.m */,
-				848F4F4D19B70E54008AA3D2 /* TTPushHandler.h */,
-				848F4F4E19B70E54008AA3D2 /* TTPushHandler.m */,
 				848D4F0919B56D7D00778C4E /* ImageCache.h */,
 				848D4F0A19B56D7D00778C4E /* ImageCache.m */,
 				848D4F0619B56D5700778C4E /* AsyncImageView.h */,
@@ -1650,7 +1645,6 @@
 				8454FA3D19B445C0000200CA /* BookShelfViewController.m in Sources */,
 				84F8DB3D19E50D2C000F838D /* CSerializedJSONData.m in Sources */,
 				8454FA4719B4511D000200CA /* AutoCoding.m in Sources */,
-				848F4F4F19B70E54008AA3D2 /* TTPushHandler.m in Sources */,
 				848D4FD819B58F6E00778C4E /* UAPushSettingsTagsViewController.m in Sources */,
 				8430283F19E4DA5500F11754 /* PaperEditionData.m in Sources */,
 				84F8DB5D19E52E0C000F838D /* unzip.c in Sources */,

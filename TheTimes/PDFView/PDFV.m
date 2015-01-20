@@ -289,6 +289,9 @@
 -(float)vGetScale
 {return m_scale;}
 
+-(float)vGetZoomScale
+{ return m_zoom_scale;}
+
 -(void)vSetScale:(float) scale
 {
     m_scale = scale;
@@ -296,11 +299,22 @@
     [self vLayout]; 
 }
 
+- (void) vSetZoomOnDTap:(id)userInfo
+{
+    NSDictionary *info = userInfo;
+    
+    m_currentPage   = [[info objectForKey:@"pageno"] intValue];
+    m_scale         = [[info objectForKey:@"scale"] floatValue];
+    
+    [self vLayoutOnZoom];
+}
+
 -(void)vSetZoomScale:(float) scale page:(int)pageno
 {
-    m_scale = scale;
     m_currentPage = pageno;
-    [self vLayoutOnZoom]; 
+    m_scale = scale;
+    m_zoom_scale = scale;
+    [self vLayoutOnZoom];
 }
 
 -(void)vSetSel:(int)x1 : (int)y1 : (int)x2 : (int)y2
@@ -584,9 +598,7 @@
 
 - (void) vLayoutOnZoom
 {
-    if( m_doc == NULL || m_w <= m_page_gap || m_h <= m_page_gap ) return;
-    
-    int pcnt = [m_doc pageCount];
+    if( m_doc == NULL || m_w <= m_page_gap || m_h <= m_page_gap ) return;     int pcnt = [m_doc pageCount];
     int pcur = 0;
     int ccur = 0;
     int ccnt = 0;
@@ -685,7 +697,6 @@
     }
     else //HORIZONTAL
     {
-        
         while( pcur < pcnt )
         {
             if( (m_horz_dual == NULL || ccnt >= m_horz_dual_cnt || m_horz_dual[ccnt]) && pcur < pcnt - 1 )
@@ -815,7 +826,6 @@
             cur++;
         }
     }
-    
 }
 
 -(void)vLayout

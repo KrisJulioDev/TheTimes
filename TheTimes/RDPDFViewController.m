@@ -46,7 +46,11 @@
     [self.view addSubview:headerView];
 }
 
-#pragma mark DELEGATE METHODS
+/**
+ *  Callback on pdf page change
+ *
+ *  @param pageno - page number
+ */
 - (void)OnPageChanged :(int)pageno{
     
     [m_Thumbview vGoto:pageno];
@@ -54,14 +58,14 @@
     pageno++;
     NSString *pagestr = [[NSString alloc]initWithFormat:@"%d/",pageno];
     pagestr           = [pagestr stringByAppendingFormat:@"%d",pagecount];
-    //pageNumLabel.text = pagestr;
-}
+ }
 
+
+//---------------------------------------------------------
+#pragma mark DELEGATE METHODS
+//---------------------------------------------------------
 - (void)OnLongPressed:(float)x :(float)y{}
 - (void)OnSingleTapped:(float)x :(float)y :(NSString *)text{ }
-- (void)OnTouchDown: (float)x :(float)y{
-    [m_Thumbview setHidden:YES];
-}
 - (void)OnTouchUp:(float)x :(float)y{ }
 - (void)OnSelEnd:(float)x1 :(float)y1 :(float)x2 :(float)y2{ }
 - (void)OnOpenURL:(NSString*)url{}
@@ -69,6 +73,18 @@
 - (void)OnMovie:(NSString *)fileName{}
 - (void)OnSound:(NSString *)fileName{}
 
+- (void)OnTouchDown: (float)x :(float)y{
+    [m_Thumbview setHidden:YES];
+}
+
+/**
+ *  Method to open the chosen pdf
+ *
+ *  @param path URL path
+ *  @param pwd  password if given
+ *
+ *  @return return 2 if password error - 0 if success
+ */
 - (int)PDFOpen:(NSString *)path withPassword:(NSString *)pwd
 {
     [self PDFClose];
@@ -117,7 +133,11 @@
     return 1;
 }
 
-
+/**
+ *  Initialze thumbnail view
+ *
+ *  @param pageno page number of thumbnail
+ */
 -(void)PDFThumbNailinit:(int)pageno
 { 
     CGRect boundsc = [[UIScreen mainScreen]bounds];
@@ -166,19 +186,24 @@
     pageNumLabel.baselineAdjustment        = UIBaselineAdjustmentAlignCenters;
     pageNumLabel.layer.cornerRadius        = 10;
     pagestr                                = [pagestr stringByAppendingFormat:@"%d",pagecount];
-//    pageNumLabel.text                      = pagestr;
+    
     pageNumLabel.font                      = [UIFont boldSystemFontOfSize:16];
     pageNumLabel.shadowColor               = [UIColor grayColor];
     pageNumLabel.shadowOffset              = CGSizeMake(1.0,1.0);
     
     [pageNumLabel setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:pageNumLabel];
-    //pageNumLabel.setNeedsDisplay;
+    
     [m_Thumbview vSetDelegate:self];
     [pageNumLabel setHidden:NO];
     
 }
 
+/**
+ *  Delegate method on thumbnail page clickeed
+ *
+ *  @param pageno thumbnail page number
+ */
 -(void)PDFVThumbOnPageClicked:(int)pageno
 {
     NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
@@ -191,6 +216,11 @@
     [m_view vGoto:pageno];
 }
 
+/**
+ *  Section change method delegate
+ *
+ *  @param sectionpage section page number
+ */
 -(void)PDFVGotoSection:(int)sectionpage
 {
     NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
@@ -203,7 +233,9 @@
     [m_view vGoto:sectionpage];
 }
 
-
+/**
+ *  close pdf
+ */
 -(void)PDFClose
 {
     if( m_view != nil )
@@ -215,6 +247,11 @@
     m_doc = NULL;
 }
 
+/**
+ *  back to edition selection page
+ *
+ *  @param sender button sender
+ */
 - (IBAction)backToEditions:(id)sender
 {
     NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
@@ -232,15 +269,17 @@
     [m_Thumbview setHidden:!m_Thumbview.isHidden];
 }
 
-
+/**
+ *  show section pop up seleciton
+ *
+ *  @param sender button
+ */
 - (IBAction) showSection:(id)sender
 {
     SectionPopUpVC *spu                 = [[SectionPopUpVC alloc] initWithNibName:@"SectionPopUpVC" bundle:nil];
     spu.rdDelegate                      = self;
     spu.transitioningDelegate           = self.transition;
     spu.modalPresentationStyle          = UIModalPresentationCustom;
-//    spu.view.backgroundColor            = [UIColor clearColor];
-//    spu.view.superview.backgroundColor  = [UIColor clearColor];
     
     spu.edition = _pageEdition;
     
@@ -295,6 +334,11 @@
     
 }
 
+/**
+ *  check if portrait or landscape
+ *
+ *  @return YES IF portrait : NO IF landscape
+ */
 - (BOOL)isPortrait
 {
     return ([[UIApplication sharedApplication] statusBarOrientation] == UIInterfaceOrientationPortrait ||

@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TheTimes/PDFView/PDFV.m"
-            timestampString = "442984363.888472"
+            timestampString = "443093889.106989"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "872"
-            endingLineNumber = "872"
+            startingLineNumber = "882"
+            endingLineNumber = "882"
             landmarkName = "-vLayout"
             landmarkType = "5">
          </BreakpointContent>
@@ -73,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TheTimes/PDFView/PDFVThumb.m"
-            timestampString = "443007738.305331"
+            filePath = "TheTimes/BookShelfViewController.m"
+            timestampString = "443425998.637809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
-            landmarkName = "-onSingleTap::"
+            startingLineNumber = "594"
+            endingLineNumber = "594"
+            landmarkName = "-refreshPapers"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -117,6 +117,11 @@ extern uint g_rect_color;
     canvas = nil;
 }
 
+/**
+ *  Timer for checking swipe movement
+ *
+ *  @param sender timer
+ */
 - (void)timerFireMethod:(NSTimer *)sender
 {
     if( m_swipe_dx || m_swipe_dy )

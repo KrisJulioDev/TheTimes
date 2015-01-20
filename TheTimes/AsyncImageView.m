@@ -133,17 +133,9 @@ static NSMutableDictionary *cache;
     }
 }
 
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-}
-
 - (void) setNewImage:(UIImage *)img
 {
 	self.image = img;
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
-{
 }
 
 @end

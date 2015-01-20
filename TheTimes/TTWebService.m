@@ -76,6 +76,11 @@ static NSDateFormatter *dateFormatter;
     return nil;
 }
 
+/**
+ *  RETURN ALL EDITIONS FROM DOWNLOADED DATA
+ *
+ *  @return NSMUTABLE ARRAY OF EDITIONS
+ */
 - (NSMutableArray*) getEditions
 {
     NSMutableArray *editions = nil;
@@ -101,7 +106,7 @@ static NSDateFormatter *dateFormatter;
     
     return editions;
 }
-
+ 
 - (id) getJSONResult:(NSString *)urlString
 {
     NSError    *error = nil;

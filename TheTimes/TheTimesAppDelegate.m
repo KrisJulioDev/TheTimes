@@ -45,25 +45,23 @@
     //Load cache data for user if there is
     [self loadCachedConfigAndUserData];
     
-//    [[TTEditionManager sharedInstance] updateEditions];
-    
     //Track application behaviour
     [TrackingUtil applicationDidFinishLaunching];
     
-    
+    //Load cache to speed up loading image
     [AsyncImageView loadCache];
     
     return YES;
 }
 
-
+/**
+ *  Initialize Urban Airship
+ */
 - (void) setupUrbanAirship
 {
     UAConfig *uaConfig = [UAConfig defaultConfig];
     uaConfig.developmentAppKey = [[AppConfig sharedInstance] getAirshipDevKey];
     uaConfig.developmentAppSecret = [[AppConfig sharedInstance] getAirshipDevSecret];
-    //uaConfig.productionAppKey = [[AppConfig sharedInstance] getAirshipProductionKey];
-    //uaConfig.productionAppSecret = [[AppConfig sharedInstance] getAirshipProductionSecret];
     uaConfig.inProduction = [[AppConfig sharedInstance] isAirshipInProduction];
     
     [UAirship takeOff:uaConfig];
@@ -80,6 +78,11 @@
     }
 }
 
+/**
+ *  Load Config
+ *
+ *  @param newConfig config from webservice
+ */
 - (void) completeLoadConfig:(Config *)newConfig
 {
     if (newConfig != nil)
@@ -107,14 +110,20 @@
     }
 }
 
-
+/**
+ *  Login user method
+ *
+ *  @param newUser newUser to logged
+ */
 - (void) loginUser:(User *)newUser
 {
     self.user = newUser;
     [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:_user] forKey:USER_KEY];
 }
 
-
+//-------------------------------------------------------
+#pragma mark Notification delegate callback method
+//-------------------------------------------------------
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [[UAPush shared] registerDeviceToken:deviceToken];

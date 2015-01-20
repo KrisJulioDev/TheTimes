@@ -112,6 +112,7 @@ extern NSMutableString *pdfPath;
                                                target:self selector:@selector(timerFireMethod:)
                                              userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop]addTimer:m_timer forMode:NSDefaultRunLoopMode];
+    
     m_status = sta_none;
     m_ink = NULL;
     m_modified = false;
@@ -348,6 +349,11 @@ extern NSMutableString *pdfPath;
     }
 }
 
+/**
+ *  <#Description#>
+ *
+ *  @param sender <#sender description#>
+ */
 - (void)timerFireMethod:(NSTimer *)sender
 {
     if( m_swipe_dx || m_swipe_dy )
@@ -411,27 +417,58 @@ extern NSMutableString *pdfPath;
 */
 - (void) zoomOnDTap
 {
+    pinchZoomScale = 1;
+    
+    if ([m_view vGetScale] <= 2) {
+        zoomLvl = Full;
+    } else
+        zoomLvl = Original;
+    
     switch (zoomLvl) {
-        case Half:
-            [m_view vSetZoomScale:2 page:m_cur_page];
-            break;
         case Full:
-            [m_view vSetZoomScale:4 page:m_cur_page];
+            
+            rightScale = 5; 
+            
+            [self vSetZoomOnDTap];
+            
+            
             break;
         case Original:
-            [m_view vSetZoomScale:0.5f page:m_cur_page];
+            
+            rightScale = 1;
+            
+            [m_view vSetZoomScale:rightScale page:m_cur_page];
+            [m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y ];
+            [m_view vGetDeltaToCenterPage:m_cur_page :&m_swipe_dx :&m_swipe_dy];
+            
+            [self refresh];
+            
             break;
         default:
             break;
     }
     
-    [m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y ];
-    [self refresh];
+   //[m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y ];
+    //[self refresh];
     
-    if (zoomLvl == Original) {
-        zoomLvl = 0;
-    }else
-        zoomLvl++;
+}
+
+- (void) vSetZoomOnDTap {
+    [UIView animateWithDuration:0.1f delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
+        
+        [m_view vSetZoomScale:pinchZoomScale page:m_cur_page];
+        [m_view vSetPos:&m_zoom_pos :m_zoom_x :m_zoom_y];
+        [self refresh];
+        
+    }
+                     completion:^(BOOL finished) {
+                         pinchZoomScale *= 1.25f;
+                         
+                         if (pinchZoomScale < 6) {
+                             [self vSetZoomOnDTap];
+                         }
+                     }];
+ 
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -698,6 +735,7 @@ extern NSMutableString *pdfPath;
         CGPoint point1 = [touch1 locationInView:[touch1 view]];
         UITouch *touch2 = [[allTouches allObjects] objectAtIndex:1];
         CGPoint point2 = [touch2 locationInView:[touch2 view]];
+        
         float dis = sqrt((point1.x-point2.x)*(point1.x-point2.x) + (point1.y-point2.y) * (point1.y-point2.y)) * m_scale;
         
         [m_view vSetZoomScale:m_zoom_ratio * dis / m_zoom_dis page:m_cur_page];
@@ -831,6 +869,9 @@ extern NSMutableString *pdfPath;
         }
         
         if (touch.tapCount == 2) {
+            
+            [m_view vZoomStart];
+            
             m_zoom_x = point.x * m_scale;
             m_zoom_y = point.y * m_scale;
             [m_view vGetPos:&m_zoom_pos :m_zoom_x :m_zoom_y];

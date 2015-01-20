@@ -33,6 +33,7 @@ struct PDFV_POS
 	int m_hold_y;
     int m_currentPage;
 	float m_scale;
+    float dm_scale;
 	float m_scale_min;
 	float m_scale_min_dual;
 	float m_scale_max;
@@ -65,6 +66,7 @@ struct PDFV_POS
 -(void)vMoveDelta:(int)dx :(int)dy;
 -(void)vZoomStart;
 -(float)vGetScale;
+-(float)vGetZoomScale;
 -(void)vSetScale:(float) scale;
 -(void)vSetSel:(int)x1 :(int)y1 :(int)x2 :(int)y2;
 -(void)vClearSel;
@@ -77,6 +79,7 @@ struct PDFV_POS
 
 //ADDITION
 -(void)vSetZoomScale:(float) scale page:(int)pageno;
+- (void) vSetZoomOnDTap:(id)userInfo;
 - (void) vLayoutOnZoom;
 
 @end

@@ -214,6 +214,11 @@ NSString *const SIGNIN_SCHEME = @"signin";
     }
 }
 
+/**
+ *  editing textfield delegate method
+ *
+ *  @param textField currently editing textfield
+ */
 - (void) textFieldDidEndEditing:(UITextField *)textField
 {
     
@@ -249,6 +254,9 @@ NSString *const SIGNIN_SCHEME = @"signin";
     }
 }
 
+/**
+ *  Method called after signing in. call updateEditions and dismiss view
+ */
 - (IBAction) memberSignIn
 {
     [[TTEditionManager sharedInstance] updateEditions];
@@ -257,6 +265,11 @@ NSString *const SIGNIN_SCHEME = @"signin";
     
 }
 
+/**
+ *  log in button callback
+ *
+ *  @param sender button
+ */
 - (IBAction)loginButtonPressed:(id)sender
 {
     loginInProcess =true;
@@ -364,6 +377,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
         });
     });
 }
+
 
 - (IBAction)hideKeyboard:(id)sender{
     [passwordEntry resignFirstResponder];
