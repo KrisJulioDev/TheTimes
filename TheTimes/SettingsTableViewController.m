@@ -33,11 +33,13 @@
     [settingsItem addObject:@"CONTACT"];
     //[settingsItem addObject:@"CREDITS"];
     
+    appdelegate = [[UIApplication sharedApplication] delegate];
+    
     settingsURL = [NSMutableArray new];
-    [settingsURL addObject:@"http://help.thetimes.co.uk/"];
-    [settingsURL addObject:@"https://login.thetimes.co.uk/links/faq"];
-    [settingsURL addObject:@"https://login.thetimes.co.uk/links/terms"];
-    [settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
+    [settingsURL addObject:appdelegate.config.helpURL];
+    [settingsURL addObject:appdelegate.config.faqURL];
+    [settingsURL addObject:appdelegate.config.termsURL];
+    [settingsURL addObject:appdelegate.config.contactURL];
     //[settingsURL addObject:@"https://login.thetimes.co.uk/links/contact"];
     
     appdelegate = [UIApplication sharedApplication].delegate;
@@ -125,6 +127,7 @@
         [trackingDict setObject:@"navigation"                           forKey:@"event_navigation_action"];
         [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
         [trackingDict setObject:@"logout"                               forKey:@"event_navigation_name"];
+        
         
         [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
     }

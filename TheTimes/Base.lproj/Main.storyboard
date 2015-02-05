@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="I4Y-uk-rlk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="I4Y-uk-rlk">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -171,8 +171,8 @@
                                 <rect key="frame" x="365" y="450" width="37" height="37"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <view hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttr-16-qok" userLabel="Screenbarrier">
-                                <rect key="frame" x="1000" y="0.0" width="768" height="1024"/>
+                            <view opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ttr-16-qok" userLabel="Screenbarrier">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2GJ-b8-3OF">
                                         <rect key="frame" x="2" y="0.0" width="763" height="1004"/>
@@ -237,12 +237,24 @@ member, please login</string>
                                                     <action selector="loginButtonPressed:" destination="PxQ-2c-vPR" eventType="touchUpInside" id="zOV-Qp-4fj"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wrn-hA-RQ9">
+                                                <rect key="frame" x="182" y="387" width="229" height="60"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                                <state key="normal" title="REGISTER" backgroundImage="Greenbutton_large_ontap">
+                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="registerUser:" destination="PxQ-2c-vPR" eventType="touchUpInside" id="bcB-5b-nRg"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="Subscription">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <constraints>
+                                            <constraint firstItem="Wrn-hA-RQ9" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="182" id="5Cc-TN-l8z"/>
                                             <constraint firstItem="0wY-65-6UP" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="56" id="6KA-NE-ZRs"/>
                                             <constraint firstItem="JDE-q1-wVF" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="70" id="Gjx-Sm-Mk5"/>
                                             <constraint firstItem="0NJ-bN-z67" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" id="ISp-Ne-yUZ"/>
@@ -252,11 +264,14 @@ member, please login</string>
                                             <constraint firstItem="dyY-s6-hF0" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" id="POv-Zd-T3S"/>
                                             <constraint firstItem="Sm3-Rf-cvc" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="182" id="aCZ-Df-Rw3"/>
                                             <constraint firstAttribute="trailing" secondItem="j8g-vt-GMZ" secondAttribute="trailing" constant="71" id="b8x-kL-0Vp"/>
+                                            <constraint firstItem="Wrn-hA-RQ9" firstAttribute="top" secondItem="Sm3-Rf-cvc" secondAttribute="bottom" constant="8" id="eqm-C3-HIq"/>
+                                            <constraint firstAttribute="trailing" secondItem="Wrn-hA-RQ9" secondAttribute="trailing" constant="151" id="goy-RQ-VbZ"/>
                                             <constraint firstItem="PsM-RN-Xtg" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="70" id="hK4-Zn-Hua"/>
                                             <constraint firstItem="j8g-vt-GMZ" firstAttribute="leading" secondItem="Ake-qa-BAT" secondAttribute="leading" constant="70" id="r2R-Re-ahv"/>
                                             <constraint firstAttribute="trailing" secondItem="dyY-s6-hF0" secondAttribute="trailing" id="t62-rB-d0J"/>
                                             <constraint firstAttribute="trailing" secondItem="0NJ-bN-z67" secondAttribute="trailing" id="tvy-tP-hSw"/>
                                             <constraint firstAttribute="trailing" secondItem="PsM-RN-Xtg" secondAttribute="trailing" constant="71" id="wju-Yz-ktu"/>
+                                            <constraint firstItem="Sm3-Rf-cvc" firstAttribute="leading" secondItem="Wrn-hA-RQ9" secondAttribute="leading" id="wpG-Q9-Chg"/>
                                         </constraints>
                                     </view>
                                 </subviews>

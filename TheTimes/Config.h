@@ -17,8 +17,15 @@
 @property (strong, nonatomic) NSString *feedsURL;
 @property (strong, nonatomic) NSString *logOutURL;
 @property (strong, nonatomic) NSString *registrationURL;
+@property (strong, nonatomic) NSString *authenticationURL;
 @property (strong, nonatomic) NSString *receiptVerificationURL;
 @property (strong, nonatomic) NSString *restoreProductURL;
+
+//settings
+@property (strong, nonatomic) NSString *helpURL;
+@property (strong, nonatomic) NSString *faqURL;
+@property (strong, nonatomic) NSString *termsURL;
+@property (strong, nonatomic) NSString *contactURL;
 
 @property (strong, nonatomic) NSMutableArray *feeds;
 

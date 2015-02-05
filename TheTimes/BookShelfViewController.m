@@ -19,7 +19,7 @@
 #import "SubscriptionHandler.h"
 #import "SPDownloader.h"
 #import "SettingsTableViewController.h"
-
+#import "TheTimesAppDelegate.h"
 #import "configOptions.h"
 #import "ConfigHudson.h"
 
@@ -503,11 +503,14 @@ static int portraitVGap = 70;
         [SPDownloader mySPDownloader].delegate = self;
         context = [(TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
         
+        TheTimesAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        NSString *stringPathURL =  delegate.config.getFeed.url; //kWebServicePath;//
+        
         if ( [NI_reachabilityService isNetworkAvailable]) {
             
             @try {
                 NSMutableURLRequest *request= [[NSMutableURLRequest alloc] init] ;
-                [request setURL:[NSURL URLWithString:kWebServicePath]];
+                [request setURL:[NSURL URLWithString:stringPathURL]];
                 [request setHTTPMethod:@"GET"];
                 
                 [request setCachePolicy:NSURLRequestUseProtocolCachePolicy];
@@ -953,7 +956,6 @@ static int pageWidth = 675/2+42;
 - (void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    
     
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
     {

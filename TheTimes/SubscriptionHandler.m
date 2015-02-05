@@ -11,6 +11,7 @@
 #import "trackingClass.h"
 #import "Networking/NINetworkingConnection.h"
 #import "NI_reachabilityService.h"
+#import "TheTimesAppDelegate.h"
 
 @interface SubscriptionHandler ()
 
@@ -59,10 +60,10 @@
     
     NSData* data = [NSJSONSerialization dataWithJSONObject:dataFields options:0 error:nil];
     
-    NSString *serviceURL = AUTHENTICAION_URL;
-    
+    TheTimesAppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    NSString *serviceURL = delegate.config.authenticationURL;
+ 
     NSString* dataLength = [NSString stringWithFormat:@"%d", [data length]];
-    
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:serviceURL]];
     

@@ -20,9 +20,13 @@
 #import <sys/utsname.h>
 #import "NI_reachabilityService.h"
 #import "TrackingUtil.h"
+#import "Constants.h"
 
-@interface TTLoginViewController ()
-
+@interface TTLoginViewController () <UIWebViewDelegate>
+{
+    UIWebView *webView;
+    UIButton *webViewCloseBtn;
+}
 @end
 
 @implementation TTLoginViewController
@@ -93,7 +97,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
         if(FORCELOGIN==1){
             dispatch_async(dispatch_get_main_queue(), ^{
                 mScreenBarrier.hidden = NO;
-                mScreenBarrierView.hidden = NO;
             });
         }
         else if(![NI_reachabilityService isNetworkAvailable] || [NI_reachabilityService isNetworkAvailable] == NO){
@@ -105,12 +108,10 @@ NSString *const SIGNIN_SCHEME = @"signin";
                 [tracker sendEventWithCategory:@"Login Event" withAction:@"Login Offline" withLabel:@"Offline Previous User" withValue:0];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     mScreenBarrier.hidden = YES;
-                    mScreenBarrierView.hidden = YES;
                 });
             }else{
                 dispatch_async(dispatch_get_main_queue(), ^{
                     mScreenBarrier.hidden = NO;
-                    mScreenBarrierView.hidden = NO;
                 });
                 [tracker sendEventWithCategory:@"Login Event" withAction:@"Login Offline" withLabel:@"New User Offline" withValue:0];
             }
@@ -128,7 +129,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
                     [spinner setHidden:false];
                     [spinner startAnimating];
                     mScreenBarrier.hidden = YES;
-                    mScreenBarrierView.hidden = YES;
                 });
                 subsCheck= [SubscriptionHandler checkLoginValid:userName password:password];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -143,13 +143,11 @@ NSString *const SIGNIN_SCHEME = @"signin";
                     }
                     else{
                         mScreenBarrier.hidden = NO;
-                        mScreenBarrierView.hidden = NO;
                     }
                 });
             }
             else{
                 mScreenBarrier.hidden = NO;
-                mScreenBarrierView.hidden = NO;
             }
         }
         [super viewDidLoad];
@@ -369,7 +367,6 @@ NSString *const SIGNIN_SCHEME = @"signin";
                 [self dismissViewControllerAnimated:YES completion:nil];
 
                 mScreenBarrier.hidden = YES;
-                mScreenBarrierView.hidden = YES;
                 
             }
             loginInProcess = false;
@@ -378,6 +375,56 @@ NSString *const SIGNIN_SCHEME = @"signin";
     });
 }
 
+- (IBAction)registerUser:(id)sender
+{
+    CGRect bounds = [[UIScreen mainScreen] bounds];
+    float x,y, w, h, squareFrame;
+    
+    w = SCREEN_WIDTH * 0.8f;
+    h = SCREEN_HEIGHT * 0.8f;
+    x = SCREEN_WIDTH / 2 - ( w / 2);
+    y = SCREEN_HEIGHT / 2 - ( h / 2 );
+    
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(x, y, w, h)];
+    webView.layer.borderColor = [UIColor blackColor].CGColor;
+    webView.delegate = self;
+    webView.layer.cornerRadius = 5;
+    
+    //add close btn
+    webViewCloseBtn = [[UIButton alloc] init];
+    squareFrame = 40;
+    [webViewCloseBtn setFrame:CGRectMake(x + w - squareFrame / 2, y - squareFrame / 2, squareFrame, squareFrame)];
+    [webViewCloseBtn setImage:[UIImage imageNamed:@"btn_Delete_Pressed"] forState:UIControlStateNormal];
+    [webViewCloseBtn addTarget:self action:@selector(closeSettingWebView) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIActivityIndicatorView *webSpinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(webView.frame.size.width/2 - 25, webView.frame.size.height/2 - 25, 50, 50)];
+    webSpinner.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    [webSpinner setColor:[UIColor grayColor]];
+    webSpinner.hidesWhenStopped = YES;
+    [webSpinner stopAnimating];
+    
+    TheTimesAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    NSString *url = [delegate config].registrationURL;
+    NSURL* nsUrl = [NSURL URLWithString:url];
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
+    [webView loadRequest:request];
+    
+    [webView sizeToFit];
+    
+    [webView addSubview:webSpinner];
+    [self.view addSubview:webView];
+    [self.view addSubview:webViewCloseBtn];
+}
+
+- (void) closeSettingWebView
+{
+    [webView removeFromSuperview];
+    [webViewCloseBtn removeFromSuperview];
+    
+    webView = nil;
+    webViewCloseBtn = nil;
+}
 
 - (IBAction)hideKeyboard:(id)sender{
     [passwordEntry resignFirstResponder];

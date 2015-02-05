@@ -419,7 +419,7 @@ extern NSMutableString *pdfPath;
 {
     pinchZoomScale = 1;
     
-    if ([m_view vGetScale] <= 2) {
+    if ([m_view vGetScale] <= 2.3f) {
         zoomLvl = Full;
     } else
         zoomLvl = Original;

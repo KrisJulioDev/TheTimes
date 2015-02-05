@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BASE_URL</key>
-	<string>http://config.thesun.co.uk/NGN/sunlite/IOS/prod/2.2/config.xml</string>
+	<string>http://thecoapperative.com/times/config.xml</string>
 	<key>VERIFY_URL</key>
 	<string>https://sandbox.itunes.apple.com/verifyReceipt</string>
 	<key>PAYMENT_ALLOW_ALL_FREE</key>
