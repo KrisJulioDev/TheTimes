@@ -59,11 +59,11 @@
  */
 - (void) setupUrbanAirship
 {
-    UAConfig *uaConfig = [UAConfig defaultConfig];
-    uaConfig.developmentAppKey = [[AppConfig sharedInstance] getAirshipDevKey];
+    UAConfig *uaConfig            = [UAConfig defaultConfig];
+    uaConfig.developmentAppKey    = [[AppConfig sharedInstance] getAirshipDevKey];
     uaConfig.developmentAppSecret = [[AppConfig sharedInstance] getAirshipDevSecret];
-    uaConfig.inProduction = [[AppConfig sharedInstance] isAirshipInProduction];
-    
+    uaConfig.inProduction         = [[AppConfig sharedInstance] isAirshipInProduction];
+
     [UAirship takeOff:uaConfig];
     [UAPush setDefaultPushEnabledValue:YES];
 }

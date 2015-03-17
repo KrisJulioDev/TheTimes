@@ -28,6 +28,7 @@
     TheTimesAppDelegate *appDelegate;
     UIImage *paperErrorImage;
 }
+
 - (id)initWithFrame:(CGRect)frame
 {
     UINib *nib = [UINib nibWithNibName:@"TTMagazineView" bundle:nil];
@@ -265,6 +266,9 @@ static NSDateFormatter *dayFormatter;
     }
 }
 
+/**
+ *  Open Edition. Check if already download otherwise download the edition
+ */
 - (IBAction) viewEdition
 {
     Edition *downloadedEdition = [[TTEditionManager sharedInstance] getDownloadedEdition:_edition];
@@ -298,22 +302,6 @@ static NSDateFormatter *dayFormatter;
 #pragma mark PLAY PAUSE FUNCTIONALITY
 - (IBAction)playPauseDownload:(id)sender {
     UIButton *btnSender = (UIButton*)sender;
-    
-    /*
-    if ([btnSender isSelected]) {
-        //PLAY
-        _magazineStatus = playing;
-        [btnSender setSelected:NO];
-
-        [self downloadThisEdition:sender];
-        
-        //Track unpaused edition
-        [appTracker sendEventWithCategory:@"Unpause Edition" withAction:@"Unpause" withLabel:self.edition.dateString withValue:0];
-        
-    }else  {
-        //PAUSE
-            }
-    */
     
     if ([[SPDownloader mySPDownloader] isDownloading] && [[SPDownloader mySPDownloader].myURL isEqualToString:_edition.paperUrl])
     {
@@ -373,6 +361,11 @@ static NSDateFormatter *dayFormatter;
     [appTracker sendEventWithCategory:@"Download Edition" withAction:@"Download" withLabel:self.edition.dateString withValue:0];
 }
 
+/**
+ *  Continue interrupted download
+ *
+ *  @param tag for the edition to continue download
+ */
 - (void) continueDownload:(int)tag
 {
     if (![SPDownloader mySPDownloader].isDownloading)
@@ -412,6 +405,14 @@ static NSDateFormatter *dayFormatter;
     }
 }
 
+/**
+ *  SPDownloaded method delegate
+ *
+ *  @param url          Download URL
+ *  @param path         Path of file
+ *  @param fileFullPath Path of file with base url
+ *  @param isSuccess    bool if success
+ */
 - (void) downloadStoppedForURL:(NSString*)url toPath:(NSString*)path file:(NSString*)fileFullPath success:(BOOL)isSuccess
 {
     if (isSuccess)
@@ -419,6 +420,7 @@ static NSDateFormatter *dayFormatter;
         NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
         [trackingDict setObject:@"download complete" forKey:@"event_download_action"];
         [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@", [_edition getTrackingDateString]] forKey:@"event_download_name"];
+        [TrackingUtil trackEvent:@"Download edition : success" extraData:trackingDict];
         
         //Unzip the file on success
         if ([[SPUnzipper mySPUnzipper] unzipFile:fileFullPath inDirectory:path])
@@ -496,13 +498,25 @@ static NSDateFormatter *dayFormatter;
         
     }
     else if ( [SPDownloader mySPDownloader].isPauseDownloadedManually == YES ) {
-        NSLog(@"DOWNLOAD STOP FOR SOME REASON 111");
+        NSLog(@"DOWNLOAD STOPPED");
         // Refresh our view
         [appDelegate.bookShelfVC refreshEditionViews];
+        
+        // Track stop download
+        NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+        [trackingDict setObject:@"download stopped" forKey:@"event_download_action"];
+        [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@", [_edition getTrackingDateString]] forKey:@"event_download_name"];
+        [TrackingUtil trackEvent:@"Download edition : stopped" extraData:trackingDict];
     }
     
 }
 
+/**
+ *  Download update progress for progress circular bar
+ *
+ *  @param url      download url
+ *  @param progress progress count (float)
+ */
 - (void) downloadUpdatedProgress:(NSString*)url progress:(float)progress
 {
     _progressView.progress = progress;
@@ -512,9 +526,7 @@ static NSDateFormatter *dayFormatter;
     
     _downloadingLabel.text = [NSString stringWithFormat:@"Downloading... %i%%", progressValue];
     
-//    float cprogress = _circularProgressView.progress;
-    [_circularProgressView setProgress:progress animated:YES];
-    
+     [_circularProgressView setProgress:progress animated:YES];
 }
 
 
@@ -543,6 +555,7 @@ static NSDateFormatter *dayFormatter;
     [trackingDict setObject:@"download" forKey:@"event_download_action"];
     [trackingDict setObject:@"sun edition" forKey:@"event_download_type"];
     [trackingDict setObject:[NSString stringWithFormat:@"sun edition:%@", [_edition getTrackingDateString]] forKey:@"event_download_name"];
+    [TrackingUtil trackEvent:@"Download edition" extraData:trackingDict];
 }
 
 #pragma mark DELETING METHODS
@@ -588,6 +601,9 @@ static NSDateFormatter *dayFormatter;
 	[UIView commitAnimations];
 }
 
+/**
+ *  Show AlertView on deleting edition
+ */
 - (IBAction) deleteEdition
 {
     NSString *title  = NSLocalizedString(@"Delete Edition", nil);
@@ -597,11 +613,12 @@ static NSDateFormatter *dayFormatter;
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:text delegate:self cancelButtonTitle:cancel otherButtonTitles:delete, nil];
     alertView.tag = DELETE_POPUP_TAG;
-    [alertView show];
+    [alertView show]; 
     
     //Edition deleted
     [appTracker sendEventWithCategory:@"Edition Deleted" withAction:@"Delete" withLabel:self.edition.dateString withValue:0];
 }
+
 
 - (IBAction) deleteInterruptedDownload:(id)sender
 {

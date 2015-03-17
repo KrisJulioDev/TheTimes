@@ -211,7 +211,7 @@
     [trackingDict setObject:@"click"                                                            forKey:@"event_navigation_browsing_method"];
     [trackingDict setObject:[NSString stringWithFormat:@"bottom nav: %i", pageno]        forKey:@"event_navigation_name"];
     
-    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    [TrackingUtil trackEvent:@"page_number" extraData:trackingDict];
     
     [m_view vGoto:pageno];
 }
@@ -228,7 +228,7 @@
     [trackingDict setObject:@"click"                                                            forKey:@"event_navigation_browsing_method"];
     [trackingDict setObject:[NSString stringWithFormat:@"bottom nav: %i", sectionpage]        forKey:@"event_navigation_name"];
     
-    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    [TrackingUtil trackEvent:@"page_section" extraData:trackingDict];
     
     [m_view vGoto:sectionpage];
 }
@@ -259,7 +259,7 @@
     [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
     [trackingDict setObject:@"back to edition selection"            forKey:@"event_navigation_name"];
     
-    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    [TrackingUtil trackEvent:@"back to edition selection" extraData:trackingDict];
  
     [self.navigationController popViewControllerAnimated:YES];
 }

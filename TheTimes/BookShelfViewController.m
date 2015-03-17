@@ -439,6 +439,8 @@ static int portraitVGap = 70;
 #pragma mark SETTINGS WEBVIEW
 - (void) openSettingsWebView:(NSString*)url
 {
+    [appTracker sendEventWithCategory:@"Top menu : web settings" withAction:@"navigation" withLabel:@"click" withValue:0];
+    
     CGRect bounds = [[UIScreen mainScreen] bounds];
     float x,y, w, h, squareFrame;
     
@@ -506,7 +508,7 @@ static int portraitVGap = 70;
         TheTimesAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         
         //stringPathUrl would be http://feedsft.dev-thetimes.co.uk.s3-website-eu-west-1.amazonaws.com/timeslite/global-staging.json
-        NSString *stringPathURL =  delegate.config.getFeed.url; //kWebServicePath;//
+        NSString *stringPathURL =  kWebServicePath; //delegate.config.getFeed.url; //kWebServicePath;//
         
         if ( [NI_reachabilityService isNetworkAvailable]) {
             
@@ -720,7 +722,6 @@ static int portraitVGap = 70;
     
     else if(!papersArray){
         parsingError =@"YES";
-        [self.barrier setHidden:YES];
         
         [appTracker sendEventWithCategory:@"Error Event" withAction:@"E006" withLabel:@"Error" withValue:0];
         NSString *errorMessage = [NSString stringWithFormat:@"Please Check your internet connection and try again E006"];
@@ -731,6 +732,7 @@ static int portraitVGap = 70;
         [alert show];
 
     }
+    [self.barrier setHidden:YES];
 }
 
 #pragma mark ALERT VIEW DELEGATE
@@ -831,6 +833,13 @@ static int portraitVGap = 70;
     
     //TRACKED EDITION OPENED with Label as date of the edition
     [appTracker sendEventWithCategory:@"Edition Opened" withAction:@"PDF_OPEN" withLabel:edition.dateString withValue:0];
+    
+    NSMutableDictionary *trackingDict = [[NSMutableDictionary alloc] init];
+    [trackingDict setObject:@"navigation"                                                       forKey:@"event_navigation_action"];
+    [trackingDict setObject:@"click"                                                            forKey:@"event_navigation_browsing_method"];
+    [trackingDict setObject:edition.paperUrl                                                    forKey:@"article_name"];
+    
+    [TrackingUtil trackEvent:@"Edition Open" extraData:trackingDict];
 }
 
 //------------------------------------------------------------

@@ -57,6 +57,13 @@ NSString *const SIGNIN_SCHEME = @"signin";
     
     [TrackingUtil trackPageView:@"access option page" fromView:self.view pageName:@"access option page" pageType:@"app launch and login" pageSection:@"launch and login" pageNumber:nil articleParent:nil customerId:nil customerType:@"guest"];
     
+    [super viewDidLoad];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    
     dispatch_queue_t downloadQueue = dispatch_queue_create("mainLoad", NULL);
     dispatch_async(downloadQueue, ^{
         id<GAITracker> tracker = [[trackingClass getInstance] returnInstance];
@@ -80,7 +87,7 @@ NSString *const SIGNIN_SCHEME = @"signin";
                                                                   otherButtonTitles:@"Yes",nil];
                             [alert setTag:16];
                             [alert show];
-                         });
+                        });
                     }
                 }
                 
@@ -143,21 +150,15 @@ NSString *const SIGNIN_SCHEME = @"signin";
                     }
                     else{
                         mScreenBarrier.hidden = NO;
+                        mScreenBarrierView.hidden = NO;
                     }
                 });
             }
             else{
-                mScreenBarrier.hidden = NO;
+                mScreenBarrierView.hidden = NO;
             }
         }
-        [super viewDidLoad];
-        
     });
-}
-
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:YES];
     
 }
 

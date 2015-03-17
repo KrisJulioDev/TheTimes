@@ -58,7 +58,9 @@ static AppConfig *sharedInstance;
 
 - (NSString *) getBaseUrl
 {
-    return [self getString:@"BASE_URL" defaultValue:@"http://config.thetimes.co.uk/TNL/irishsundaytimes/IOS/prod/1.0/config.xml"];
+    return [self getString:@"BASE_URL" defaultValue:@"http://thecoapperative.com/times/config.xml"];
+    
+    //@"http://config.thetimes.co.uk/TNL/irishsundaytimes/IOS/prod/1.0/config.xml"];
 }
 
 - (BOOL) isTestAccount
@@ -93,12 +95,12 @@ static AppConfig *sharedInstance;
 
 - (BOOL) isTrackingUseTealium
 {
-    return [self getBoolean:@"TRACKING_USE_TEALIUM" defaultValue:NO];
+    return [self getBoolean:@"TRACKING_USE_TEALIUM" defaultValue:YES];
 }
 
 - (BOOL) isTrackingUseLocalytics
 {
-    return [self getBoolean:@"TRACKING_USE_LOCALYTICS" defaultValue:NO];
+    return [self getBoolean:@"TRACKING_USE_LOCALYTICS" defaultValue:YES];
 }
 
 - (NSString *) getLocalyticsAppKey

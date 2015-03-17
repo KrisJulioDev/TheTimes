@@ -111,11 +111,12 @@
     [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
     [trackingDict setObject:[settingsItem objectAtIndex:actionID]   forKey:@"event_navigation_name"];
     
-    [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+    [TrackingUtil trackEvent:@"access option : settings" extraData:trackingDict];
 }
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
+    //if user chooses yes.
     if (buttonIndex == 1) {
         [appdelegate.bookShelfVC closeSettingPopUP];
         [appdelegate.bookShelfVC closeSettingWebView];
@@ -128,8 +129,7 @@
         [trackingDict setObject:@"click"                                forKey:@"event_navigation_browsing_method"];
         [trackingDict setObject:@"logout"                               forKey:@"event_navigation_name"];
         
-        
-        [TrackingUtil trackEvent:@"access option:sign in" fromView:self.view eventName:@"access option:sign in" eventAction:@"navigation" eventMethod:@"click" eventRegistrationAction:nil customerId:nil customerType:@"guest"];
+        [TrackingUtil trackEvent:@"access option : logout" extraData:trackingDict];
     }
     
 }
