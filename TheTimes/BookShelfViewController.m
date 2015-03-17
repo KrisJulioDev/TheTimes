@@ -504,6 +504,8 @@ static int portraitVGap = 70;
         context = [(TheTimesAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
         
         TheTimesAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        //stringPathUrl would be http://feedsft.dev-thetimes.co.uk.s3-website-eu-west-1.amazonaws.com/timeslite/global-staging.json
         NSString *stringPathURL =  delegate.config.getFeed.url; //kWebServicePath;//
         
         if ( [NI_reachabilityService isNetworkAvailable]) {
@@ -517,16 +519,26 @@ static int portraitVGap = 70;
                 [request setTimeoutInterval:5.0];
                 
                 NSString *contentType = [NSString stringWithFormat:@"application/json;"];
-                
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                
+                //***** content type - application/json;
                 [request setValue:contentType forHTTPHeaderField: @"content-Type"];
-                [request setValue:contentType forHTTPHeaderField:@"mime-Type"];
+                [request setValue:contentType forHTTPHeaderField: @"mime-Type"];
+                
+                //***** token 5b20e8b2-27f2-4c31-96f5-76b4050866ac
                 [request setValue:[NSString stringWithFormat:@"%@",[defaults valueForKey:@"token"]] forHTTPHeaderField: @"ACS-Auth-TokenId"];
+                
+                //***** @"nitimes/1.3.4 CFNetwork/548.0.4 Darwin/11.0.0"
                 [request setValue:kUserAgent forHTTPHeaderField:@"User-Agent"];
+               
+                //***** over all request - <NSMutableURLRequest: 0x7ae1d0b0> { URL: http://feedsft.dev-thetimes.co.uk.s3-website-eu-west-1.amazonaws.com/timeslite/global-staging.json }
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     myConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
                 });
+                
                 hasDownloadedJSON = NO;
+                
                 globalJSONTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(checkIfJSONDownloaded) userInfo:nil repeats:NO];
  
             }

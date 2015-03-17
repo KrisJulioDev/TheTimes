@@ -375,9 +375,10 @@ NSString *const SIGNIN_SCHEME = @"signin";
     });
 }
 
-- (IBAction)registerUser:(id)sender
+- (IBAction)showWebView:(id)sender
 {
     CGRect bounds = [[UIScreen mainScreen] bounds];
+    UIButton *btnTapped = (UIButton*)sender;
     float x,y, w, h, squareFrame;
     
     w = SCREEN_WIDTH * 0.8f;
@@ -404,7 +405,14 @@ NSString *const SIGNIN_SCHEME = @"signin";
     [webSpinner stopAnimating];
     
     TheTimesAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    NSString *url = [delegate config].registrationURL;
+    
+    NSString *url = @"";
+    if (btnTapped.tag == 1001) {
+        url = [delegate config].registrationURL;
+    } else if (btnTapped.tag == 1002) {
+        url = [delegate config].forgotPasswordURL;
+    } 
+    
     NSURL* nsUrl = [NSURL URLWithString:url];
     
     NSURLRequest* request = [NSURLRequest requestWithURL:nsUrl cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:30];
@@ -415,6 +423,10 @@ NSString *const SIGNIN_SCHEME = @"signin";
     [webView addSubview:webSpinner];
     [self.view addSubview:webView];
     [self.view addSubview:webViewCloseBtn];
+}
+
+ 
+- (IBAction)forgotPassword:(id)sender {
 }
 
 - (void) closeSettingWebView

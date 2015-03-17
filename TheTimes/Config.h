@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *feedsURL;
 @property (strong, nonatomic) NSString *logOutURL;
 @property (strong, nonatomic) NSString *registrationURL;
+@property (strong, nonatomic) NSString *forgotPasswordURL;
 @property (strong, nonatomic) NSString *authenticationURL;
 @property (strong, nonatomic) NSString *receiptVerificationURL;
 @property (strong, nonatomic) NSString *restoreProductURL;
